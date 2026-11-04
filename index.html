@@ -325,7 +325,7 @@ html.desk .instcard:not(.dk){display:none}
 #foodcard .fcsub{font:16px var(--sans);color:#555;margin:0 0 20px}#foodcard details{margin:10px 0;font:15px var(--sans)}#foodcard summary{cursor:pointer;font-weight:600}
 #foodcard .fcjp{font-size:17px;line-height:1.7;margin:8px 0}
 .staytip{margin:10px 0 12px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}.staytip summary{cursor:pointer;list-style:none}.staytip summary::-webkit-details-marker{display:none}.staytip .altm a{font-weight:600}.staytip.done{padding:6px 12px;background:transparent;border-style:dashed}.staytip.done:not([open]) summary{font-size:13px;color:var(--muted)}.staytip.done[open]{background:var(--surface);border-style:solid;padding:10px 12px}
-#rpdlg{position:fixed;inset:0;z-index:470;background:rgba(10,12,18,.55);display:flex;align-items:center;justify-content:center}#rpdlg .swin{position:relative;background:var(--bg);color:var(--ink);width:min(100%,560px);max-height:92vh;overflow-y:auto;border-radius:18px;padding:16px 16px max(18px,env(safe-area-inset-bottom))}#rpdlg .phx{position:absolute;right:12px;top:10px}#rpdlg .ck .w small{font-weight:400}
+#rpdlg{position:fixed;inset:0;z-index:470;background:rgba(10,12,18,.55);display:flex;align-items:center;justify-content:center}#rpdlg .swin{position:relative;background:var(--bg);color:var(--ink);width:min(100%,560px);max-height:92vh;overflow-y:auto;border-radius:18px;padding:16px 16px max(18px,env(safe-area-inset-bottom))}#rpdlg .phx{position:absolute;right:12px;top:10px}#rpdlg .ck .w small{font-weight:400}#rpdlg .rq-off{opacity:.42;filter:grayscale(1);cursor:not-allowed}#rpdlg .rq-off .w,#rpdlg .rq-off>span:last-child{text-decoration:line-through;text-decoration-thickness:1px}#rpdlg .rq-tag{display:inline-block;margin-left:2px;padding:0 6px;border:1px solid var(--line);border-radius:999px;font-size:11px;text-decoration:none}#rpdlg .rq-sep{margin:10px 0 2px;padding-top:8px;border-top:1px dashed var(--line);font-weight:600}
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.45;-webkit-text-size-adjust:100%}
 button,input,select,textarea{font:inherit;color:inherit}
@@ -545,7 +545,7 @@ input,select,textarea{font-size:16px!important}
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
 <script>
-const APP_VERSION = '2026.11.04-2058';
+const APP_VERSION = '2026.11.04-2109';
 if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) navigator.serviceWorker.register('sw.js').catch(() => {});
 document.addEventListener('gesturestart', (e) => e.preventDefault());
 document.addEventListener('touchmove', (e) => { if (e.touches && e.touches.length > 1) e.preventDefault(); }, { passive: false });
@@ -2391,7 +2391,7 @@ function balance() {
   return b;  // > 0: Person 2 schuldet Person 1
 }
 function splitText(x) { const [A, B] = S.settings.names;
-  return { beide: 'geteilt', selbst: 'nur für ' + S.settings.names[x.payer], andere: 'für ' + S.settings.names[1 - x.payer], prozent: `${A} ${+x.pct || 0} %, ${B} ${100 - (+x.pct || 0)} %`, betrag: `${A} ${(+x.amt0 || 0).toLocaleString('de-DE')} ${x.cur}, ${B} ${(x.amount - (+x.amt0 || 0)).toLocaleString('de-DE')} ${x.cur}` }[x.split] || 'geteilt'; }
+  return { beide: 'geteilt', selbst: '🔒 privat (nur ' + S.settings.names[x.payer] + ')', andere: 'für ' + S.settings.names[1 - x.payer], prozent: `${A} ${+x.pct || 0} %, ${B} ${100 - (+x.pct || 0)} %`, betrag: `${A} ${(+x.amt0 || 0).toLocaleString('de-DE')} ${x.cur}, ${B} ${(x.amount - (+x.amt0 || 0)).toLocaleString('de-DE')} ${x.cur}` }[x.split] || 'geteilt'; }
 const pn = (i) => `<span class="pn${i}">${esc(S.settings.names[i])}</span>`;
 const sgn = (v) => (v > 0.005 ? '+' : v < -0.005 ? '−' : '±') + fmtE(Math.abs(v));
 function oweText(n0, quitt) { if (Math.abs(n0) < 0.5) return quitt || 'Ihr seid quitt.';
@@ -2475,8 +2475,8 @@ function renderFiltered() {
 }
 /* Rückzahlung: ganzer Betrag, ausgewählte Ausgaben oder eigener Betrag */
 function repayPicker(debtor, creditor, bal, openSum) {
-  const covered = new Set(live(S.repay).flatMap((r) => r.items || []));
-  const owe = live(S.expenses).filter((x) => x.payer === creditor).map((x) => ({ x, v: +(shares(x)[debtor]).toFixed(2) })).filter((o) => o.v > 0.005).sort((a, b) => idx(a.x.day) - idx(b.x.day));
+  const covDone = new Set(live(S.repay).filter((r) => r.done).flatMap((r) => r.items || [])), covOpen = new Set(live(S.repay).filter((r) => !r.done).flatMap((r) => r.items || [])), covered = { has: (id) => covDone.has(id) || covOpen.has(id) };
+  const owe = live(S.expenses).filter((x) => x.payer === creditor).map((x) => ({ x, v: +(shares(x)[debtor]).toFixed(2) })).filter((o) => o.v > 0.005).sort((a, b) => (covered.has(a.x.id) - covered.has(b.x.id)) || idx(a.x.day) - idx(b.x.day));
   const rest = Math.max(0, +(bal - openSum).toFixed(2)), ov = document.createElement('div'); ov.id = 'rpdlg'; ov.className = 'ovl';
   const nm = (i) => esc(S.settings.names[i]);
   ov.innerHTML = `<div class="swin" style="max-width:560px"><button class="phx" data-rq="x" aria-label="Schließen">×</button><h3 style="margin:0 0 4px">Rückzahlung anlegen</h3>
@@ -2484,7 +2484,8 @@ function repayPicker(debtor, creditor, bal, openSum) {
     <label class="ck" style="border:0;padding:4px 0"><input type="radio" name="rq-m" value="all" checked><span class="w">Ganzen offenen Betrag: <b>${fmtE(rest > 0.5 ? rest : bal)}</b></span><span></span></label>
     <label class="ck" style="border:0;padding:4px 0"><input type="radio" name="rq-m" value="sel"><span class="w">Nur ausgewählte Ausgaben</span><span></span></label>
     <div id="rq-list" hidden style="max-height:300px;overflow:auto;border:1px solid var(--line);border-radius:10px;padding:4px 10px;margin:4px 0 8px">
-      ${owe.map((o) => `<label class="ck" style="border:0;padding:5px 0"><input type="checkbox" data-rqi="${o.x.id}" data-v="${o.v}" ${covered.has(o.x.id) ? 'disabled' : ''}><span class="w">${esc(o.x.note || o.x.cat)} <small class="meta">· ${esc(dayLabel(o.x.day))}Anteil ${nm(debtor)}</small>${covered.has(o.x.id) ? ' <small class="meta">· schon zurückgezahlt</small>' : ''}</span><span>${fmtE(o.v)}</span></label>`).join('') || '<p class="meta small">Keine Ausgaben, bei denen etwas offen ist.</p>'}
+      ${owe.map((o, i) => { const off = covered.has(o.x.id), first = off && (i === 0 || !covered.has(owe[i - 1].x.id));
+        return `${first ? '<p class="meta small rq-sep">Bereits erledigt oder vorgemerkt</p>' : ''}<label class="ck rq-item${off ? ' rq-off' : ''}" style="border:0;padding:5px 0"><input type="checkbox" data-rqi="${o.x.id}" data-v="${o.v}" ${off ? 'disabled' : ''}><span class="w">${esc(o.x.note || o.x.cat)} <small class="meta">· ${esc(dayLabel(o.x.day))}Anteil ${nm(debtor)}</small>${covDone.has(o.x.id) ? ' <small class="rq-tag">✓ zurückgezahlt</small>' : covOpen.has(o.x.id) ? ' <small class="rq-tag">als Rückzahlung vorgemerkt</small>' : ''}</span><span>${fmtE(o.v)}</span></label>`; }).join('') || '<p class="meta small">Keine Ausgaben, bei denen etwas offen ist.</p>'}
     </div>
     <label class="ck" style="border:0;padding:4px 0"><input type="radio" name="rq-m" value="own"><span class="w">Eigener Betrag</span><span></span></label>
     <div id="rq-own" hidden class="row" style="margin:4px 0 8px"><input id="rq-amt" type="number" step="0.01" min="0" inputmode="decimal" placeholder="Betrag in Euro"></div>
@@ -2542,7 +2543,8 @@ function moneyView() {
     <p class="meta small" id="m-conv" style="margin:-4px 0 6px"></p>
     <div class="row2"><div class="row"><label for="m-cat">Kategorie</label><select id="m-cat">${CAT.map((c) => `<option value="${c}">${catIcon(c)} ${c}</option>`).join('')}</select></div>
       <div class="row"><label for="m-payer">Bezahlt von</label><select id="m-payer"><option value="0">${esc(A)}</option><option value="1">${esc(B)}</option></select></div></div>
-    <div class="row"><label>Aufteilen</label><div class="seg" role="radiogroup">${[['beide', 'halb-halb'], ['selbst', 'nur Zahler'], ['andere', 'nur für die andere Person'], ['prozent', 'nach Prozent'], ['betrag', 'nach Betrag']].map(([v, t], k) => `<label><input type="radio" name="m-split" value="${v}" ${k === 0 ? 'checked' : ''}><span>${t}</span></label>`).join('')}</div></div>
+    <div class="row"><label>Aufteilen</label><div class="seg" role="radiogroup">${[['beide', 'Geteilt (halb-halb)'], ['selbst', `🔒 Privat — nur ${esc(A)}`], ['andere', `nur für ${esc(B)}`], ['prozent', 'nach Prozent'], ['betrag', 'nach Betrag']].map(([v, t], k) => `<label><input type="radio" name="m-split" value="${v}" ${k === 0 ? 'checked' : ''}><span data-spl="${v}">${t}</span></label>`).join('')}</div></div>
+    <p class="meta small" id="m-splh" style="margin:-4px 0 8px"></p>
     <div id="m-pct" class="row" hidden><label for="m-pctv">Anteil ${esc(A)} in %</label><input id="m-pctv" type="number" min="0" max="100" value="50"><p class="meta small" id="m-pcti" style="margin:0"></p></div>
     <div id="m-amt" class="row" hidden><label for="m-amtv">Anteil ${esc(A)} im Betrag</label><input id="m-amtv" type="number" step="0.01" min="0"><p class="meta small" id="m-amti" style="margin:0"></p></div>
     <div class="row"><label for="m-day">Tag</label><select id="m-day">${dayOpts(todayId() || '', 'ohne Tag')}</select></div>
@@ -2564,6 +2566,9 @@ function moneyView() {
     const av = +$('#m-amtv').value || 0; $('#m-amti').textContent = a ? `${B} übernimmt ${(a - av).toLocaleString('de-DE')} ${c}` + (av > a ? ' — Anteil ist größer als der Betrag' : '') : ''; };
   ['m-amount', 'm-eur', 'm-pctv', 'm-amtv'].forEach((k) => { $('#' + k).oninput = conv; }); $('#m-cur').onchange = conv;
   $$('[name=m-split]').forEach((r) => r.onchange = () => { const v = $('[name=m-split]:checked').value; $('#m-pct').hidden = v !== 'prozent'; $('#m-amt').hidden = v !== 'betrag'; conv(); });
+  const splLbl = () => { const p = +($('#m-payer') || {}).value || 0, n = S.settings.names; const a = $('[data-spl="selbst"]'), b = $('[data-spl="andere"]'); if (a) a.textContent = `🔒 Privat — nur ${n[p]}`; if (b) b.textContent = `nur für ${n[1 - p]}`;
+    const hint = $('#m-splh'); if (hint) { const v = ($('[name=m-split]:checked') || {}).value; hint.textContent = v === 'selbst' ? `Gehört nur ${n[p]} — zählt nicht in den Ausgleich.` : v === 'andere' ? `${n[p]} hat für ${n[1 - p]} bezahlt — ${n[1 - p]} schuldet den ganzen Betrag.` : ''; } };
+  if ($('#m-payer')) { $('#m-payer').addEventListener('change', splLbl); $$('[name=m-split]').forEach((r) => r.addEventListener('change', splLbl)); splLbl(); }
   $('#m-f').onsubmit = async (ev) => { ev.preventDefault(); const a = parseFloat($('#m-amount').value); if (!(a > 0)) return toast('Bitte einen Betrag eingeben');
     const sp = $('[name=m-split]:checked').value, e = parseFloat($('#m-eur').value);
     if (sp === 'betrag' && (+$('#m-amtv').value || 0) > a) return toast('Der Anteil ist größer als der Betrag');
