@@ -324,7 +324,7 @@ html.desk .instcard:not(.dk){display:none}
 #foodcard .fcbig{font:700 clamp(30px,8vw,52px)/1.35 "Hiragino Sans","Noto Sans JP","Yu Gothic",sans-serif;margin:0 0 18px}
 #foodcard .fcsub{font:16px var(--sans);color:#555;margin:0 0 20px}#foodcard details{margin:10px 0;font:15px var(--sans)}#foodcard summary{cursor:pointer;font-weight:600}
 #foodcard .fcjp{font-size:17px;line-height:1.7;margin:8px 0}
-.staytip{margin:10px 0 12px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}.staytip summary{cursor:pointer;list-style:none}.staytip summary::-webkit-details-marker{display:none}.staytip .altm a{font-weight:600}
+.staytip{margin:10px 0 12px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}.staytip summary{cursor:pointer;list-style:none}.staytip summary::-webkit-details-marker{display:none}.staytip .altm a{font-weight:600}.staytip.done{padding:6px 12px;background:transparent;border-style:dashed}.staytip.done:not([open]) summary{font-size:13px;color:var(--muted)}.staytip.done[open]{background:var(--surface);border-style:solid;padding:10px 12px}
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.45;-webkit-text-size-adjust:100%}
 button,input,select,textarea{font:inherit;color:inherit}
@@ -544,7 +544,7 @@ input,select,textarea{font-size:16px!important}
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
 <script>
-const APP_VERSION = '2026.11.04-1831';
+const APP_VERSION = '2026.11.04-1926';
 if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) navigator.serviceWorker.register('sw.js').catch(() => {});
 document.addEventListener('gesturestart', (e) => e.preventDefault());
 document.addEventListener('touchmove', (e) => { if (e.touches && e.touches.length > 1) e.preventDefault(); }, { passive: false });
@@ -1315,6 +1315,7 @@ function stayMapLinks(q, qa, land) {
   if (land === 'KR') return `<a href="https://map.kakao.com/link/search/${enc(q)}" target="_blank" rel="noopener">KakaoMap ↗</a>${g}`;
   return g; }
 function stayTipBlock(d) { if (T.id !== 'asien-winter' || VIEWER) return ''; const s = stayOf(d), tip = STAY_TIPS[s.start.id]; if (!tip) return '';
+  const hn = needsOf(s.start.id).find((n) => n.grp === 'hotel'), booked = !!(hn && hn.ok);
   const ci = isoOf(s.start), co = isoOf(s.next), Q = enc(tip.q);
   const search = [['Booking.com', `https://www.booking.com/searchresults.de.html?ss=${Q}&checkin=${ci}&checkout=${co}&group_adults=2&no_rooms=1&group_children=0&order=price&nflt=${enc('review_score=80')}`],
     ['Agoda', `https://www.agoda.com/de-de/search?textToSearch=${Q}&checkIn=${ci}&checkOut=${co}&rooms=1&adults=2&children=0`],
@@ -1322,7 +1323,7 @@ function stayTipBlock(d) { if (T.id !== 'asien-winter' || VIEWER) return ''; con
   if (tip.land === 'CN' || tip.land === 'KR') search.splice(1, 0, ['Trip.com', `https://www.trip.com/hotels/list?keyword=${Q}&checkin=${ci.replace(/-/g, '/')}&checkout=${co.replace(/-/g, '/')}&adult=2&crn=1`]);
   if (['a03', 'a10', 'a13', 'a18'].includes(s.start.id)) search.push(['Airbnb (Wohnung)', `https://www.airbnb.com/s/${Q}/homes?checkin=${ci}&checkout=${co}&adults=2`]);
   const areaMap = tip.land === 'CN' ? `<a href="${gm(tip.ll)}" target="_blank" rel="noopener">Amap ↗</a><a href="https://www.google.com/maps/search/?api=1&query=${tip.ll}" target="_blank" rel="noopener">Google Maps ↗</a>` : tip.land === 'KR' ? `<a href="${gm(tip.ll)}" target="_blank" rel="noopener">KakaoMap ↗</a><a href="https://www.google.com/maps/search/?api=1&query=${tip.ll}" target="_blank" rel="noopener">Google Maps ↗</a>` : `<a href="https://www.google.com/maps/search/?api=1&query=${tip.ll}" target="_blank" rel="noopener">Google Maps ↗</a>`;
-  return `<details class="block staytip" open><summary><b>🏨 Empfehlung: Wo übernachten in ${esc(d.night.replace(/\s*\(.*\)/, ''))}</b> <small class="meta">${s.nights} ${s.nights === 1 ? 'Nacht' : 'Nächte'} · ${esc(s.start.date.slice(0, 6))}–${esc(s.next.date.slice(0, 6))}</small></summary>
+  return `<details class="block staytip${booked ? ' done' : ''}"${booked ? '' : ' open'}><summary>${booked ? `<span>🏨 Unterkunft gebucht ✓</span> <small class="meta">Empfehlungen ansehen ›</small>` : `<b>🏨 Empfehlung: Wo übernachten in ${esc(d.night.replace(/\s*\(.*\)/, ''))}</b> <small class="meta">${s.nights} ${s.nights === 1 ? 'Nacht' : 'Nächte'} · ${esc(s.start.date.slice(0, 6))}–${esc(s.next.date.slice(0, 6))}</small>`}</summary>
     <div class="altx"><div class="altt"><b>📍 ${esc(tip.area)}</b></div><div class="small" style="margin:4px 0">${esc(tip.why)}</div>
       ${tip.alt ? `<div class="small" style="margin:4px 0"><b>Alternative:</b> ${esc(tip.alt)}</div>` : ''}${tip.avoid ? `<div class="small" style="margin:4px 0"><b>Meiden:</b> ${esc(tip.avoid)}</div>` : ''}
       ${tip.note ? `<div class="meta small" style="margin:4px 0">💡 ${esc(tip.note)}</div>` : ''}<div class="altm">${areaMap}</div></div>
@@ -1407,6 +1408,7 @@ function openBkEd(rec, hint) { const ov = document.createElement('div'); ov.id =
     <div class="row2"><div class="row"><label>Uhrzeit</label><input id="be-time" value="${esc(r.time || '')}"></div><div class="row"><label>Anbieter</label><input id="be-prov" value="${esc(r.provider || '')}"></div></div>
     <div class="row"><label>Adresse oder Ort</label><input id="be-place" value="${esc(r.place || '')}"></div>
     <div class="row2"><div class="row"><label>Preis</label><input id="be-price" type="number" step="0.01" value="${r.price != null ? r.price : ''}"></div><div class="row"><label>Währung</label><select id="be-cur">${CUR.map((c) => `<option ${c === r.cur ? 'selected' : ''}>${c}</option>`).join('')}</select></div></div>
+    <p class="meta small" style="margin:-4px 0 8px">💶 Mit Preis wird die Buchung automatisch in die Ausgaben übernommen (geteilt, bezahlt von ${esc((S.settings.names || [])[0] || 'Person 1')}) — dort jederzeit änderbar.</p>
     <div class="row"><label>Link zur Buchung</label><input id="be-link" value="${esc(r.link || '')}"></div><div class="row"><label>Notiz</label><input id="be-note" value="${esc(r.note || '')}" placeholder="z.B. kostenlos stornierbar bis …"></div>
     <div class="row"><label>Erledigt in der Checkliste</label><select id="be-ck"><option value="">—</option>${cks.map((b) => `<option value="${b.id}" ${b.id === r.checkId ? 'selected' : ''}>${esc(b.what)}</option>`).join('')}</select></div>
     <label class="ck" style="border:0;padding:4px 0"><input type="checkbox" id="be-paid" ${r.paid ? 'checked' : ''}><span class="w">Bereits bezahlt</span><span></span></label>
@@ -1575,8 +1577,20 @@ async function persist(local) { if (!VIEWER) { const sg = setSig(); if (SET_SIG 
   if (!local && !VIEWER) { DIRTY = true; if (S.cloud && S.cloud.on) { clearTimeout(syncT); syncT = setTimeout(() => syncNow(false), 4000); } } }
 const live = (a) => (a || []).filter((x) => !x.deleted);
 let VIEWER = false;
-function upsert(name, o) { if (VIEWER) return Promise.resolve(); const i = S[name].findIndex((x) => x.id === o.id); o.updatedAt = now(); if (i >= 0) S[name][i] = o; else S[name].push(o); return persist(); }
-function removeRec(name, id) { if (VIEWER) return Promise.resolve(); const r = S[name].find((x) => x.id === id); if (r) { r.deleted = true; r.updatedAt = now(); } return persist(); }
+function upsert(name, o) { if (VIEWER) return Promise.resolve(); const i = S[name].findIndex((x) => x.id === o.id); o.updatedAt = now(); if (i >= 0) S[name][i] = o; else S[name].push(o); const pr = persist(); return name === 'bk2' ? pr.then(() => syncBkExp(o)) : pr; }
+/* Buchung ↔ Ausgabe: jede Buchung mit Preis bekommt automatisch eine verknüpfte Ausgabe (id "bx-…") */
+const BK_EXPCAT = { Unterkunft: 'Unterkunft', Flug: 'Flüge', Zug: 'Transport', Bus: 'Transport', Fähre: 'Transport', Transfer: 'Transport', Mietwagen: 'Transport', Eintritt: 'Eintritte & Touren', Tour: 'Eintritte & Touren', Restaurant: 'Essen', Versicherung: 'Sonstiges', Sonstiges: 'Sonstiges' };
+async function syncBkExp(b, quiet) { if (VIEWER || !b || !S.expenses) return; const id = 'bx-' + b.id, ex = S.expenses.find((x) => x.id === id);
+  if (b.deleted || !(b.price > 0)) { if (ex && !ex.deleted) { await removeRec('expenses', id); if (!quiet) toast('Verknüpfte Ausgabe entfernt'); } return; }
+  if (ex && ex.deleted && quiet) return;
+  const cur = b.cur || 'EUR', amt = +b.price;
+  if (!ex) { const dup = S.expenses.find((x) => !x.deleted && !String(x.id).startsWith('bx-') && x.amount === amt && x.cur === cur && (!x.day || !b.fromDay || x.day === b.fromDay || x.pre));
+    if (dup) { if (!quiet) toast('Diese Buchung steht schon in den Ausgaben'); return; } }
+  const rec = Object.assign({ payer: 0, split: 'beide', pct: 0, amt0: 0 }, ex && !ex.deleted ? ex : {}, { id, amount: amt, cur, eur: cur === 'EUR' ? amt : null, eurAt: cur === 'EUR' ? null : +(amt / rate(cur)).toFixed(2), eurAtFor: amt + '|' + cur,
+    cat: BK_EXPCAT[b.kind] || 'Sonstiges', day: b.fromDay || null, note: `${b.title || b.kind}${b.paid === false ? ' (vor Ort zu zahlen)' : ''}`, bk: b.id, deleted: false });
+  const isNew = !ex || ex.deleted; const i = S.expenses.findIndex((x) => x.id === id); rec.updatedAt = now(); if (i >= 0) S.expenses[i] = rec; else S.expenses.push(rec); await persist();
+  if (!quiet) toast(isNew ? `Auch in die Ausgaben übernommen (${CAT_ICON[rec.cat] || ''} ${rec.cat})` : 'Verknüpfte Ausgabe aktualisiert'); }
+function removeRec(name, id) { if (VIEWER) return Promise.resolve(); const r = S[name].find((x) => x.id === id); if (r) { r.deleted = true; r.updatedAt = now(); } const pr = persist(); return name === 'bk2' && r ? pr.then(() => syncBkExp(r)) : pr; }
 function setMap(name, key, val) { if (VIEWER) return Promise.resolve(); S[name][key] = Object.assign({}, val, { updatedAt: now() }); if (name === 'photoOv') setTimeout(() => swConfig(), 0); return persist(); }
 function mergeState(inc) {
   let n = 0;
@@ -1730,7 +1744,9 @@ function plan() {
 const idx = (id) => days().findIndex((d) => d.id === id);
 function bkFor(d) { const i = idx(d.id); return live(S.bk2).filter((b) => { const a = idx(b.fromDay), z = idx(b.toDay || b.fromDay); return a >= 0 && i >= a && i <= (z >= 0 ? z : a); }); }
 const baseOf = (d) => d.night === 'Camp am Acatenango' ? 'Antigua' : d.night;
-function hotelFor(d) { const b = bkFor(d).find((x) => x.kind === 'Unterkunft'); if (b) return b.place || b.title; return S.hotels[baseOf(d)] && S.hotels[baseOf(d)].text; }
+/* Unterkunft für die NACHT dieses Tages: Anreisetag ≤ Tag < Abreisetag (der Check-out-Tag zählt nicht mehr) */
+function nightBk(d) { const k = idx(d.id); if (k < 0) return null; return live(S.bk2 || []).filter((b) => b.kind === 'Unterkunft').find((b) => { const a = idx(b.fromDay), z = b.toDay ? idx(b.toDay) : a + 1; return a >= 0 && a <= k && k < Math.max(z, a + 1); }) || null; }
+function hotelFor(d) { const b = nightBk(d); if (b) return b.place || b.title; return S.hotels[baseOf(d)] && S.hotels[baseOf(d)].text; }
 
 /* ================= Fotos (Wikimedia Commons, frei lizenziert) ================= */
 const PHOTO_Q = {};
@@ -2026,7 +2042,8 @@ function mapBlock(d, i, l) {
   legs.forEach((lg) => { if (lg.nav) links.push(`<a class="navlink" href="${dir(lg.o, lg.d, lg.wp, lg.art, lg.von, lg.nach)}" target="_blank" rel="noopener">${ICON.route}<span><b>${esc(lg.von)} → ${esc(lg.nach)}</b><small>${lg.wp ? 'über ' + esc(lg.wp.join(', ')) + ', ' : ''}${esc(lg.dauer)}</small></span></a>`);
     else if (lg.art === 'Flug') links.push(`<span class="navlink">${ICON.route}<span><b>${esc(lg.von)} → ${esc(lg.nach)}</b><small>Flug, ${esc(lg.dauer)}</small></span></span>`); });
   const l0 = legs.find((x) => x.nav), src = l0 ? emb(l0.o, l0.d, l0.wp) : (dest ? emb(null, dest) : '');
-  const hf = d.night === 'Heimflug' ? '' : `<form id="hotel-f" class="row" style="margin:12px 0 0"><label for="hotel-in">Unterkunft in ${esc(base)} (kurz, ohne Buchungsdetails)</label>
+  const nb = nightBk(d);
+  const hf = d.night === 'Heimflug' ? '' : nb ? `<p class="meta small" style="margin:12px 0 0">🏨 Laut Buchung: <b>${esc(nb.title || 'Unterkunft')}</b>${nb.place && nb.place !== nb.title ? ' · ' + esc(nb.place) : ''} — das Navi führt dorthin. Ändern in der Buchungszentrale.</p>` : `<form id="hotel-f" class="row" style="margin:12px 0 0"><label for="hotel-in">Unterkunft in ${esc(base)} (kurz, ohne Buchungsdetails)</label>
     <div style="display:flex;gap:8px"><input id="hotel-in" value="${esc((S.hotels[base] || {}).text || '')}" placeholder="Hotelname und Ort"><button class="btn" type="submit">Sichern</button></div></form>`;
   return `<div class="block"><h3>Karte & Navigation</h3><div class="navs">${links.join('') || '<p class="meta" style="margin:0">Heute keine Fahrt.</p>'}</div>${hf}
     ${src ? `<div id="gm-slot"><button class="btn" style="margin-top:10px;width:100%" data-src="${esc(src)}" id="gm-load">Karte hier anzeigen</button><p class="meta small" style="margin:6px 0 0">Lädt erst beim Antippen und braucht dann mobile Daten.</p></div>` : ''}</div>`;
@@ -3430,6 +3447,7 @@ $$('.tab').forEach((b) => b.onclick = () => { if (b.dataset.v === 'plan') RET = 
     if (!IS_MAYA) { mf.background_color = '#F8F6F2'; mf.theme_color = '#22314F'; }
     $('#mf').href = (!VIEWER && /^https?:$/.test(location.protocol) && T.id === 'asien-winter') ? 'manifest.webmanifest' : 'data:application/manifest+json,' + encodeURIComponent(JSON.stringify(mf));
     if (VIEWER && S.cloud.viewHash && !/[#&]view=/.test(location.hash)) history.replaceState(null, '', base + S.cloud.viewHash); }
+  if (!VIEWER && S.bk2 && S.expenses) { for (const b of live(S.bk2)) if (b.price > 0 && !S.expenses.some((x) => x.id === 'bx-' + b.id)) await syncBkExp(b, true); }
   if (!VIEWER && (T.prepaid || []).length) { let n = 0;
     for (const x of S.expenses) if (x.pre && !x.deleted && x.cat === 'Transport' && /Flug/.test(x.note || '')) { await upsert('expenses', Object.assign({}, x, { cat: 'Flüge' })); }
     for (const p of T.prepaid) { const x = S.expenses.find((e) => e.id === p.id && !e.deleted); if (x && x.pre && p.was && x.amount === p.was.amount && x.cur === p.was.cur) await upsert('expenses', Object.assign({}, x, { amount: p.amount, cur: p.cur, eur: p.cur === 'EUR' ? p.amount : null })); }
