@@ -324,6 +324,7 @@ html.desk .instcard:not(.dk){display:none}
 #foodcard .fcbig{font:700 clamp(30px,8vw,52px)/1.35 "Hiragino Sans","Noto Sans JP","Yu Gothic",sans-serif;margin:0 0 18px}
 #foodcard .fcsub{font:16px var(--sans);color:#555;margin:0 0 20px}#foodcard details{margin:10px 0;font:15px var(--sans)}#foodcard summary{cursor:pointer;font-weight:600}
 #foodcard .fcjp{font-size:17px;line-height:1.7;margin:8px 0}
+.staytip{margin:10px 0 12px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}.staytip summary{cursor:pointer;list-style:none}.staytip summary::-webkit-details-marker{display:none}.staytip .altm a{font-weight:600}
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.45;-webkit-text-size-adjust:100%}
 button,input,select,textarea{font:inherit;color:inherit}
@@ -543,7 +544,7 @@ input,select,textarea{font-size:16px!important}
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
 <script>
-const APP_VERSION = '2026.11.04-1713';
+const APP_VERSION = '2026.11.04-1831';
 if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) navigator.serviceWorker.register('sw.js').catch(() => {});
 document.addEventListener('gesturestart', (e) => e.preventDefault());
 document.addEventListener('touchmove', (e) => { if (e.touches && e.touches.length > 1) e.preventDefault(); }, { passive: false });
@@ -1195,11 +1196,147 @@ function hubCal() { const l = days(), byDate = {}; l.forEach((d) => { byDate[d.d
         <span class="hs">${Object.keys(GRP).map((g) => { const st = grpState(L, g); return st === 'none' ? '<i class="none"></i>' : `<i class="${st}" title="${GRP[g][1]}">${GRP[g][0]}</i>`; }).join('')}</span></button>`; }
     return `<div class="hm"><h4>${m.toLocaleDateString('de-AT', { month: 'long', year: 'numeric' })}</h4><div class="hg">${['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'].map((w) => `<div class="hw">${w}</div>`).join('')}${cells}</div></div>`; }).join('') +
     `<p class="meta small hleg"><i class="ok">🏨</i> gebucht · <i class="open">🏨</i> offen · Symbole: Unterkunft, Transfer, Eintritt</p>`; }
+/* ================= Wohnlagen & Hotel-Empfehlungen (Buchungszentrale) ================= */
+const H = (n, why, tags, q, qa) => ({ n, why, tags: tags || [], q: q || n, qa: qa || '' });
+const STAY_TIPS = {
+ a02: { land: 'CN', area: 'Nanjing Road Ost / Bund', ll: '31.2380,121.4844', q: 'East Nanjing Road Shanghai', qa: '南京东路站',
+   why: 'Linie 2 fährt vom Flughafen Pudong ohne Umstieg bis East Nanjing Road. Abends zu Fuß an den Bund mit Blick auf Lujiazui, morgens in einer Station (Linie 10) zum Yuyuan — und am 18.12. wieder direkt mit Linie 2 zum Flughafen.',
+   alt: 'Günstiger: Jing’an (Station Jing’an Temple, Linie 2/7) — ebenfalls direkt an Linie 2 und näher an der Wukang Road, abends drei Stationen zum Bund.',
+   avoid: 'Lujiazui (ihr steht mittendrin statt davor) und Hotels abseits der Linie 2.',
+   note: 'Die Bund-Lage ist teuer — das JI Hotel lag bei deinem Check bei ca. € 140 und ist deshalb raus. Sortiert im Booking-Link nach Preis; Hotels in China sind auf Trip.com oft deutlich günstiger.',
+   hotels: [H('Jinjiang Metropolo Hotel Classiq Off Bund', 'Neben dem Peace Hotel am Bund, ca. 5 Gehminuten zur Metro. Bewertung ca. 8,7 (nur Drittseite, bitte prüfen).', [], 'Jinjiang Metropolo Classiq Off Bund Shanghai', '锦江都城 外滩 南京东路'),
+     H('Crystal Hotel Nanjing Road', 'Ca. 170 m zur Station East Nanjing Road.', [], 'Crystal Hotel Nanjing Road Pedestrian Street Shanghai'),
+     H('Grand Central Hotel Shanghai', 'Direkt an der Station, Hallenbad. Eher die teurere Wahl.', ['🏊 Pool'], 'Grand Central Hotel Shanghai 505 Jiujiang Road', '上海大酒店 九江路')] },
+ a03: { land: 'JP', area: 'Nishi-Shinjuku / Westausgang', ll: '35.6909,139.6990', q: 'Nishi-Shinjuku, Tokyo',
+   why: 'Der Narita Express endet in Shinjuku, Omoide Yokocho liegt direkt am Westausgang, und die Mietwagen-Stationen für den 20.12. sind zu Fuß erreichbar (Nissan am Westausgang 1–2 Min., ORIX im Shinjuku Center Building, Nippon Rent-A-Car Nishi-Shinjuku). Nachts ruhig, weil Büroviertel; mit der Yamanote-Linie in 7 Min. in Shibuya.',
+   alt: 'Südausgang oder Shinjuku-Sanchome (Golden Gai 5 Min.).', avoid: 'Kabukicho — laut, Anwerber, Nachtleben bis morgens; schlecht vor einem frühen Fahrtag.',
+   hotels: [H('Hotel MyStays Nishi Shinjuku', 'Expedia 8,6. Unter 10 Min. zur Station. Double oder Twin buchen — „Semi Double“ ist für zwei zu eng.', ['🧺 Coin Laundry 24 h']),
+     H('ibis Tokyo Shinjuku', 'Westseite, nahe Station.', ['🧺 Coin Laundry'], 'ibis Tokyo Shinjuku 7-10-5 Nishi-Shinjuku'),
+     H('MIMARU Tokyo Shinjuku West', 'Tripadvisor 4,8. Apartment-Hotel mit Küche — Gehzeit zur Station prüfen.', ['🍳 Küche'])] },
+ a05: { land: 'JP', area: 'Nordufer / Nordostufer des Kawaguchi-Sees', ll: '35.512,138.763', q: 'Fujikawaguchiko',
+   why: 'Der Fuji liegt südlich des Sees — nur vom Nord- und Nordostufer blickt ihr über das Wasser auf den Berg. Chureito-Pagode, Oishi-Park, Seilbahn und euer 7-Eleven sind je 10–15 Autominuten entfernt.',
+   avoid: 'Südufer bei Funatsu/Bahnhof: dort schaut ihr vom Zimmer nicht auf den Fuji.',
+   note: 'Beim Buchen ausdrücklich ein Zimmer mit Fuji-Blick (富士山側) und Halbpension wählen und den kostenlosen Parkplatz bestätigen lassen.',
+   hotels: [H('La Vista Fuji Kawaguchiko', 'Booking 9,0–9,1 bei über 1.000 Bewertungen. Hanglage am Nordufer, viele Zimmer mit Fuji-Blick, 4 kostenlose Privatbäder ohne Reservierung (dort ohne Fuji-Blick). Halbpension buchbar.', ['♨️ Privatbad gratis', '🅿️ gratis']),
+     H('Hotel Asafuji', 'Booking 9,4 bei 2.322 Bewertungen. 13 Zimmer, kleine Zimmer mit eigenem Panoramabad. Abendessen und Frühstück extra, vorab reservieren.', ['♨️ Bad im Zimmer', '🅿️ gratis'], 'Hotel Asafuji Fujikawaguchiko'),
+     H('Fuji Ginkei', 'Fast alle Zimmer mit privatem Bad mit Fuji-Blick.', ['♨️ Bad im Zimmer', '🅿️ gratis'], 'Fuji Ginkei Fujikawaguchiko'),
+     H('Kozantei Ubuya', 'Luxus: alle 51 Zimmer mit Fuji-Blick, 20 mit eigenem Rotenburo. Deutlich über Budget.', ['♨️ Bad im Zimmer', '🅿️ gratis'], 'Kozantei Ubuya Fujikawaguchiko')] },
+ a06: { land: 'JP', area: 'Shibu Onsen, Ortskern', ll: '36.733,138.431', q: 'Shibu Onsen, Yamanouchi',
+   why: 'Nur Übernachtungsgäste in Shibu bekommen den Schlüssel für die 9 Badehäuser. Zum Parkplatz Kanbayashi für den Snow Monkey Park sind es wenige Autominuten.',
+   alt: 'Kanbayashi Onsen — am nächsten zum Affenpark, aber ohne die Badehaus-Tradition.', avoid: 'Yudanaka — praktisch, aber am wenigsten Atmosphäre.',
+   note: 'Die Gassen sind eng. Öffentlicher Parkplatz jenseits der Shibuyu-Brücke (1140-4 Hirao), max. ¥1.000 pro 24 h. Bei Ankunft im Dunkeln vorher beim Ryokan anrufen.',
+   hotels: [H('Shibu Onsen Kokuya', '10 der 19 Zimmer mit eigenem Freiluftbad — unbedingt den Zimmertyp „with Open-Air Bath“ buchen. Parkservice mit externem Parkplatz; schriftlich bestätigen lassen.', ['♨️ Bad im Zimmer', '🅿️ Parkservice'], 'Kokuya Shibu Onsen'),
+     H('Kanaguya', 'Historisches Haus gegenüber Kokuya, 5 Privatbäder ohne Reservierung.', ['♨️ Privatbäder'], 'Kanaguya Shibu Onsen'),
+     H('Koishiya Ryokan', 'Kein eigener Parkplatz — ihr nutzt den öffentlichen.', [], 'Koishiya Shibu Onsen')] },
+ a07: { land: 'JP', area: 'Shin-Hotaka Onsen', ll: '36.286,137.576', q: 'Shinhotaka Onsen',
+   why: 'Die Shin-Hotaka-Seilbahn ist zu Fuß bzw. in 1–3 Autominuten erreichbar — ihr sitzt um 9:00 ohne Stress in der ersten Gondel, das Auto bleibt am Ryokan.',
+   alt: 'Nakao / Tochio — ca. 10–15 Min. Fahrt, ruhig, viele kleine Häuser mit Privatbad.', avoid: 'Hirayu — 35–45 Min. zur Seilbahn, morgens auf Winterstraßen.',
+   hotels: [H('Yarimikan', 'Trip.com 9,5. Direkt am Fluss an der Zufahrt zur Seilbahn, 4 kostenlose Privatbäder, Hida-Rind-Pläne. Standardzimmer mit WC, aber ohne Dusche; die großen Rotenburo sind gemischt (Badebekleidung).', ['♨️ Privatbad gratis', '🅿️ gratis'], 'Yarimikan Shinhotaka'),
+     H('Yama no Ryosha Nakaodaira', 'In Nakao, nur 6 Zimmer, alle Bäder privat. Bewertung 9,6 (Drittseite, prüfen).', ['♨️ Privatbad gratis', '🅿️ gratis'], 'Nakaodaira Okuhida'),
+     H('Hotel Hotaka', '2 Gehminuten zur Seilbahn, Hida-Rind im Abendessen. Bewertung 8,3–8,5.', ['🅿️ gratis'], 'Hotel Hotaka Shinhotaka')] },
+ a08: { land: 'JP', area: 'Zwischen Bahnhof (Ostausgang) und Miyagawa', ll: '36.1425,137.2560', q: 'Takayama Station, Takayama',
+   why: 'Sanmachi, Jinya und der Morgenmarkt um 7:30 sind 5–12 Gehminuten entfernt, und die Hotels hier haben eigene Parkplätze.',
+   avoid: 'Westseite des Bahnhofs (falsche Seite) und Ryokans in den engen Altstadtgassen — dort kaum Parkplätze.',
+   hotels: [H('Residence Hotel Takayama Station', '2 Min. vom Ostausgang. Küche und Waschtrockner in jedem Zimmer. 17 Parkplätze, ¥800 pro Nacht.', ['🧺 Waschtrockner im Zimmer', '🍳 Küche', '🅿️ ¥800'], 'Residence Hotel Takayama Station'),
+     H('Spa Hotel Alpina Hida Takayama', '3 Min. vom Bahnhof, Natur-Onsen auf dem Dach. 90 Plätze, ¥900 pro Nacht.', ['♨️ Onsen', '🅿️ ¥900'], 'Spa Hotel Alpina Takayama'),
+     H('Takayama City Hotel Four Seasons', 'Ca. 3 Min. zum Morgenmarkt, Onsen.', ['♨️ Onsen', '🅿️ gratis'], 'Takayama City Hotel Four Seasons'),
+     H('Super Hotel Hida Takayama', '2 Min. vom Bahnhof, Onsen, Frühstück inklusive.', ['♨️ Onsen'], 'Super Hotel Hida Takayama')] },
+ a09: { land: 'JP', area: 'Musashi / Omicho (alternativ Bahnhof Ostausgang)', ll: '36.5712,136.6560', q: 'Omicho Market, Kanazawa',
+   why: 'Omicho-Markt 1–5 Min., Higashi Chaya und Kenroku-en je ca. 15 Min. zu Fuß, Sushi und Nodoguro rundherum. Nach dem Check-in das Auto stehen lassen, sonst zahlt ihr das Parken doppelt.',
+   avoid: 'Direkt in Higashi Chaya mit dem Auto — enge Gassen, kaum Hotelparkplätze.',
+   hotels: [H('Dormy Inn Kanazawa', '2 Min. vom Bahnhof Ostausgang, Onsen und Sauna auf dem Dach, Waschmaschine gratis. Turmparken mit Größenlimit, ca. ¥1.000–1.500 — Limit für den Mietwagen erfragen.', ['🧺 Waschmaschine gratis', '♨️ Onsen', '🅿️ ¥1.000–1.500'], 'Dormy Inn Kanazawa'),
+     H('Mitsui Garden Hotel Kanazawa', '4 Min. zum Omicho. Vertragsparkhaus ¥1.000 pro 24 h, Zufahrt 6–24 Uhr.', ['🅿️ ¥1.000'], 'Mitsui Garden Hotel Kanazawa'),
+     H('the square hotel KANAZAWA', 'Direkt neben dem Omicho. 3 Parkplätze hinter dem Haus, ca. ¥1.000.', ['🅿️ ¥1.000'], 'the square hotel Kanazawa')] },
+ a10: { land: 'JP', area: 'Kyoto Station', ll: '34.9858,135.7588', q: 'Kyoto Station, Kyoto',
+   why: 'Autorückgabe am Bahnhof; JR in 5 Min. nach Fushimi Inari, JR Sagano-Linie nach Arashiyama, Kintetsu direkt nach Nara (am 28.12. mit Gepäck nur wenige Minuten), und bei der Rückkehr aus Osaka seid ihr direkt am Hotel. Gion und Pontochō sind 15–20 Min. entfernt.',
+   alt: 'Shijo-Karasuma — Nishiki-Markt und Pontochō zu Fuß, aber mit Gepäck nach Nara umsteigen.', avoid: 'Tief in Süd-Higashiyama und Häuser weit weg von jeder Bahn.',
+   note: 'Kyoto erhebt seit 1.3.2026 eine höhere Übernachtungssteuer, z.B. ¥400 p.P. und Nacht bei ¥6.000–19.999.',
+   hotels: [H('MIMARU Kyoto Station', 'Tripadvisor 4,8. Ca. 2 Min. vom Hachijo-Ostausgang, Apartment mit Küche, Waschsalon mit 4 Waschmaschinen und 4 Trocknern. Zimmertyp ohne Stockbetten wählen.', ['🧺 Waschsalon', '🍳 Küche'], 'MIMARU Kyoto Station'),
+     H('Mitsui Garden Hotel Kyoto Station', '3 Min. vom Karasuma-Ausgang.', [], 'Mitsui Garden Hotel Kyoto Station'),
+     H('MIMARU Kyoto Kawaramachi Gojo', 'Direkt an einer Bahnstation, Waschmaschine und Trockner.', ['🧺 Waschmaschine', '🍳 Küche'], 'MIMARU Kyoto Kawaramachi Gojo')] },
+ a13: { land: 'KR', area: 'Myeongdong', ll: '37.5610,126.9863', q: 'Myeongdong, Seoul',
+   why: 'Von Gimpo in 35–45 Min. (AREX bis Seoul Station, dann 2 Stationen Linie 4), Streetfood am ersten Abend vor der Tür, N Seoul Tower direkt oberhalb. Am 30.12. in 2 Stationen an der Seoul Station für AREX und City Check-in.',
+   alt: 'Jongno / Insadong / Anguk — am 29.12. näher an Gyeongbokgung, Bukchon und Gwangjang.', avoid: 'Hongdae — zu weit westlich und abends sehr laut.',
+   hotels: [H('Lotte City Hotel Myeongdong', 'Tripadvisor 4,4. Gym und 24-h-Coin-Laundry.', ['🏋️ Gym', '🧺 Coin Laundry 24 h']),
+     H('Hotel 28 Myeongdong', 'Boutique-Hotel mit kleinem Gym und Coin Laundry.', ['🏋️ Gym', '🧺 Coin Laundry']),
+     H('L7 Myeongdong by Lotte', 'Tripadvisor 4,6, Lage mit 4,8 bewertet.', []),
+     H('MOXY Myeongdong', 'Kostenlose 24/7-Coin-Laundry laut Guide.', ['🧺 Coin Laundry'])] },
+ a15: { land: 'CN', area: 'Zhongyang-Straße, max. 5 Min. zur Metro Central Street (Linie 2)', ll: '45.772,126.617', q: 'Zhongyang Street Harbin', qa: '中央大街',
+   why: 'Sophienkathedrale und Songhua-Ufer zu Fuß, Linie 2 direkt zur Ice and Snow World und zur Sonneninsel. Bei −25 °C sind kurze Wege Gold — und an Silvester bekommt ihr kaum ein Taxi.',
+   avoid: 'Hotels weit weg von der Metro.', note: 'Beim Buchen nach Heizung und Doppelfenstern fragen. Am 31.12. im Hotel nach dem letzten Metrozug fragen.',
+   hotels: [H('Starway Hotel Harbin Zhongyang Dajie', 'Trip.com 9,2 bei 107 Bewertungen, Sauberkeit 9,3. 100 m zur Zentralstraße, ca. 5 Min. zur Metro.', ['🧺 Waschraum'], 'Starway Hotel Harbin Central Street', '星程酒店 哈尔滨中央大街'),
+     H('Novotel Harbin Zhongyang Street', 'Blick auf die Sophienkathedrale, Fitnessraum, Waschmaschinen und Trockner gratis.', ['🧺 Waschmaschine gratis', '🏋️ Gym'], 'Novotel Harbin Zhongyang Street', '诺富特 哈尔滨中央大街'),
+     H('Holiday Inn Express Harbin Central Avenue', 'Booking 8,5. Direkt an der Zentralstraße.', [], 'Holiday Inn Express Harbin Central Avenue', '智选假日 哈尔滨中央大街')] },
+ a18: { land: 'CN', area: 'Hutongs Gulou / Nanluoguxiang / Shichahai', ll: '39.937,116.403', q: 'Nanluoguxiang Beijing', qa: '南锣鼓巷',
+   why: 'Hutongs, Shichahai und Jingshan zu Fuß. Linie 2 fährt direkt nach Xizhimen (Beijing North für Datong) und Dongzhimen (Airport Express), dazu die Linien 6 und 8.',
+   alt: 'Dongsi — ebenfalls Hutong-Atmosphäre, Linie 5/6.', avoid: 'Qianmen — weit von Beijing North und den Hutongs, abends sehr touristisch.',
+   note: 'Hofhäuser können im Januar kalt sein: Fußbodenheizung erfragen. Taxis fahren ungern in die Gassen — Treffpunkt an der Hauptstraße ausmachen.',
+   hotels: [H('Houhaiyuan Hotel', 'Im Hutong direkt bei Shichahai, Waschmaschine und Trockner.', ['🧺 Waschmaschine'], 'Houhaiyuan Hotel Beijing Nanluoguxiang'),
+     H('Aaliyah Hotel Nanluoguxiang', 'An der Nanluoguxiang, kostenloser Wäscheservice.', ['🧺 Wäscheservice'], 'Aaliyah Hotel Nanluoguxiang Beijing'),
+     H('Courtyard 7', 'Hofhaus direkt neben der Nanluoguxiang, Bewertung 9,3, Fußbodenheizung.', ['🔥 Fußbodenheizung'], 'Courtyard 7 Beijing Qiangulouyuan Hutong', '秦唐府7号')] },
+ a21: { land: 'PH', area: 'Ca. 1,5 km von Pier 1, bewachtes Hotel', ll: '10.2925,123.9055', q: 'Pier 1, Cebu City',
+   why: 'Für die frühe Fähre nach Bohol seid ihr morgens mit Grab in 5–10 Min. am Pier — ohne nachts in der Hafengegend zu übernachten.',
+   avoid: 'Direkt am Pier (z.B. Mariners Court: Lärm durch Schiffshörner) und Downtown rund um Colon nachts.', note: 'Vom Flughafen in die Stadt um 18:20 mit 45–90 Min. Verkehr rechnen.',
+   hotels: [H('Southpole Central Hotel', 'Agoda 8,9 bei 230 Bewertungen, Lage 9,1. Ca. 1,4 km bzw. 5 Min. Taxi zum Pier.', [], 'Southpole Central Hotel Cebu'),
+     H('Dragon Home Inn', 'Agoda 8,7 bei über 10.000 Bewertungen. Ca. 1,9 km zum Pier.', [], 'Dragon Home Inn Cebu'),
+     H('Summit Galleria Cebu', 'Traveloka 8,8. In der Mall, mit Pool. Ca. 1,4 km zum Pier.', ['🏊 Pool'], 'Summit Galleria Cebu')] },
+ a22: { land: 'PH', area: 'Dumaluan / Bolod Beach', ll: '9.550,123.810', q: 'Bolod, Panglao',
+   why: 'Breiter, ruhiger Strand mit Resorts statt Partymeile, Dumaluan Beach vor der Tür, nach Alona nur ca. 5 km.',
+   alt: 'Doljo — am ruhigsten, beste Sonnenuntergänge, aber wenig Auswahl zum Essen.', avoid: 'Alona (laut, dicht bebaut) und Tagbilaran-Stadt.',
+   hotels: [H('Bohol Beach Club', 'Expedia 9,2. Privatstrand, Pool, Wäscheservice.', ['🏊 Pool', '🧺 Wäscheservice'], 'Bohol Beach Club Panglao'),
+     H('The Bellevue Resort', 'Doljo, Bewertung 9,2. Pool, Wäsche, Fitnesscenter.', ['🏊 Pool', '🧺 Wäsche', '🏋️ Gym'], 'The Bellevue Resort Bohol'),
+     H('Oceanica Resort Panglao', 'Bolod, 2 Pools, Laundry.', ['🏊 Pool', '🧺 Laundry'], 'Oceanica Resort Panglao')] },
+ a24: { land: 'PH', area: 'San Juan (Solangon / Paliton)', ll: '9.167,123.492', q: 'San Juan, Siquijor',
+   why: 'Sonnenuntergang am Paliton Beach mit kurzem Weg, viele Restaurants, zentral für die Rollertour zu den Cambugahay-Wasserfällen und zum Balete-Baum. Vom Hafen Siquijor Town ca. 20–25 Min.',
+   avoid: 'Larena — nur bei An- oder Abreise über Larena sinnvoll.',
+   hotels: [H('White Bada Guesthouse', 'Booking 9,0 bei 438 Bewertungen, Solangon.', [], 'White Bada Guesthouse Siquijor'),
+     H('White Villas Resort', 'Booking 8,5. Direkt am Strand, Pool.', ['🏊 Pool'], 'White Villas Resort Siquijor'),
+     H('Coco Grove Beach Resort', 'Tripadvisor 4,6 bei über 2.000 Bewertungen. Komfort-Option.', ['🏊 Pool'], 'Coco Grove Beach Resort Siquijor')] },
+ a25: { land: 'PH', area: 'Panagsama Beach', ll: '9.946024,123.367065', q: 'Panagsama Beach, Moalboal',
+   why: 'Der Sardinenschwarm zieht ganzjährig nur 20–30 m vor dem Ufer — ihr braucht kein Boot. Die Busse halten an der Nationalstraße, 3–4 km entfernt (Tricycle ca. ₱150–200).',
+   avoid: 'Moalboal-Stadt an der Nationalstraße.', note: 'Hier habe ich kein Haus mit 8,5+ sicher verifiziert. Im Booking-Link „Panagsama“ suchen und nach Bewertung filtern.',
+   hotels: [H('Quo Vadis Dive Resort', 'Tripadvisor 4,5, mit Pool. Bewertung auf Booking prüfen.', ['🏊 Pool'], 'Quo Vadis Dive Resort Moalboal'),
+     H('Lion Dive GuestHouse', 'Tripadvisor 4,9. Bewertung auf Booking prüfen.', [], 'Lion Dive GuestHouse Moalboal')] },
+ a26: { land: 'PH', area: 'Mactan Newtown', ll: '10.311,124.017', q: 'Mactan Newtown, Lapu-Lapu',
+   why: 'Ca. 15–20 Min. zum Flughafen, mit Strandkomplex und Restaurants für das Abschiedsessen.', avoid: 'Hotels in Cebu City — über die Brücke oft 30+ Min. Stau.',
+   hotels: [H('Savoy Hotel Mactan Newtown', 'Trip.com 8,5 bei 788 Bewertungen. Dachpool, Shuttle zum Privatstrand. Kleine Bäder.', ['🏊 Pool'], 'Savoy Hotel Mactan Newtown'),
+     H('Sempre Premier Inn Mactan Airport', 'Bewertung 8,8 bei 506. Flughafennah.', [], 'Sempre Premier Inn Mactan'),
+     H('Waterfront Airport Hotel', 'Bewertung 8,6. Direkt gegenüber dem Flughafen.', ['🏊 Pool'], 'Waterfront Airport Hotel Mactan')] },
+ a27: { land: 'CN', area: 'Zwischen Terminal 1 und 2', ll: '31.1497,121.8060', q: 'Shanghai Pudong Airport', qa: '浦东国际机场',
+   why: 'Nach der Ankunft um 20:20 zu Fuß ins Bett — ohne auf ein Shuttle zu warten.',
+   hotels: [H('Holiday Inn Shanghai Pudong Airport', 'Überdachter Gang zu T1 und T2, ca. 10 Gehminuten.', [], 'Holiday Inn Shanghai Pudong Airport', '浦东机场 假日酒店'),
+     H('Dazhong Airport Hotel', 'Ca. 6 Gehminuten zu beiden Terminals. Bewertung schwach (3,3) — bewusster Kompromiss für die Lage; Nordgebäude wählen.', [], 'Dazhong Airport Hotel Shanghai', '大众空港宾馆')] },
+};
+const isoOf = (d) => { const [dd, mm, yy] = d.date.split('.'); return `${yy}-${mm}-${dd}`; };
+function stayOf(d) { const l = days(); let i = idx(d.id), j = i; while (i > 0 && l[i - 1].night === d.night) i--; while (j < l.length - 1 && l[j + 1].night === d.night) j++; return { start: l[i], last: l[j], next: l[j + 1] || l[j], nights: j - i + 1 }; }
+function stayMapLinks(q, qa, land) {
+  const g = `<a href="https://www.google.com/maps/search/?api=1&query=${enc(q)}" target="_blank" rel="noopener">Google Maps ↗</a>`;
+  if (land === 'CN') return `<a href="https://uri.amap.com/search?keyword=${enc(qa || q)}&callnative=1" target="_blank" rel="noopener">Amap ↗</a>${g}`;
+  if (land === 'KR') return `<a href="https://map.kakao.com/link/search/${enc(q)}" target="_blank" rel="noopener">KakaoMap ↗</a>${g}`;
+  return g; }
+function stayTipBlock(d) { if (T.id !== 'asien-winter' || VIEWER) return ''; const s = stayOf(d), tip = STAY_TIPS[s.start.id]; if (!tip) return '';
+  const ci = isoOf(s.start), co = isoOf(s.next), Q = enc(tip.q);
+  const search = [['Booking.com', `https://www.booking.com/searchresults.de.html?ss=${Q}&checkin=${ci}&checkout=${co}&group_adults=2&no_rooms=1&group_children=0&order=price&nflt=${enc('review_score=80')}`],
+    ['Agoda', `https://www.agoda.com/de-de/search?textToSearch=${Q}&checkIn=${ci}&checkOut=${co}&rooms=1&adults=2&children=0`],
+    ['Google-Karte mit Preisen', `https://www.google.com/maps/search/${enc('Hotels ' + tip.q)}`]];
+  if (tip.land === 'CN' || tip.land === 'KR') search.splice(1, 0, ['Trip.com', `https://www.trip.com/hotels/list?keyword=${Q}&checkin=${ci.replace(/-/g, '/')}&checkout=${co.replace(/-/g, '/')}&adult=2&crn=1`]);
+  if (['a03', 'a10', 'a13', 'a18'].includes(s.start.id)) search.push(['Airbnb (Wohnung)', `https://www.airbnb.com/s/${Q}/homes?checkin=${ci}&checkout=${co}&adults=2`]);
+  const areaMap = tip.land === 'CN' ? `<a href="${gm(tip.ll)}" target="_blank" rel="noopener">Amap ↗</a><a href="https://www.google.com/maps/search/?api=1&query=${tip.ll}" target="_blank" rel="noopener">Google Maps ↗</a>` : tip.land === 'KR' ? `<a href="${gm(tip.ll)}" target="_blank" rel="noopener">KakaoMap ↗</a><a href="https://www.google.com/maps/search/?api=1&query=${tip.ll}" target="_blank" rel="noopener">Google Maps ↗</a>` : `<a href="https://www.google.com/maps/search/?api=1&query=${tip.ll}" target="_blank" rel="noopener">Google Maps ↗</a>`;
+  return `<details class="block staytip" open><summary><b>🏨 Empfehlung: Wo übernachten in ${esc(d.night.replace(/\s*\(.*\)/, ''))}</b> <small class="meta">${s.nights} ${s.nights === 1 ? 'Nacht' : 'Nächte'} · ${esc(s.start.date.slice(0, 6))}–${esc(s.next.date.slice(0, 6))}</small></summary>
+    <div class="altx"><div class="altt"><b>📍 ${esc(tip.area)}</b></div><div class="small" style="margin:4px 0">${esc(tip.why)}</div>
+      ${tip.alt ? `<div class="small" style="margin:4px 0"><b>Alternative:</b> ${esc(tip.alt)}</div>` : ''}${tip.avoid ? `<div class="small" style="margin:4px 0"><b>Meiden:</b> ${esc(tip.avoid)}</div>` : ''}
+      ${tip.note ? `<div class="meta small" style="margin:4px 0">💡 ${esc(tip.note)}</div>` : ''}<div class="altm">${areaMap}</div></div>
+    <p class="hsec" style="margin-top:10px">Hotelvorschläge</p>
+    ${tip.hotels.map((h) => `<div class="altx"><div class="altt"><b>${esc(h.n)}</b></div><div class="small" style="margin:3px 0">${esc(h.why)}</div>${h.tags.length ? `<div class="altm">${h.tags.map((t) => `<span>${esc(t)}</span>`).join('')}</div>` : ''}<div class="altm">${stayMapLinks(h.q, h.qa, tip.land)}<a href="https://www.booking.com/searchresults.de.html?ss=${enc(h.q)}&checkin=${ci}&checkout=${co}&group_adults=2&no_rooms=1&group_children=0" target="_blank" rel="noopener">Preis auf Booking ↗</a></div></div>`).join('')}
+    <p class="hsec" style="margin-top:10px">Live-Preise für eure Daten</p><p class="meta small" style="margin:0 0 6px">2 Personen, ${esc(s.start.date.slice(0, 6))} bis ${esc(s.next.date.slice(0, 6))} · Booking ist nach Preis sortiert und zeigt nur Bewertungen ab 8.</p>
+    <div class="rowbtns" style="flex-wrap:wrap">${search.map(([n, u]) => `<a class="btn small" href="${u}" target="_blank" rel="noopener">${esc(n)} ↗</a>`).join('')}</div></details>`; }
+
 function hubDay() { const d = HUB_DAY && dayById(HUB_DAY); if (!d) return '<p class="meta">Tippe im Kalender auf einen Tag — dann siehst du, was für diesen Tag noch zu buchen ist.</p>';
   const L = needsOf(d.id), open = L.filter((n) => !n.ok), done = L.filter((n) => n.ok), bks = bkFor(d).filter((b) => !(b.kind === 'Unterkunft' && b.toDay === d.id && b.fromDay !== d.id)), l = days(), i2 = idx(d.id);
   const row = (n) => `<div class="ndr ${n.ok ? 'ok' : 'open'}"><span>${BK_ICON[n.kind] || '📎'}</span><span>${esc(n.title)}${n.grp === 'hotel' ? ` <small>${n.nights} ${n.nights === 1 ? 'Nacht' : 'Nächte'} ab ${esc(dayById(n.dayIds[0]).date.slice(0, 6))}</small>` : ''}</span>${n.ok ? '<b>✓</b>' : `<button class="btn small primary" data-hnew="${esc(n.key)}">Eintragen</button>`}</div>`;
   return `<div class="hdh">${dBlock(d)}<div><h3 style="margin:0">Tag ${d.t} · ${esc(d.title)}</h3><p class="meta small" style="margin:2px 0 0">Nacht in ${esc(d.night)}</p></div></div>
     <div class="hnav"><button class="btn small" data-hday="${(l[i2 - 1] || d).id}" ${i2 > 0 ? '' : 'disabled'}>‹ Vortag</button><button class="btn small" data-hday="${(l[i2 + 1] || d).id}" ${i2 < l.length - 1 ? '' : 'disabled'}>Folgetag ›</button><button class="btn small" data-hdayx="1">← Alle Buchungen</button></div>
+    ${stayTipBlock(d)}
     <p class="hsec open">Noch zu buchen ${open.length ? `<span class="fjtag">${open.length}</span>` : ''}</p>${open.length ? open.map(row).join('') : '<p class="meta small" style="margin:4px 0 0">Für diesen Tag ist nichts mehr offen ✓</p>'}
     ${done.length || bks.length ? `<p class="hsec ok">Schon gebucht</p>${done.map(row).join('')}${bks.map((b) => `<div class="ndr ok"><span>${BK_ICON[b.kind] || '📎'}</span><span>${esc(b.title)}${b.code ? ` <small>${esc(b.code)}</small>` : ''}</span><button class="btn small" data-hedit="${b.id}">Bearbeiten</button></div>`).join('')}` : ''}
     <div class="rowbtns" style="margin-top:12px"><button class="btn small" data-hplus="${d.id}">+ Weitere Buchung für diesen Tag</button></div>`; }
