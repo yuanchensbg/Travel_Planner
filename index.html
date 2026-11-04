@@ -327,6 +327,7 @@ html.desk .instcard:not(.dk){display:none}
 .staytip{margin:10px 0 12px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}.staytip summary{cursor:pointer;list-style:none}.staytip summary::-webkit-details-marker{display:none}.staytip .altm a{font-weight:600}.staytip.done{padding:6px 12px;background:transparent;border-style:dashed}.staytip.done:not([open]) summary{font-size:13px;color:var(--muted)}.staytip.done[open]{background:var(--surface);border-style:solid;padding:10px 12px}
 #rpdlg{position:fixed;inset:0;z-index:470;background:rgba(10,12,18,.55);display:flex;align-items:center;justify-content:center}#rpdlg .swin{position:relative;background:var(--bg);color:var(--ink);width:min(100%,560px);max-height:92vh;overflow-y:auto;border-radius:18px;padding:16px 16px max(18px,env(safe-area-inset-bottom))}#rpdlg .phx{position:absolute;right:12px;top:10px}#rpdlg .ck .w small{font-weight:400}#rpdlg .rq-off{opacity:.42;filter:grayscale(1);cursor:not-allowed}#rpdlg .rq-off .w,#rpdlg .rq-off>span:last-child{text-decoration:line-through;text-decoration-thickness:1px}#rpdlg .rq-tag{display:inline-block;margin-left:2px;padding:0 6px;border:1px solid var(--line);border-radius:999px;font-size:11px;text-decoration:none}#rpdlg .rq-sep{margin:10px 0 2px;padding-top:8px;border-top:1px dashed var(--line);font-weight:600}
 .exdlg{position:fixed;inset:0;z-index:470;background:rgba(10,12,18,.55);display:flex;align-items:center;justify-content:center}.exdlg .swin{position:relative;background:var(--bg);color:var(--ink);width:min(100%,560px);max-height:92vh;overflow-y:auto;border-radius:18px;padding:16px 16px max(18px,env(safe-area-inset-bottom))}.exdlg .phx{position:absolute;right:12px;top:10px}.exbtns{display:flex;flex-direction:column;align-items:flex-end;gap:4px}.x.ed{font-size:15px}
+.pin.miss{border:1px solid #d9534f;color:#d9534f;background:rgba(217,83,79,.10);letter-spacing:-1px}
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.45;-webkit-text-size-adjust:100%}
 button,input,select,textarea{font:inherit;color:inherit}
@@ -546,7 +547,7 @@ input,select,textarea{font-size:16px!important}
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
 <script>
-const APP_VERSION = '2026.11.04-2119';
+const APP_VERSION = '2026.11.04-2244';
 if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) navigator.serviceWorker.register('sw.js').catch(() => {});
 document.addEventListener('gesturestart', (e) => e.preventDefault());
 document.addEventListener('touchmove', (e) => { if (e.touches && e.touches.length > 1) e.preventDefault(); }, { passive: false });
@@ -1750,14 +1751,15 @@ function plan() {
   const l = days(), tid = todayId();
   const chips = [['alle', 'Alle Tage'], ...T.etappen.map((e) => [e.L, e.title])].map(([k, t]) => `<button class="chip" aria-pressed="${FILTER === k}" data-f="${k}">${esc(t)}</button>`).join('');
   const html = runs(l).filter((r) => FILTER === 'alle' || r.L === FILTER).map((r) => {
-    const a = r.days[0], b = r.days[r.days.length - 1];
+    const a = r.days[0], b = r.days[r.days.length - 1], NA = VIEWER ? [] : needsAll().filter((x) => !x.ok);
     return `<div class="stage"><i class="dot" style="background:${ECOL[r.L]}"></i><h2>${esc(etTitle(r.L))}</h2><span>${a.ds} bis ${b.ds}</span></div>
     <ul class="days">${r.days.map((d) => {
       const n = live(S.spots).filter((s) => s.day === d.id).length, o = live(S.items).filter((s) => s.day === d.id).length + ((S.notes[d.id] || {}).text ? 1 : 0), bk = bkFor(d).length;
       return `<li><button class="day ${fest(d) ? 'fest' : ''} ${tid === d.id ? 'now' : ''}" data-id="${d.id}">
         <span class="d"><small>${d.wd}</small><strong>${d.ds.slice(0, 2)}</strong><small>${MON[d.dt.getMonth()].slice(0, 3)}</small></span>
         <span><span class="t">${esc(d.title)}</span><br><span class="n">${d.night === 'Heimflug' ? 'Heimflug' : 'Nacht in ' + esc(d.night)}</span></span>
-        <span class="marks">${(() => { const f = !VIEWER && FUJI && FUJI_DAYS.find((x) => x.id === d.id); if (!f) return ''; const r = FUJI.d[f.date] || {}, best = Math.max(...f.slots.map((k) => r[k] == null ? -1 : r[k])); if (best < 0) return ''; const [, c] = fujiLvl(best); return `<span class="pin fjp" title="Fuji-Sicht" style="color:${c}">🗻●</span>`; })()}${(() => { if (!VIEWER) return ''; const c = newPhotos().filter((p) => p.day === d.id).length; return c ? `<span class="pin cmp phn" title="neue Fotos">📷${c}</span>` : ''; })()}${(() => { const c = cmtFor(d.id).filter((x) => x.text).length; return c ? `<span class="pin cmp" title="Kommentare">💬${c}</span>` : ''; })()}${bk ? `<span class="pin own" title="gebucht">✓${bk}</span>` : ''}${o ? `<span class="pin own">${o}</span>` : ''}${n ? `<span class="pin">${n}</span>` : ''}</span></button></li>`;
+        <span class="marks">${(() => { const f = !VIEWER && FUJI && FUJI_DAYS.find((x) => x.id === d.id); if (!f) return ''; const r = FUJI.d[f.date] || {}, best = Math.max(...f.slots.map((k) => r[k] == null ? -1 : r[k])); if (best < 0) return ''; const [, c] = fujiLvl(best); return `<span class="pin fjp" title="Fuji-Sicht" style="color:${c}">🗻●</span>`; })()}${(() => { if (!VIEWER) return ''; const c = newPhotos().filter((p) => p.day === d.id).length; return c ? `<span class="pin cmp phn" title="neue Fotos">📷${c}</span>` : ''; })()}${(() => { const c = cmtFor(d.id).filter((x) => x.text).length; return c ? `<span class="pin cmp" title="Kommentare">💬${c}</span>` : ''; })()}${bk ? `<span class="pin own" title="gebucht">✓${bk}</span>` : ''}${(() => { const op = NA.filter((x) => x.dayIds.includes(d.id)); if (!op.length) return ''; const ic = { hotel: '🏨', move: '🚆', ticket: '🎟️', other: '📌' }, g = [...new Set(op.map((x) => x.grp === 'other' && x.kind === 'Versicherung' ? 'ins' : x.grp))]; ic.ins = '🛡️';
+          return `<span class="pin miss" title="Noch offen: ${esc(op.map((x) => x.title).join(' · '))}">${g.map((k) => ic[k] || '📌').join('')}${op.length > 1 ? op.length : ''}</span>`; })()}${o ? `<span class="pin own">${o}</span>` : ''}${n ? `<span class="pin">${n}</span>` : ''}</span></button></li>`;
     }).join('')}</ul>`;
   }).join('');
   $('#v-plan').innerHTML = `${installCard()}${bookCard()}${fujiCard()}${posCard()}${photoCard()}${visitCard()}${cmtCard()}<div class="chips" role="toolbar" aria-label="Etappen">${chips}</div>${html}`; bindPos();
@@ -2568,8 +2570,11 @@ function moneyView() {
   const tot = ex.reduce((a, x) => a + eurOf(x), 0), bal = balance(), open = live(S.repay).filter((r) => !r.done), done = live(S.repay).filter((r) => r.done);
   const openSum = open.reduce((a, r) => a + r.eur, 0);
   const bycat = CAT.map((c) => [c, ex.filter((x) => x.cat === c).reduce((a, x) => a + eurOf(x), 0)]).filter(([, v]) => v > 0), mx = Math.max(1, ...bycat.map(([, v]) => v));
-  const etOrd = T.etappen.map((e) => e.L), byE = {}; ex.forEach((x) => { const d = x.day && dayById(x.day), k = d ? d.L : '–'; byE[k] = (byE[k] || 0) + eurOf(x); });
+  const AW = T.id === 'asien-winter', isLH = (x) => AW && x.cat === 'Flüge' && /Wien|Vienna|VIE|⇄ Shanghai.*Hainan|Hainan/.test(x.note || ''), pre0 = AW ? ['a01', 'a02'] : [];
+  const etKey = (x) => { if (isLH(x)) return 'LH'; const d = x.day && dayById(x.day); if (!d) return '–'; return pre0.includes(d.id) ? 'A0' : d.L; };
+  const etOrd = ['LH', 'A0', ...T.etappen.map((e) => e.L)], byE = {}; ex.forEach((x) => { const k = etKey(x); byE[k] = (byE[k] || 0) + eurOf(x); });
   const byEs = Object.entries(byE).sort((a, b) => (a[0] === '–' ? 99 : etOrd.indexOf(a[0])) - (b[0] === '–' ? 99 : etOrd.indexOf(b[0]))), mxE = Math.max(1, ...byEs.map(([, v]) => v));
+  const etLbl = (L) => L === '–' ? 'ohne Tag' : L === 'LH' ? '✈️ Langstreckenflüge Wien ⇄ Shanghai' : L === 'A0' ? 'Anreise · Shanghai' : AW && L === 'A' ? 'A · Japan' : L + ' · ' + etTitle(L), etCol = (L) => L === 'LH' ? 'var(--muted)' : L === 'A0' ? '#9aa7c7' : (ECOL[L] || 'var(--muted)');
   const preSum = ex.filter((x) => x.pre).reduce((a, x) => a + eurOf(x), 0);
   const ra = S.settings.ratesAt ? new Date(S.settings.ratesAt).toLocaleDateString('de-AT') : null;
   const debtor = bal > 0 ? 1 : 0, creditor = 1 - debtor;
@@ -2580,7 +2585,7 @@ function moneyView() {
       return `<div style="display:flex;gap:10px;margin:0 0 8px">${[0, 1].map((k) => `<div style="flex:1;border:1px solid var(--line);border-radius:12px;padding:10px 12px"><div class="meta small">Ausgaben ${pn(k)}</div><div style="font-size:20px;font-weight:700;margin-top:2px">${fmtE(sh[k])}</div><div class="meta small" style="margin-top:2px">${Math.round(sh[k] / all * 100)} % vom Gesamtbetrag</div></div>`).join('')}</div>
         <p class="meta small" style="margin:0 0 12px">${d < 0.5 ? 'Ihr habt bisher gleich viel ausgegeben.' : `${pn(more)} hat bisher ${fmtE(d)} mehr ausgegeben.`}</p>`; })()}
     ${bycat.length ? `<div class="bars">${bycat.map(([c, v]) => `<div><span>${catIcon(c)} ${c}</span><i style="width:${Math.max(4, v / mx * 100)}%"></i><span>${fmtE(v)}</span></div>`).join('')}</div>` : ''}
-    ${byEs.length ? `<p class="meta" style="margin:14px 0 4px;font-weight:600">Nach Etappe</p><div class="bars">${byEs.map(([L, v]) => `<div><span>${L === '–' ? 'ohne Tag' : esc(L + ' · ' + etTitle(L))}</span><i style="width:${Math.max(4, v / mxE * 100)}%;background:${ECOL[L] || 'var(--muted)'}"></i><span>${fmtE(v)}</span></div>`).join('')}</div>` : ''}
+    ${byEs.length ? `<p class="meta" style="margin:14px 0 4px;font-weight:600">Nach Etappe</p><div class="bars">${byEs.map(([L, v]) => `<div><span>${esc(etLbl(L))}</span><i style="width:${Math.max(4, v / mxE * 100)}%;background:${etCol(L)}"></i><span>${fmtE(v)}</span></div>`).join('')}</div>` : ''}
     ${preSum ? `<p class="meta small" style="margin:8px 0 0">Davon vor der Reise bezahlt: ${fmtE(preSum)}</p>` : ''}
     ${(() => { const op = live(S.bk2 || []).filter((b) => b.price > 0 && payOf(b) !== 'full').map((b) => ({ b, rest: payOf(b) === 'part' ? Math.max(0, b.price - (+b.paidAmt || 0)) : +b.price })).filter((o) => o.rest > 0.005);
       if (!op.length) return ''; const sum = op.reduce((a, o) => a + o.rest / rate(o.b.cur || 'EUR'), 0);
