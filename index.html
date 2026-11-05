@@ -328,6 +328,8 @@ html.desk .instcard:not(.dk){display:none}
 #rpdlg{position:fixed;inset:0;z-index:470;background:rgba(10,12,18,.55);display:flex;align-items:center;justify-content:center}#rpdlg .swin{position:relative;background:var(--bg);color:var(--ink);width:min(100%,560px);max-height:92vh;overflow-y:auto;border-radius:18px;padding:16px 16px max(18px,env(safe-area-inset-bottom))}#rpdlg .phx{position:absolute;right:12px;top:10px}#rpdlg .ck .w small{font-weight:400}#rpdlg .rq-off{opacity:.42;filter:grayscale(1);cursor:not-allowed}#rpdlg .rq-off .w,#rpdlg .rq-off>span:last-child{text-decoration:line-through;text-decoration-thickness:1px}#rpdlg .rq-tag{display:inline-block;margin-left:2px;padding:0 6px;border:1px solid var(--line);border-radius:999px;font-size:11px;text-decoration:none}#rpdlg .rq-sep{margin:10px 0 2px;padding-top:8px;border-top:1px dashed var(--line);font-weight:600}
 .exdlg{position:fixed;inset:0;z-index:470;background:rgba(10,12,18,.55);display:flex;align-items:center;justify-content:center}.exdlg .swin{position:relative;background:var(--bg);color:var(--ink);width:min(100%,560px);max-height:92vh;overflow-y:auto;border-radius:18px;padding:16px 16px max(18px,env(safe-area-inset-bottom))}.exdlg .phx{position:absolute;right:12px;top:10px}.exbtns{display:flex;flex-direction:column;align-items:flex-end;gap:4px}.x.ed{font-size:15px}
 .pin.miss{border:1px solid #d9534f;color:#d9534f;background:rgba(217,83,79,.10);letter-spacing:-1px}
+.cxl{display:inline-block;margin:3px 0 0;padding:1px 8px;border-radius:999px;font-size:12px;border:1px solid var(--line);color:var(--muted);font-weight:600}.cxl.week{border-color:#d4a017;color:#b8860b}.cxl.soon{border-color:#d9534f;color:#d9534f;background:rgba(217,83,79,.08)}.cxl.over{opacity:.7}.hl .cxl{display:block;width:max-content;max-width:100%}
+.cxlbox{border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin:0 0 12px;background:var(--surface)}.cxlrow{display:grid;grid-template-columns:96px 1fr auto;gap:8px;font-size:14px;padding:4px 0;border-top:1px solid var(--line)}.cxlrow:first-of-type{border-top:0}.cxlrow.soon span:first-child{color:#d9534f;font-weight:700}.cxlrow.over{opacity:.55}
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.45;-webkit-text-size-adjust:100%}
 button,input,select,textarea{font:inherit;color:inherit}
@@ -420,9 +422,9 @@ textarea{min-height:76px;resize:vertical}
 .ck.done .w{text-decoration:line-through;color:var(--muted)}.ck small{display:block;color:var(--muted)}
 .num{font-family:var(--serif);font-size:1.6rem;font-weight:600}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.bars div{display:grid;grid-template-columns:96px 1fr 70px;gap:8px;align-items:center;font-size:.88rem;margin:6px 0}
-.bars i{display:block;height:8px;border-radius:4px;background:var(--cenote)}
-.bars span:last-child{text-align:right;font-variant-numeric:tabular-nums}
+.bars div{display:grid;grid-template-columns:1fr auto;column-gap:12px;row-gap:5px;align-items:baseline;font-size:.9rem;margin:0;padding:8px 0;border-top:1px solid var(--line)}.bars div:first-child{border-top:0;padding-top:2px}.bars div>span:first-child{grid-column:1;grid-row:1;min-width:0}
+.bars i{display:block;grid-column:1/-1;grid-row:2;height:6px;border-radius:3px;background:var(--cenote);box-shadow:0 0 0 0 transparent}.bars div{background-image:linear-gradient(var(--line),var(--line));background-repeat:no-repeat;background-size:100% 6px;background-position:0 calc(100% - 8px)}
+.bars div>span:last-child{grid-column:2;grid-row:1;text-align:right;font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap}
 .menu{display:grid;gap:10px}
 .menu details{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px}
 .menu summary{font-family:var(--serif);font-size:1.15rem;color:var(--ink);list-style:none;display:flex;justify-content:space-between;align-items:center}
@@ -547,7 +549,7 @@ input,select,textarea{font-size:16px!important}
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
 <script>
-const APP_VERSION = '2026.11.04-2244';
+const APP_VERSION = '2026.11.05-0926';
 if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) navigator.serviceWorker.register('sw.js').catch(() => {});
 document.addEventListener('gesturestart', (e) => e.preventDefault());
 document.addEventListener('touchmove', (e) => { if (e.touches && e.touches.length > 1) e.preventDefault(); }, { passive: false });
@@ -1342,7 +1344,7 @@ function hubDay() { const d = HUB_DAY && dayById(HUB_DAY); if (!d) return '<p cl
     <div class="hnav"><button class="btn small" data-hday="${(l[i2 - 1] || d).id}" ${i2 > 0 ? '' : 'disabled'}>‹ Vortag</button><button class="btn small" data-hday="${(l[i2 + 1] || d).id}" ${i2 < l.length - 1 ? '' : 'disabled'}>Folgetag ›</button><button class="btn small" data-hdayx="1">← Alle Buchungen</button></div>
     ${stayTipBlock(d)}
     <p class="hsec open">Noch zu buchen ${open.length ? `<span class="fjtag">${open.length}</span>` : ''}</p>${open.length ? open.map(row).join('') : '<p class="meta small" style="margin:4px 0 0">Für diesen Tag ist nichts mehr offen ✓</p>'}
-    ${done.length || bks.length ? `<p class="hsec ok">Schon gebucht</p>${done.map(row).join('')}${bks.map((b) => `<div class="ndr ok"><span>${BK_ICON[b.kind] || '📎'}</span><span>${esc(b.title)}${b.code ? ` <small>${esc(b.code)}</small>` : ''}</span><button class="btn small" data-hedit="${b.id}">Bearbeiten</button></div>`).join('')}` : ''}
+    ${done.length || bks.length ? `<p class="hsec ok">Schon gebucht</p>${done.map(row).join('')}${bks.map((b) => `<div class="ndr ok"><span>${BK_ICON[b.kind] || '📎'}</span><span>${esc(b.title)}${b.code ? ` <small>${esc(b.code)}</small>` : ''}${cxlBadge(b)}</span><button class="btn small" data-hedit="${b.id}">Bearbeiten</button></div>`).join('')}` : ''}
     <div class="rowbtns" style="margin-top:12px"><button class="btn small" data-hplus="${d.id}">+ Weitere Buchung für diesen Tag</button></div>`; }
 const BK_WDS = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
 function dBlock(d, sub) { if (!d) return '<span class="hd"><b>–</b></span>'; const [dd, mm, yy] = d.date.split('.').map(Number); return `<span class="hd"><b>${dd}.${mm}.</b><small>${esc(sub || BK_WDS[new Date(yy, mm - 1, dd).getDay()])}</small></span>`; }
@@ -1351,8 +1353,8 @@ function dBlockTxt(w) { const t = String(w || ''), m = /^(\d{1,2}\.\d{1,2}\.)\s*
 function hubList() { const all = live(S.bk2).slice().sort((a, b) => idx(a.fromDay) - idx(b.fromDay)), pre = (T.bookings || []).filter((b) => /Gebucht/.test(b.prio || ''));
   const f = (b) => HUB_F === 'all' || BK_GRP(b.kind) === HUB_F; const open = needsAll().filter((n) => !n.ok && (HUB_F === 'all' || n.grp === HUB_F || HUB_F === 'open'));
   if (HUB_F === 'open') return open.length ? open.map((n) => `<div class="hl open">${dBlock(dayById(n.dayIds[0]))}<span class="hi">${BK_ICON[n.kind] || '📎'}</span><div><b>${esc(n.title)}</b><small>${esc(dayById(n.dayIds[0]).night.replace(/\s*\(.*\)/, ''))}${n.grp === 'hotel' ? ` · ${n.nights} ${n.nights === 1 ? 'Nacht' : 'Nächte'}` : ''}${n.ck && n.ck.prio && !/Gebucht/.test(n.ck.prio) ? ' · ' + esc(n.ck.prio) : ''}</small></div><button class="btn small primary" data-hnew="${esc(n.key)}">Eintragen</button></div>`).join('') : '<p class="meta">Nichts mehr offen 🎉</p>';
-  return `${all.filter(f).map((b) => { const a = dayById(b.fromDay), z = b.toDay && dayById(b.toDay);
-      return `<div class="hl">${dBlock(a, b.time && /^\d{1,2}:\d{2}$/.test(b.time) ? b.time : '')}<span class="hi">${BK_ICON[b.kind] || '📎'}</span><div><b>${esc(b.title)}</b><small>${z && a && z.id !== a.id ? 'bis ' + esc(z.date.slice(0, 6)) : ''}${b.time && !/^\d{1,2}:\d{2}$/.test(b.time) ? ' · ' + esc(b.time) : ''}${b.provider ? ' · ' + esc(b.provider) : ''}${b.code ? ' · ' + esc(b.code) : ''}${b.price ? ' · ' + (+b.price).toLocaleString('de-DE') + ' ' + esc(b.cur || '') : ''}${payTxt(b) ? ' · ' + esc(payTxt(b)) : ''}</small></div><div class="hb"><button class="btn small" data-hedit="${b.id}">Bearbeiten</button>${b.link ? `<a class="btn small" href="${esc(b.link)}" target="_blank" rel="noopener">↗</a>` : ''}</div></div>`; }).join('') || '<p class="meta small">Noch keine eigenen Buchungen eingetragen.</p>'}
+  return `${HUB_F === 'all' || !HUB_F ? cxlOverview(false) : ''}${all.filter(f).map((b) => { const a = dayById(b.fromDay), z = b.toDay && dayById(b.toDay);
+      return `<div class="hl">${dBlock(a, b.time && /^\d{1,2}:\d{2}$/.test(b.time) ? b.time : '')}<span class="hi">${BK_ICON[b.kind] || '📎'}</span><div><b>${esc(b.title)}</b><small>${z && a && z.id !== a.id ? 'bis ' + esc(z.date.slice(0, 6)) : ''}${b.time && !/^\d{1,2}:\d{2}$/.test(b.time) ? ' · ' + esc(b.time) : ''}${b.provider ? ' · ' + esc(b.provider) : ''}${b.code ? ' · ' + esc(b.code) : ''}${b.price ? ' · ' + (+b.price).toLocaleString('de-DE') + ' ' + esc(b.cur || '') : ''}${payTxt(b) ? ' · ' + esc(payTxt(b)) : ''}</small>${cxlBadge(b)}</div><div class="hb"><button class="btn small" data-hedit="${b.id}">Bearbeiten</button>${b.link ? `<a class="btn small" href="${esc(b.link)}" target="_blank" rel="noopener">↗</a>` : ''}</div></div>`; }).join('') || '<p class="meta small">Noch keine eigenen Buchungen eingetragen.</p>'}
     ${HUB_F === 'all' || HUB_F === 'move' ? `<p class="meta small" style="margin:12px 0 4px;font-weight:600">Aus dem Reiseplan (schon gebucht)</p>${pre.map((b) => `<div class="hl pre">${dBlockTxt(b.when)}<span class="hi">${BK_ICON[b.kind] || '✈️'}</span><div><b>${esc(b.what)}</b><small>${esc(b.note || '')}</small></div></div>`).join('')}` : ''}`; }
 function hubRender() { const ov = document.getElementById('bkhub'); if (!ov) return; const c = openCounts(), wide = innerWidth >= 900;
   ov.innerHTML = `<div class="bh-in"><div class="bh-top"><div><h2>📋 Buchungszentrale</h2><div class="bkcnt">${Object.keys(GRP).map((g) => `<span class="${c[g] ? 'open' : 'ok'}">${GRP[g][0]} ${GRP[g][1]}: ${c[g] ? c[g] + ' offen' : 'alles gebucht'}</span>`).join('')}</div></div><button class="phx" data-hclose="1" aria-label="Schließen">×</button></div>
@@ -1404,8 +1406,29 @@ function parseBooking(raw) { let t = raw || ''; if (/^(From|Received|Return-Path
     while ((m = re.exec(t)) && dates.length < 2) { const mo = MON[(m[1] || m[4]).slice(0, 3).toLowerCase()], dd = +(m[2] || m[3]); const d = days().find((x) => { const [a1, b1] = x.date.split('.'); return +a1 === dd && +b1 === mo; });
       if (d && !seen.has(d.date)) { seen.add(d.date); dates.push(d.date); } } }
   const from = ics.from || dates[0] || '', to = ics.to || dates[1] || '';
+  let cxlDate = '', cxlTime = ''; { const cm = /(?:free cancellation|kostenlos(?:e)? (?:stornierung|stornierbar)|stornierung kostenlos|無料キャンセル)[^\n]{0,80}/i.exec(t);
+    if (cm) { const seg = cm[0], tm = /(\d{1,2}):(\d{2})/.exec(seg), MON = { jan: 1, feb: 2, mar: 3, mär: 3, apr: 4, may: 5, mai: 5, jun: 6, jul: 7, aug: 8, sep: 9, oct: 10, okt: 10, nov: 11, dec: 12, dez: 12 };
+      let mo = 0, da = 0, yr = 0, mm;
+      if ((mm = /(\d{4})-(\d{2})-(\d{2})/.exec(seg))) { yr = +mm[1]; mo = +mm[2]; da = +mm[3]; }
+      else if ((mm = /(\d{1,2})\.(\d{1,2})\.(\d{2,4})?/.exec(seg))) { da = +mm[1]; mo = +mm[2]; yr = mm[3] ? +(mm[3].length === 2 ? '20' + mm[3] : mm[3]) : 0; }
+      else if ((mm = /\b(Jan|Feb|Mar|Mär|Apr|May|Mai|Jun|Jul|Aug|Sep|Oct|Okt|Nov|Dec|Dez)[a-zä]*\.?\s+(\d{1,2})(?:,?\s*(\d{4}))?/i.exec(seg))) { mo = MON[mm[1].slice(0, 3).toLowerCase()]; da = +mm[2]; yr = mm[3] ? +mm[3] : 0; }
+      else if ((mm = /(\d{1,2})\.?\s+(Jan|Feb|Mär|Mar|Apr|Mai|May|Jun|Jul|Aug|Sep|Okt|Oct|Nov|Dez|Dec)[a-zä]*\.?(?:\s+(\d{4}))?/i.exec(seg))) { da = +mm[1]; mo = MON[mm[2].slice(0, 3).toLowerCase()]; yr = mm[3] ? +mm[3] : 0; }
+      if (mo && da) { if (!yr) { const f = days()[0], y0 = +f.date.split('.')[2], m0 = +f.date.split('.')[1]; yr = mo < m0 - 3 ? y0 + 1 : y0; }
+        cxlDate = `${yr}-${String(mo).padStart(2, '0')}-${String(da).padStart(2, '0')}`; cxlTime = tm ? `${tm[1].padStart(2, '0')}:${tm[2]}` : ''; } } }
   const drop = m1(/Drop ?-?off (?:at|location)[\s:]+([^\n]{3,80})/i), carTime = kind === 'Mietwagen' ? m1(/(\d{1,2}:\d{2})\s*,?\s*(?:\d{1,2}\.?\s*)?(?:Jan|Feb|Mar|Mär|Apr|May|Mai|Jun|Jul|Aug|Sep|Oct|Okt|Nov|Dec|Dez)/i) : '';
-  return { kind, title: title.slice(0, 90), code, provider: prov, place, time: carTime || time, price, cur: cur || (price ? 'EUR' : ''), fromDay: toDay(from), toDay: kind === 'Unterkunft' || kind === 'Mietwagen' ? toDay(to) : '', note: drop ? 'Rückgabe: ' + drop : '', dropPlace: drop || null, raw: { from, to }, link: '', payState, paidAmt, paid: payState === 'full' }; }
+  return { kind, title: title.slice(0, 90), code, provider: prov, place, time: carTime || time, price, cur: cur || (price ? 'EUR' : ''), fromDay: toDay(from), toDay: kind === 'Unterkunft' || kind === 'Mietwagen' ? toDay(to) : '', note: drop ? 'Rückgabe: ' + drop : '', dropPlace: drop || null, cxlDate, cxlTime, raw: { from, to }, link: '', payState, paidAmt, paid: payState === 'full' }; }
+/* Stornofristen: Ortszeit des Buchungsorts → UTC */
+const TZOFF = { 'Japan': 9, 'Südkorea': 9, 'Korea': 9, 'China': 8, 'Philippinen': 8, 'Österreich': 1, 'Mexiko': -6, 'Guatemala': -6, 'Honduras': -6, 'Belize': -6 };
+function cxlUtc(b) { if (!b || !b.cxlDate) return null; const [y, m, d] = b.cxlDate.split('-').map(Number), [hh, mm] = (b.cxlTime || '23:59').split(':').map(Number), dd = dayById(b.fromDay), off = dd && TZOFF[dd.land] != null ? TZOFF[dd.land] : null;
+  return off == null ? new Date(y, m - 1, d, hh, mm) : new Date(Date.UTC(y, m - 1, d, hh - off, mm)); }
+function cxlTxt(b) { if (!b || !b.cxlDate) return ''; const [y, m, d] = b.cxlDate.split('-'); return `${+d}.${+m}.${b.cxlTime ? ', ' + b.cxlTime : ''}`; }
+function cxlState(b) { const u = cxlUtc(b); if (!u) return null; const h = (u - Date.now()) / 36e5; return h < 0 ? 'over' : h < 72 ? 'soon' : h < 24 * 7 ? 'week' : 'ok'; }
+function cxlList() { return live(S.bk2 || []).filter((b) => b.cxlDate).map((b) => ({ b, u: cxlUtc(b) })).filter((o) => o.u).sort((a, b) => a.u - b.u); }
+function cxlOverview(all) { const L = cxlList().filter((o) => all || o.u > Date.now()); if (!L.length) return '';
+  return `<div class="cxlbox"><p style="margin:0 0 6px;font-weight:700">⏳ ${all ? 'Stornofristen eurer Buchungen' : 'Nächste Stornofristen'}</p>${L.slice(0, all ? 99 : 5).map((o) => `<div class="cxlrow ${cxlState(o.b)}"><span>${esc(cxlTxt(o.b))}</span><span>${BK_ICON[o.b.kind] || '📎'} ${esc(o.b.title || o.b.kind)}</span><span class="meta small">${cxlState(o.b) === 'over' ? 'abgelaufen' : 'noch ' + (() => { const h = Math.round((o.u - Date.now()) / 36e5); return h < 48 ? h + ' Std.' : Math.round(h / 24) + ' Tage'; })()}</span></div>`).join('')}
+    <p class="meta small" style="margin:6px 0 0">Zeiten in Ortszeit am Buchungsort. Erinnerung kommt 3 Tage, 1 Tag und 3 Stunden vorher, wenn du den Erinnerungs-Kalender exportierst.</p></div>`; }
+function cxlBadge(b) { const st = cxlState(b); if (!st) return ''; const lbl = st === 'over' ? `Stornofrist abgelaufen (${cxlTxt(b)})` : `kostenlos stornierbar bis ${cxlTxt(b)}${st === 'soon' ? ' — bald!' : ''}`;
+  return `<span class="cxl ${st}" title="Ortszeit am Buchungsort">${st === 'over' ? '🔒' : '⏳'} ${esc(lbl)}</span>`; }
 /* Bezahlstatus: vollständig / teilweise / offen */
 const payOf = (b) => b.payState || (b.paid ? 'full' : 'none');
 const fmtAmt = (n, cur) => (+n).toLocaleString('de-DE', { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 }) + ' ' + (cur || '');
@@ -1432,6 +1455,8 @@ function openBkEd(rec, hint) { const ov = document.createElement('div'); ov.id =
     <div class="row2"><div class="row"><label>Bezahlt</label><select id="be-pay">${[['none', 'Noch nicht bezahlt'], ['full', 'Vollständig bezahlt'], ['part', 'Teilweise bezahlt']].map(([k, n]) => `<option value="${k}" ${k === payOf(r) ? 'selected' : ''}>${n}</option>`).join('')}</select></div>
       <div class="row" id="be-partrow" ${payOf(r) === 'part' ? '' : 'hidden'}><label>Davon schon bezahlt</label><input id="be-paidamt" type="number" step="0.01" value="${r.paidAmt != null ? r.paidAmt : ''}"></div></div>
     <p class="meta small" id="be-rest" style="margin:-4px 0 8px"></p>
+    <div class="row2"><div class="row"><label>Kostenlos stornierbar bis</label><input id="be-cxld" type="date" value="${esc(r.cxlDate || '')}"></div><div class="row"><label>Uhrzeit (Ortszeit)</label><input id="be-cxlt" type="time" value="${esc(r.cxlTime || '')}"></div></div>
+    <p class="meta small" style="margin:-4px 0 8px">⏳ Die App erinnert dich 3 Tage und 1 Tag vorher — auch im Erinnerungs-Kalender.</p>
     <div class="rowbtns" style="margin-top:10px"><button class="btn primary" data-bx="save">Speichern</button>${r.id ? '<button class="btn" data-bx="del">Löschen</button>' : ''}<button class="btn" data-bx="x">Abbrechen</button></div></div>`;
   const restUpd = () => { const st = $('#be-pay').value, pr = parseFloat($('#be-price').value) || 0, pa = parseFloat($('#be-paidamt').value) || 0, cur = $('#be-cur').value; $('#be-partrow').hidden = st !== 'part';
     $('#be-rest').textContent = st === 'part' && pr > 0 && pa > 0 ? (pa < pr ? `Rest vor Ort: ${fmtAmt(+(pr - pa).toFixed(2), cur)}` : 'Bereits bezahlt ist so viel wie der Gesamtpreis — dann „Vollständig bezahlt“ wählen.') : ''; };
@@ -1441,7 +1466,7 @@ function openBkEd(rec, hint) { const ov = document.createElement('div'); ov.id =
     if (k === 'x') return ov.remove();
     if (k === 'del') { if (!confirm('Diese Buchung löschen?')) return; await removeRec('bk2', r.id); ov.remove(); toast('Buchung gelöscht'); hubRender(); return; }
     const v = (id) => ($('#' + id).value || '').trim(); const rec2 = Object.assign({}, r, { id: r.id || uid(), kind: v('be-kind'), title: v('be-title') || v('be-kind'), code: v('be-code'), fromDay: v('be-from'), toDay: v('be-to') || null, time: v('be-time'), provider: v('be-prov'),
-      place: v('be-place'), dropPlace: v('be-kind') === 'Mietwagen' ? (v('be-drop') || null) : null, price: parseFloat(v('be-price')) || null, cur: v('be-cur'), link: v('be-link'), note: v('be-note'), payState: v('be-pay'), paidAmt: v('be-pay') === 'part' ? (parseFloat(v('be-paidamt')) || null) : null, paid: v('be-pay') === 'full', checkId: v('be-ck') || null }); delete rec2.raw;
+      place: v('be-place'), dropPlace: v('be-kind') === 'Mietwagen' ? (v('be-drop') || null) : null, price: parseFloat(v('be-price')) || null, cur: v('be-cur'), link: v('be-link'), note: v('be-note'), cxlDate: v('be-cxld') || null, cxlTime: v('be-cxlt') || null, payState: v('be-pay'), paidAmt: v('be-pay') === 'part' ? (parseFloat(v('be-paidamt')) || null) : null, paid: v('be-pay') === 'full', checkId: v('be-ck') || null }); delete rec2.raw;
     if (rec2.payState === 'part' && !(rec2.paidAmt > 0)) return toast('Bitte eintragen, wie viel schon bezahlt ist');
     if (!rec2.fromDay) return toast('Bitte den Tag wählen'); await upsert('bk2', rec2); if (rec2.checkId) await setMap('bookings', rec2.checkId, { done: true }); ov.remove(); toast('Buchung gespeichert'); hubRender(); }); }
 document.addEventListener('click', async (e) => { const t = e.target.closest && e.target.closest('[data-hub],[data-hclose],[data-hday],[data-hdayx],[data-hplus],[data-hnew],[data-hedit],[data-hf],#hb-parse,#hb-empty'); if (!t || VIEWER) return; e.preventDefault();
@@ -2574,7 +2599,7 @@ function moneyView() {
   const etKey = (x) => { if (isLH(x)) return 'LH'; const d = x.day && dayById(x.day); if (!d) return '–'; return pre0.includes(d.id) ? 'A0' : d.L; };
   const etOrd = ['LH', 'A0', ...T.etappen.map((e) => e.L)], byE = {}; ex.forEach((x) => { const k = etKey(x); byE[k] = (byE[k] || 0) + eurOf(x); });
   const byEs = Object.entries(byE).sort((a, b) => (a[0] === '–' ? 99 : etOrd.indexOf(a[0])) - (b[0] === '–' ? 99 : etOrd.indexOf(b[0]))), mxE = Math.max(1, ...byEs.map(([, v]) => v));
-  const etLbl = (L) => L === '–' ? 'ohne Tag' : L === 'LH' ? '✈️ Langstreckenflüge Wien ⇄ Shanghai' : L === 'A0' ? 'Anreise · Shanghai' : AW && L === 'A' ? 'A · Japan' : L + ' · ' + etTitle(L), etCol = (L) => L === 'LH' ? 'var(--muted)' : L === 'A0' ? '#9aa7c7' : (ECOL[L] || 'var(--muted)');
+  const etLbl = (L) => L === '–' ? 'ohne Tag' : L === 'LH' ? '✈️ Langstreckenflüge' : L === 'A0' ? 'Anreise · Shanghai' : AW && L === 'A' ? 'A · Japan' : L + ' · ' + etTitle(L), etCol = (L) => L === 'LH' ? 'var(--muted)' : L === 'A0' ? '#9aa7c7' : (ECOL[L] || 'var(--muted)');
   const preSum = ex.filter((x) => x.pre).reduce((a, x) => a + eurOf(x), 0);
   const ra = S.settings.ratesAt ? new Date(S.settings.ratesAt).toLocaleDateString('de-AT') : null;
   const debtor = bal > 0 ? 1 : 0, creditor = 1 - debtor;
@@ -2659,7 +2684,7 @@ const TZ = !IS_MAYA ? [['Japan, Südkorea', 'UTC+9, 8 h vor Wien'], ['China, Phi
 function bkHtml(b) { const a = dayById(b.fromDay), z = dayById(b.toDay || b.fromDay);
   return `<div class="item"><span class="mark c">${esc(b.kind[0])}</span><div><b>${esc(b.title)}</b>${payOf(b) !== 'none' ? ` <span class="tagalt" style="color:var(--cenote);border-color:var(--cenote)">${payOf(b) === 'full' ? 'bezahlt' : 'teilweise bezahlt'}</span>` : ''}<br>
     <span class="meta">${esc(b.kind)}${a ? `, ${a.ds}${z && z.id !== a.id ? ' bis ' + z.ds : ''}` : ''}${b.time ? ', ' + esc(b.time) : ''}${b.provider ? ', ' + esc(b.provider) : ''}</span>
-    ${b.code ? `<br><span style="font-variant-numeric:tabular-nums;letter-spacing:.04em">Code ${esc(b.code)}</span>` : ''}${b.price ? `<br><span class="meta">${(+b.price).toLocaleString('de-DE')} ${esc(b.cur)}</span>` : ''}
+    ${b.code ? `<br><span style="font-variant-numeric:tabular-nums;letter-spacing:.04em">Code ${esc(b.code)}</span>` : ''}${b.price ? `<br><span class="meta">${(+b.price).toLocaleString('de-DE')} ${esc(b.cur)}</span>` : ''}${b.cxlDate ? '<br>' + cxlBadge(b) : ''}
     ${b.place ? `<br><a href="${nav(b.place)}" target="_blank" rel="noopener">Navi: ${esc(b.place)}</a>` : ''}${b.link ? `<br><a href="${esc(b.link)}" target="_blank" rel="noopener">Buchung öffnen</a>` : ''}${b.note ? `<br><span class="meta">${esc(b.note)}</span>` : ''}</div>
     <button class="x" data-bk-del="${b.id}" aria-label="Buchung löschen">×</button></div>`; }
 function bindBkDelete(root, after) { $$('[data-bk-del]', root).forEach((b) => b.onclick = async () => { if (!confirm('Buchung löschen?')) return; await removeRec('bk2', b.dataset.bkDel); after(); }); }
@@ -2773,7 +2798,7 @@ function moreView(open, presetDay) {
       return `<div class="calsub"><p style="margin:0 0 6px;font-weight:700">📅 Mit einem Tipp abonnieren</p><p class="meta small" style="margin:0 0 10px">Kein Herunterladen nötig: Der Kalender erscheint als eigener Kalender und aktualisiert sich von selbst, wenn sich der Plan ändert. Buchungsnummern sind darin ausgeblendet.</p>
         ${web ? `<div class="rowbtns"><a class="btn primary" href="${esc(IOS || !ANDROID ? wc('meridian_asien_erinnerungen.ics') : gc('meridian_asien_erinnerungen.ics'))}">⏰ Erinnerungen abonnieren</a><a class="btn" href="${esc(IOS || !ANDROID ? wc('meridian_asien_programm.ics') : gc('meridian_asien_programm.ics'))}">🗓️ Reiseprogramm abonnieren</a></div>
           <p class="meta small" style="margin:8px 0 0">${ANDROID ? 'Öffnet Google Kalender — dort „Hinzufügen“ tippen.' : 'iPhone: Kalender öffnet sich → „Abonnieren“ → Farbe wählen → „Hinzufügen“.'}</p>` : '<p class="meta small">Funktioniert, sobald die App über Netlify geöffnet wird.</p>'}</div>
-        <p class="meta small" style="margin:14px 0 6px">Oder als Datei mit euren eigenen Buchungen:</p>`; })() : ''}<p style="margin:0 0 8px">Erzeugt eine Kalender-Datei mit allen Programmpunkten mit Uhrzeit und allen Buchungen. Auf dem iPhone öffnen und „Alle hinzufügen“ tippen.</p>
+        <p class="meta small" style="margin:14px 0 6px">Oder als Datei mit euren eigenen Buchungen:</p>`; })() : ''}${cxlOverview(true)}<p style="margin:0 0 8px">Erzeugt eine Kalender-Datei mit allen Programmpunkten mit Uhrzeit und allen Buchungen. Auf dem iPhone öffnen und „Alle hinzufügen“ tippen.</p>
     <label class="ck" style="border:0;padding:4px 0"><input type="checkbox" id="cal-al" checked><span class="w">Erinnerung 30 Minuten vorher</span><span></span></label>
     <div class="actions"><button class="btn primary" id="cal-go">Programm-Kalender erstellen</button></div>${(T.reminders || []).length ? `<div style="border-top:1px solid var(--line);margin:14px 0 0;padding-top:12px"><p style="margin:0 0 4px;font-weight:600">⏰ Erinnerungen — eigener Kalender in Rot (${T.reminders.length})</p><p class="meta small" style="margin:0 0 8px">Check-ins, Buchungsstarts und Einreiseformulare, jeweils mit Alarm zur genauen Uhrzeit — auch nach jedem Zeitzonenwechsel. Tipp: Am iPhone zuerst unter Kalender → Kalender hinzufügen einen Kalender „${esc(T.name)} – Erinnerungen“ in Rot anlegen und beim Import auswählen.</p>${T.reminders.slice().sort((a, b) => a.utc.localeCompare(b.utc)).map((r) => `<div style="display:flex;gap:8px;margin:5px 0;font-size:14px"><span class="meta" style="min-width:118px">${fmtUtc(r.utc)}</span><span>${esc(r.title)}${r.code ? ` <b>${esc(r.code)}</b>` : ''}</span></div>`).join('')}<div class="actions"><button class="btn primary" id="cal-rem" style="background:#B83A2E;border-color:#B83A2E">Erinnerungs-Kalender erstellen</button></div><p class="meta small" style="margin:6px 0 0">Zeiten oben in der Zeitzone dieses Handys.</p></div>` : ''}<p class="meta small" style="margin:8px 0 0">Nach Planänderungen einfach neu erstellen. Die Zeiten gelten in der jeweiligen Ortszeit.</p>`)}
   ${!VIEWER ? sec('pos', 'Standort teilen', S.settings.autoPos ? 'Automatisch beim Öffnen' : 'Nur per Knopf', `<p style="margin:0 0 8px">Zuschauer mit eurem Teilen-Link sehen den zuletzt geteilten Standort auf der Karte und oben im Plan. Web-Apps dürfen den Standort nur abfragen, solange die App offen ist.</p>
@@ -3188,7 +3213,11 @@ function icsExport(alarm, mode) {
       alarm ? 'BEGIN:VALARM\r\nTRIGGER:-PT30M\r\nACTION:DISPLAY\r\nDESCRIPTION:Erinnerung\r\nEND:VALARM' : '', 'END:VEVENT'].filter(Boolean).join('\r\n')); }));
   live(S.bk2).forEach((b) => { const a = dayById(b.fromDay), z = dayById(b.toDay || b.fromDay); if (!a) return; const f = (x) => `${x.getFullYear()}${pad(x.getMonth() + 1)}${pad(x.getDate())}`; const zz = new Date(z.dt.getTime() + 864e5);
     ev.push(['BEGIN:VEVENT', `UID:${b.id}@rhyme`, `DTSTAMP:${stamp}`, `DTSTART;VALUE=DATE:${f(a.dt)}`, `DTEND;VALUE=DATE:${f(zz)}`, `SUMMARY:${esc2(b.kind + ': ' + b.title)}`, b.place ? `LOCATION:${esc2(b.place)}` : '', `DESCRIPTION:${esc2([b.code && 'Code ' + b.code, b.time, b.provider, b.note].filter(Boolean).join('\n'))}`, 'END:VEVENT'].filter(Boolean).join('\r\n')); });
-  const rem = []; (T.reminders || []).forEach((r) => rem.push(['BEGIN:VEVENT', `UID:${r.id}@rhyme-erinnerung`, `DTSTAMP:${stamp}`, `DTSTART:${r.utc}`, 'DURATION:PT15M', 'COLOR:crimson', `SUMMARY:⏰ ${esc2(r.title)}`,
+  const fU = (x) => x.toISOString().replace(/[-:]/g, '').slice(0, 15) + 'Z', cxl = cxlList().map((o) => ['BEGIN:VEVENT', `UID:cxl-${o.b.id}@rhyme-erinnerung`, `DTSTAMP:${stamp}`, `DTSTART:${fU(o.u)}`, 'DURATION:PT15M', 'COLOR:crimson',
+    `SUMMARY:⏳ Letzte Chance kostenlos stornieren: ${esc2(o.b.title || o.b.kind)}`, `DESCRIPTION:${esc2([`Kostenlos stornierbar bis ${cxlTxt(o.b)} (Ortszeit)`, o.b.provider, o.b.link].filter(Boolean).join('\n'))}`,
+    ...['-P3D', '-P1D', '-PT3H'].map((tr) => `BEGIN:VALARM\r\nTRIGGER:${tr}\r\nACTION:DISPLAY\r\nDESCRIPTION:Stornofrist: ${esc2(o.b.title || o.b.kind)}\r\nEND:VALARM`), 'END:VEVENT'].join('\r\n'));
+  ev.push(...cxl);
+  const rem = [...cxl]; (T.reminders || []).forEach((r) => rem.push(['BEGIN:VEVENT', `UID:${r.id}@rhyme-erinnerung`, `DTSTAMP:${stamp}`, `DTSTART:${r.utc}`, 'DURATION:PT15M', 'COLOR:crimson', `SUMMARY:⏰ ${esc2(r.title)}`,
     r.url ? `URL:${r.url}` : '', `DESCRIPTION:${esc2([r.text, r.code && 'Buchungsnummer ' + r.code, r.url].filter(Boolean).join('\n'))}`,
     `BEGIN:VALARM\r\nTRIGGER:PT0M\r\nACTION:DISPLAY\r\nDESCRIPTION:${esc2(r.title)}\r\nEND:VALARM`, 'END:VEVENT'].filter(Boolean).join('\r\n')));
   return ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Meridian//Reise//DE', 'CALSCALE:GREGORIAN', ...(mode === 'rem' ? [`X-WR-CALNAME:${T.name} – Erinnerungen`, 'X-APPLE-CALENDAR-COLOR:#B83A2E', 'COLOR:crimson', ...rem] : [`X-WR-CALNAME:${T.name}`, ...ev]), 'END:VCALENDAR'].join('\r\n');
@@ -3440,7 +3469,9 @@ async function syncNow(manual) {
   SYNCING = true; let n = 0;
   try {
     const r = await fetch(`${JB}/${c.bin}/latest`, { headers: jbHead({ 'X-Bin-Meta': 'false' }) });
-    if (!r.ok) throw new Error(r.status === 401 || r.status === 403 ? 'Schlüssel wird nicht akzeptiert' : r.status === 404 ? 'Speicher nicht gefunden' : 'JSONBin antwortet mit Fehler ' + r.status);
+    if (!r.ok) { let why = ''; try { const j = await r.json(); why = (j && j.message) || ''; } catch (e) {}
+      const quota = /request|limit|exceed|quota|plan/i.test(why);
+      throw new Error(quota ? `JSONBin-Kontingent aufgebraucht (${r.status}) — im JSONBin-Konto unter „Usage“ prüfen` : r.status === 401 ? `Schlüssel wird nicht akzeptiert (401${why ? ': ' + why : ''}) — falscher oder geänderter Schlüssel` : r.status === 403 ? `Kein Zugriff auf diesen Speicher (403${why ? ': ' + why : ''}) — Speicher gehört vermutlich zu einem anderen JSONBin-Konto` : r.status === 404 ? 'Speicher nicht gefunden (404) — Speicher-ID prüfen' : 'JSONBin antwortet mit Fehler ' + r.status + (why ? ': ' + why : '')); }
     const o = await r.json();
     const isR = o && o.app === 'rhyme', mine = isR ? (o.trips ? o.trips[T.id] : (o.trip === T.id ? o.state : null)) : null;
     JB_OTHERS = isR ? (o.trips ? Object.fromEntries(Object.entries(o.trips).filter(([k]) => k !== T.id)) : (o.trip && o.trip !== T.id && o.state ? { [o.trip]: o.state } : {})) : {};
@@ -3571,6 +3602,7 @@ $$('.tab').forEach((b) => b.onclick = () => { if (b.dataset.v === 'plan') RET = 
     $('#mf').href = (!VIEWER && /^https?:$/.test(location.protocol) && T.id === 'asien-winter') ? 'manifest.webmanifest' : 'data:application/manifest+json,' + encodeURIComponent(JSON.stringify(mf));
     if (VIEWER && S.cloud.viewHash && !/[#&]view=/.test(location.hash)) history.replaceState(null, '', base + S.cloud.viewHash); }
   if (!VIEWER && S.bk2 && S.expenses) { for (const b of live(S.bk2)) if (b.price > 0) await syncBkExp(b, true); }
+  if (!VIEWER) setTimeout(() => { try { const so = cxlList().filter((o) => cxlState(o.b) === 'soon'); const k = 'meridian:cxlNote', today = new Date().toDateString(); if (so.length && localStorage.getItem(k) !== today) { localStorage.setItem(k, today); toast(`⏳ Stornofrist bald: ${so[0].b.title || so[0].b.kind} bis ${cxlTxt(so[0].b)}`); } } catch (e) {} }, 2500);
   if (!VIEWER && (T.prepaid || []).length) { let n = 0;
     for (const x of S.expenses) if (x.pre && !x.deleted && x.cat === 'Transport' && /Flug/.test(x.note || '')) { await upsert('expenses', Object.assign({}, x, { cat: 'Flüge' })); }
     for (const p of T.prepaid) { const x = S.expenses.find((e) => e.id === p.id && !e.deleted); if (x && x.pre && p.was && x.amount === p.was.amount && x.cur === p.was.cur) await upsert('expenses', Object.assign({}, x, { amount: p.amount, cur: p.cur, eur: p.cur === 'EUR' ? p.amount : null })); }
