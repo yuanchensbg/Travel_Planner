@@ -549,7 +549,7 @@ input,select,textarea{font-size:16px!important}
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
 <script>
-const APP_VERSION = '2026.11.05-0926';
+const APP_VERSION = '2026.11.05-1323';
 if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) navigator.serviceWorker.register('sw.js').catch(() => {});
 document.addEventListener('gesturestart', (e) => e.preventDefault());
 document.addEventListener('touchmove', (e) => { if (e.touches && e.touches.length > 1) e.preventDefault(); }, { passive: false });
@@ -2834,7 +2834,7 @@ function moreView(open, presetDay) {
   ${sec('es', IS_MAYA ? 'Spanisch für unterwegs' : 'Sprachführer', IS_MAYA ? 'Grenze, Tankstelle, Restaurant, Notfall' : 'Japanisch, Koreanisch, Chinesisch, Tagalog — mit Aussprache', PHRASES.map(([c, xs]) => `<p class="meta" style="margin:12px 0 2px;font-weight:600">${c}</p>${xs.map(([de, es, ro, vl]) => `<div class="tel"><span><b>${esc(es)}</b>${ro ? `<br><span class="small" style="color:var(--cenote)">${esc(ro)}</span>` : ''}<br><span class="meta small">${esc(de)}</span></span><button class="btn small" data-say="${esc(es)}" data-l="${vl || ''}" aria-label="Vorlesen">🔊</button></div>`).join('')}`).join(''))}
   ${sec('cloud', 'Automatisch abgleichen', '<span id="cl-status">' + cloudStatus() + '</span>', `<p style="margin:0 0 10px">Mit einem kostenlosen Konto bei JSONBin gleichen sich eure Handys selbst ab: beim Öffnen der App, kurz nach jeder Änderung und alle 5 Minuten, solange sie offen ist.</p>
     ${S.cloud.on ? `<div class="actions"><button class="btn primary" id="jb-now">Jetzt abgleichen</button><button class="btn" id="jb-code">Verbindungscode kopieren</button><button class="btn" id="jb-off">Trennen</button></div>
-      <p class="meta small" style="margin:10px 0 0">Speicher-ID: ${esc(S.cloud.bin)}</p>
+      <p class="meta small" style="margin:10px 0 0">Speicher-ID: ${esc(S.cloud.bin)} · Größe ca. ${cloudKB()} KB${S.cloud.parts && Object.keys(S.cloud.parts).length ? ' · ausgelagert: ' + Object.keys(S.cloud.parts).map((k) => PART_LBL[k] || k).join(', ') : ''}</p>
       ${S.cloud.ro ? '' : `<div style="margin-top:14px;padding:10px 12px;border:1px solid var(--line);border-radius:12px"><p style="margin:0 0 6px;font-weight:600">👀 Mit anderen teilen — nur ansehen</p>
       <p class="meta small" style="margin:0 0 8px">Auf jsonbin.io unter <b>API Keys → Access Keys</b> einen neuen Key anlegen und bei „Bins“ <b>nur „Read“</b> anhaken. Diesen Lese-Key hier einfügen — damit kann niemand etwas ändern.</p>
       <div class="row"><label for="sh-key">Lese-Key (Access Key, nur Read)</label><input id="sh-key" autocomplete="off" placeholder="$2a$10$…" value="${esc(S.cloud.shareKey || '')}"></div>
@@ -3459,27 +3459,78 @@ const JB = 'https://api.jsonbin.io/v3/b';
 const JB_BIN_DEFAULT = T.id === 'mundo-maya' ? '6adc8ffeffd5d16053881138' : T.id === 'asien-winter' ? '6ade6e9aac6210605a51936c' : '';
 /* Ein Speicher für mehrere Reisen: { app, v: 2, trips: { [id]: state } } + Altformat (trip/state) für ältere App-Versionen */
 let JB_OTHERS = {};
-const cloudBody = () => { const p = payload(), trips = Object.assign({}, JB_OTHERS, { [T.id]: p.state }); const legacy = trips['mundo-maya'] ? { trip: 'mundo-maya', state: trips['mundo-maya'] } : { trip: T.id, state: p.state }; return Object.assign({ app: 'rhyme', v: 2, trips }, legacy); };
+/* Abgleich: schlank halten — Bestätigungstexte bleiben auf dem Gerät, keine doppelte Kopie mehr */
+const slimSt = (st) => st ? Object.assign({}, st, { bk2: (st.bk2 || []).map((b) => { if (!b || !b.raw) return b; const r = Object.assign({}, b); delete r.raw; return r; }) }) : st;
+let JB_PARTS = {};
+const cloudBody = () => { const p = payload(), trips = {}, cp = (S.cloud && S.cloud.parts) || {};
+  for (const [k, v] of Object.entries(JB_OTHERS)) trips[k] = slimSt(v);
+  const mine = slimSt(p.state); for (const k of Object.keys(cp)) delete mine[k]; trips[T.id] = mine;
+  const parts = Object.assign({}, JB_PARTS), psig = Object.assign({}, JB_PSIG); if (Object.keys(cp).length) { parts[T.id] = cp; const ps = {}; for (const ids of Object.values(cp)) for (const id of ids) if (S.cloud.partSig && S.cloud.partSig[id]) ps[id] = S.cloud.partSig[id]; psig[T.id] = ps; } else { delete parts[T.id]; delete psig[T.id]; }
+  return Object.assign({ app: 'rhyme', v: 3, trips }, Object.keys(parts).length ? { parts, psig } : {}); };
+let JB_PSIG = {};
+/* Zusatzspeicher: große Teile automatisch auslagern */
+const PART_BUDGET = 60 * 1024, PART_ORDER = ['photos', 'expenses', 'checkins', 'bk2', 'spots', 'items', 'docs', 'repay', 'packing', 'check', 'cars'];
+const hashStr = (t) => { let h = 5381; for (let i = 0; i < t.length; i++) h = ((h << 5) + h + t.charCodeAt(i)) | 0; return h.toString(36) + ':' + t.length; };
+function chunkItems(items, budget) { const B = budget || PART_BUDGET, out = []; let cur = [], sz = 0; for (const it of items) { const l = JSON.stringify(it).length + 1; if (cur.length && sz + l > B) { out.push(cur); cur = []; sz = 0; } cur.push(it); sz += l; } out.push(cur); return out; }
+async function partsWrite(c) { const parts = c.parts || {}; if (!Object.keys(parts).length) return; const st = slimSt(payload().state); c.partSig = c.partSig || {};
+  for (const name of Object.keys(parts)) for (let attempt = 0; ; attempt++) { const chunks = chunkItems(st[name] || [], c.partBudget), ids = parts[name] = parts[name] || []; let shrink = false;
+    while (ids.length < chunks.length) { const r = await fetch(JB, { method: 'POST', headers: jbHead({ 'Content-Type': 'application/json', 'X-Bin-Private': 'true', 'X-Bin-Name': `Meridian ${T.name} · ${name} ${ids.length + 1}` }), body: JSON.stringify({ app: 'rhyme-part', trip: T.id, name, items: [] }) });
+      const j = await r.json().catch(() => ({})); if (!r.ok || !j.metadata || !j.metadata.id) throw new Error('Zusatzspeicher konnte nicht angelegt werden' + (j.message ? ': ' + j.message : ' (' + r.status + ')')); ids.push(j.metadata.id); }
+    for (let i = 0; i < ids.length; i++) { const body = JSON.stringify({ app: 'rhyme-part', trip: T.id, name, idx: i, items: chunks[i] || [] }), sig = hashStr(body); if (c.partSig[ids[i]] === sig) continue;
+      const w = await fetch(`${JB}/${ids[i]}`, { method: 'PUT', headers: jbHead({ 'Content-Type': 'application/json' }), body });
+      if (!w.ok) { let why = ''; try { const j = await w.json(); why = (j && j.message) || ''; } catch (e) {}
+        const big = w.status === 413 || (w.status === 403 && !/request|quota|key|permission|access|auth|unauthori/i.test(why));
+        if (big && attempt < 7 && (c.partBudget || PART_BUDGET) > 3000) { c.partBudget = Math.floor((c.partBudget || PART_BUDGET) / 2); shrink = true; break; }
+        throw new Error(`Zusatzspeicher „${PART_LBL[name] || name}“ ${i + 1}: Hochladen fehlgeschlagen (${w.status}${why ? ': ' + why : ''})`); }
+      c.partSig[ids[i]] = sig; }
+    if (!shrink) break; } }
+async function partsRead(o, mine, c) { const P = o && o.parts && o.parts[T.id]; if (!P) return; const PS = (o.psig && o.psig[T.id]) || {}; c.partSeen = c.partSeen || {};
+  c.parts = c.parts || {}; for (const [name, ids] of Object.entries(P)) { const loc = c.parts[name] || []; c.parts[name] = ids.length >= loc.length ? ids.slice() : loc; }
+  if (!mine) return; for (const [name, ids] of Object.entries(P)) { if (ids.length && ids.every((id) => PS[id] && (c.partSeen[id] === PS[id] || (c.partSig && c.partSig[id] === PS[id])))) continue;
+    let all = []; for (const id of ids) { const x = await jbGet(id); if (!x || !Array.isArray(x.items)) throw new Error(`Zusatzspeicher „${name}“ nicht lesbar`); all = all.concat(x.items); if (PS[id]) c.partSeen[id] = PS[id]; } mine[name] = all; } }
+function cloudSplit(c) { const st = slimSt(payload().state), cp = c.parts = c.parts || {};
+  const cand = PART_ORDER.filter((k) => !cp[k] && (st[k] || []).length).sort((a, b) => JSON.stringify(st[b]).length - JSON.stringify(st[a]).length);
+  if (!cand.length) return null; cp[cand[0]] = []; return cand[0]; }
+const PART_LBL = { photos: 'Fotos', expenses: 'Ausgaben', checkins: 'Standorte', bk2: 'Buchungen', spots: 'Orte', items: 'Programmpunkte', docs: 'Dokumente', repay: 'Rückzahlungen', packing: 'Packliste', check: 'Checkliste', cars: 'Mietwagen' };
+const cloudKB = () => { try { return Math.round(JSON.stringify(cloudBody()).length / 1024); } catch (e) { return 0; } };
 async function storeGetKey(k) { try { if (window.storage) { const r = await window.storage.get(k, false); return r ? JSON.parse(r.value) : null; } } catch (e) {}
   try { const v = window['local' + 'Storage'].getItem(k); return v ? JSON.parse(v) : null; } catch (e) { return null; } }
 const jbHead = (extra) => Object.assign({ [S.cloud.kind === 'access' ? 'X-Access-Key' : 'X-Master-Key']: S.cloud.key }, extra || {});
 let SYNCING = false;
+/* Sicherheitsnetz: voller Speicher → automatischer Umzug; alle anderen folgen der Umzugsnotiz */
+const jbPrev = (c, b) => { c.prevBins = [...new Set([...(c.prevBins || []), b])].slice(-12); };
+async function jbGet(bin) { const r = await fetch(`${JB}/${bin}/latest`, { headers: jbHead({ 'X-Bin-Meta': 'false' }) }); if (!r.ok) return null; try { return await r.json(); } catch (e) { return null; } }
 async function syncNow(manual) {
   const c = S.cloud; if (!c || !c.on || !c.bin || !c.key) return; if (SYNCING) return; if (!navigator.onLine) { if (manual) toast('Kein Netz — Abgleich folgt später'); return; }
   SYNCING = true; let n = 0;
   try {
-    const r = await fetch(`${JB}/${c.bin}/latest`, { headers: jbHead({ 'X-Bin-Meta': 'false' }) });
+    if (c.prevBins && c.prevBins.length && now() - (c.ptrCheck || 0) > 30 * 6e4) { c.ptrCheck = now(); const op = await jbGet(c.prevBins[c.prevBins.length - 1]); if (op && op.moved && op.moved !== c.bin && !(c.prevBins || []).includes(op.moved)) { jbPrev(c, c.bin); c.bin = op.moved; await store.set(S); } }
+    let r, o, hops = 0;
+    for (;;) { r = await fetch(`${JB}/${c.bin}/latest`, { headers: jbHead({ 'X-Bin-Meta': 'false' }) });
     if (!r.ok) { let why = ''; try { const j = await r.json(); why = (j && j.message) || ''; } catch (e) {}
       const quota = /request|limit|exceed|quota|plan/i.test(why);
       throw new Error(quota ? `JSONBin-Kontingent aufgebraucht (${r.status}) — im JSONBin-Konto unter „Usage“ prüfen` : r.status === 401 ? `Schlüssel wird nicht akzeptiert (401${why ? ': ' + why : ''}) — falscher oder geänderter Schlüssel` : r.status === 403 ? `Kein Zugriff auf diesen Speicher (403${why ? ': ' + why : ''}) — Speicher gehört vermutlich zu einem anderen JSONBin-Konto` : r.status === 404 ? 'Speicher nicht gefunden (404) — Speicher-ID prüfen' : 'JSONBin antwortet mit Fehler ' + r.status + (why ? ': ' + why : '')); }
-    const o = await r.json();
+    o = await r.json();
+      if (o && o.app === 'rhyme' && typeof o.moved === 'string' && o.moved && o.moved !== c.bin && hops < 6) { jbPrev(c, c.bin); c.bin = o.moved; c.movedAt = now(); hops++; await store.set(S); continue; }
+      break; }
+    if (hops && !VIEWER) toast('📦 Speicher ist umgezogen — dieses Handy ist automatisch gefolgt');
     const isR = o && o.app === 'rhyme', mine = isR ? (o.trips ? o.trips[T.id] : (o.trip === T.id ? o.state : null)) : null;
+    JB_PARTS = isR && o.parts ? Object.fromEntries(Object.entries(o.parts).filter(([k]) => k !== T.id)) : {}; JB_PSIG = isR && o.psig ? Object.fromEntries(Object.entries(o.psig).filter(([k]) => k !== T.id)) : {};
+    if (isR) await partsRead(o, mine, c);
     JB_OTHERS = isR ? (o.trips ? Object.fromEntries(Object.entries(o.trips).filter(([k]) => k !== T.id)) : (o.trip && o.trip !== T.id && o.state ? { [o.trip]: o.state } : {})) : {};
     const phBefore = new Set(live(S.photos || []).map((p) => p.id)), posBefore = (lastPos() || {}).id;
     if (mine) { migrate(mine); const before = JSON.stringify(payload().state); n = mergeState(mine); if (n) { const cur = payload; await (async () => { const list = await bkList(); list.unshift({ t: now(), reason: 'vor automatischem Abgleich', dev: S.settings.device || 'dieses Handy', state: JSON.parse(before) }); await bkSave(list); })(); } }
     if (!c.ro && (n || DIRTY || !mine)) {
-      const w = await fetch(`${JB}/${c.bin}`, { method: 'PUT', headers: jbHead({ 'Content-Type': 'application/json' }), body: JSON.stringify(cloudBody()) });
-      if (!w.ok) throw new Error(w.status === 413 ? 'Speicher ist voll — bitte für diese Reise einen eigenen Speicher anlegen' : 'Hochladen fehlgeschlagen (' + w.status + ')');
+      for (let tries = 0; ; tries++) {
+        await partsWrite(c);
+        const w = await fetch(`${JB}/${c.bin}`, { method: 'PUT', headers: jbHead({ 'Content-Type': 'application/json' }), body: JSON.stringify(cloudBody()) });
+        if (w.ok) break;
+        let why = ''; try { const j = await w.json(); why = (j && j.message) || ''; } catch (e) {} const kb = cloudKB();
+        const big = w.status === 413 || (w.status === 403 && (/size|large|\bkb\b|\bmb\b|exceed/i.test(why) || !/request|quota|key|permission|access|auth|unauthori/i.test(why)));
+        if (!big) throw new Error(w.status === 403 ? `Hochladen abgelehnt (403${why ? ': ' + why : ''}) — Schlüssel ohne Schreibrecht oder JSONBin-Limit · ${kb} KB` : 'Hochladen fehlgeschlagen (' + w.status + (why ? ': ' + why : '') + ')');
+        const nm = tries < 8 ? cloudSplit(c) : null; if (!nm) throw new Error(`Speicher zu groß (${kb} KB) und nicht weiter aufteilbar${why ? ': ' + why : ''}`);
+        await store.set(S); toast(`📦 Speicher war voll — „${PART_LBL[nm] || nm}“ automatisch in einen Zusatzspeicher ausgelagert. Das andere Handy und Zuschauer folgen von selbst.`);
+      }
     }
     DIRTY = false; c.last = now(); c.err = null; await store.set(S);
     if (n) { const typing = document.activeElement && /INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName);
@@ -3582,7 +3633,7 @@ $$('.tab').forEach((b) => b.onclick = () => { if (b.dataset.v === 'plan') RET = 
   if (S.settings.rateMode !== 'eigen' && (!S.settings.ratesAt || now() - S.settings.ratesAt > 12 * 36e5)) fetchRates(false);
   if (S.settings.mtBigLoading || S.settings.mtBigBusy) { S.settings.mtBig = false; delete S.settings.mtBigLoading; delete S.settings.mtBigBusy; await persist(true); setTimeout(() => toast('Das große Übersetzungsmodell war zu viel für dieses Handy — die App nutzt wieder das Standardmodell'), 800); }
   { const vm = /[#&]view=([^&]+)/.exec(location.hash);
-    if (vm) { try { const o = JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(vm[1]))))); if (o.b && o.k) { const fresh = !(S.cloud && S.cloud.ro && S.cloud.bin === o.b && S.cloud.key === o.k); S.cloud = Object.assign({}, S.cloud, { bin: o.b, key: o.k, kind: 'access', on: true, ro: true, hideMoney: !!o.h, err: null, viewHash: '#trip=' + T.id + '&view=' + vm[1] }); if (fresh && (o.l === 'zh' || o.l === 'de') && !S.settings.lang) await setLang(o.l); if (fresh && o.n && !S.settings.viewerName) S.settings.viewerName = String(o.n).slice(0, 30); await store.set(S); if (fresh && S.settings.photoSeen == null) S.settings.photoSeen = now(); if (fresh) setTimeout(() => toast('Willkommen! Hier reist du mit ' + (S.settings.names || ['Yuan', 'Yara']).join(' & ') + ' mit 🌏'), 3200); } }
+    if (vm) { try { const o = JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(vm[1]))))); if (o.b && o.k) { const same = S.cloud && S.cloud.ro && S.cloud.key === o.k && (S.cloud.bin === o.b || S.cloud.viewSrc === o.b), fresh = !same; S.cloud = Object.assign({}, S.cloud, { bin: same && S.cloud.viewSrc === o.b && S.cloud.bin ? S.cloud.bin : o.b, viewSrc: o.b, key: o.k, kind: 'access', on: true, ro: true, hideMoney: !!o.h, err: null, viewHash: '#trip=' + T.id + '&view=' + vm[1] }); if (fresh && (o.l === 'zh' || o.l === 'de') && !S.settings.lang) await setLang(o.l); if (fresh && o.n && !S.settings.viewerName) S.settings.viewerName = String(o.n).slice(0, 30); await store.set(S); if (fresh && S.settings.photoSeen == null) S.settings.photoSeen = now(); if (fresh) setTimeout(() => toast('Willkommen! Hier reist du mit ' + (S.settings.names || ['Yuan', 'Yara']).join(' & ') + ' mit 🌏'), 3200); } }
       catch (e) { setTimeout(() => toast('Der Teilen-Link ist ungültig'), 1600); }
     } }
   await updGate();
