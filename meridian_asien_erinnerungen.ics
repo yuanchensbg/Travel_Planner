@@ -1,0 +1,354 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Meridian//Ostasien//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Meridian · Ostasien – Erinnerungen
+X-APPLE-CALENDAR-COLOR:#B83A2E
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+X-PUBLISHED-TTL:PT6H
+BEGIN:VEVENT
+UID:r01@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261210T090000Z
+DURATION:PT15M
+SUMMARY:⏰ Eiswelt Harbin: Öffnung & Silvester-Ticket prüfen
+DESCRIPTION:Öffnungsdatum ist meist Mitte Dezember bekannt\; Silvester-Tic
+ ket online kaufen.
+BEGIN:VALARM
+TRIGGER:PT0M
+ACTION:DISPLAY
+DESCRIPTION:Eiswelt Harbin: Öffnung & Silvester-Ticket prüfen
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:r00@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261209T170000Z
+DURATION:PT15M
+SUMMARY:⏰ Reise-Apps installieren und einrichten
+DESCRIPTION:In Meridian unter Mehr → Apps für die Reise: Alipay und WeCh
+ at mit Karte verknüpfen\, Amap\, Trip.com\, Naver Map\, Papago\, Grab ins
+ tallieren\, Google Übersetzer offline laden\, eSIM kaufen.
+BEGIN:VALARM
+TRIGGER:PT0M
+ACTION:DISPLAY
+DESCRIPTION:Reise-Apps installieren und einrichten
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:r07b@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261227T000000Z
+DURATION:PT15M
+SUMMARY:⏰ e-Arrival Card für Südkorea ausfüllen
+DESCRIPTION:Pflicht seit 2026\, kostenlos auf e-arrivalcard.go.kr — früh
+ estens 3 Tage vor der Ankunft am 28.12. QR-Code speichern.
+BEGIN:VALARM
+TRIGGER:PT0M
+ACTION:DISPLAY
+DESCRIPTION:e-Arrival Card für Südkorea ausfüllen
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:rJ0@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261105T080000Z
+DURATION:PT15M
+SUMMARY:⏰ Heiligabend und Weihnachten: Restaurants reservieren
+DESCRIPTION:Kanazawa 24.12. (Sushi & Nodoguro\, „keine Krabbe“) und Pon
+ tochō Robin 25.12. über TableCheck — Japan reserviert früh\, Heiligab
+ end ist der Paar-Abend.
+BEGIN:VALARM
+TRIGGER:PT0M
+ACTION:DISPLAY
+DESCRIPTION:Heiligabend und Weihnachten: Restaurants reservieren
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:rC1@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261105T090000Z
+DURATION:PT15M
+SUMMARY:⏰ Mietwagen buchen: Tokio (Ueno) → Kyoto\, 20.–25.12.
+DESCRIPTION:Einweg inklusive. Vollkasko des Verleihs (CDW\, 免責補償) m
+ itbuchen — ohne sie zahlt RentalCover nicht. Beide als Fahrer eintragen\
+ , Winterreifen (Studless) bestätigen lassen\, ETC-Karte dazubuchen\, Allr
+ ad wenn verfügbar. Über Weihnachten sind Autos knapp.
+BEGIN:VALARM
+TRIGGER:PT0M
+ACTION:DISPLAY
+DESCRIPTION:Mietwagen buchen: Tokio (Ueno) → Kyoto\, 20.–25.12.
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:rC2@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261219T120000Z
+DURATION:PT15M
+SUMMARY:⏰ Morgen Mietwagen abholen (8:00\, Bahnhof Ueno)
+DESCRIPTION:Mitnehmen: Führerschein\, Internationaler Führerschein\, Pass
+ \, Kreditkarte. Beim Abholen Winterreifen und ETC-Karte prüfen.
+BEGIN:VALARM
+TRIGGER:PT0M
+ACTION:DISPLAY
+DESCRIPTION:Morgen Mietwagen abholen (8:00\, Bahnhof Ueno)
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:rJ6@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261211T080000Z
+DURATION:PT15M
+SUMMARY:⏰ Essens-Hinweis nochmals an die Ryokans schicken
+DESCRIPTION:Text auf Japanisch und Englisch in Meridian unter Mehr → Japa
+ n-Wissen → Essens-Karte.
+BEGIN:VALARM
+TRIGGER:PT0M
+ACTION:DISPLAY
+DESCRIPTION:Essens-Hinweis nochmals an die Ryokans schicken
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:rF0@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261206T080000Z
+DURATION:PT15M
+SUMMARY:⏰ Fuji-Ampel ist da: erste Empfehlung
+DESCRIPTION:Ab heute zeigt Meridian die Fuji-Ampel mit Empfehlung und Umpla
+ nungs-Optionen (Plan → 🗻 Fuji-Ampel). Noch eine grobe Tendenz.
+BEGIN:VALARM
+TRIGGER:PT0M
+ACTION:DISPLAY
+DESCRIPTION:Fuji-Ampel ist da: erste Empfehlung
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:rF1@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261209T080000Z
+DURATION:PT15M
+SUMMARY:⏰ Fuji: erste Tendenz für 19.–21.12.
+DESCRIPTION:isfujivisible.com zeigt jetzt 10 Tage voraus. In Meridian ersch
+ eint die Fuji-Ampel. Bei Zweifeln Claude „Fuji-Check“ schreiben.
+BEGIN:VALARM
+TRIGGER:PT0M
+ACTION:DISPLAY
+DESCRIPTION:Fuji: erste Tendenz für 19.–21.12.
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:rF2@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261213T080000Z
+DURATION:PT15M
+SUMMARY:⏰ Fuji-Check: Entscheidung umplanen ja/nein
+DESCRIPTION:Jetzt zählt fuji-san.info (7 Tage\, Profi-Wetterdaten). Passt 
+ der 20.12.? Sonst Programm auf den Morgen des 21. legen. Stornofrist des R
+ yokans in Kawaguchiko prüfen.
+BEGIN:VALARM
+TRIGGER:PT0M
+ACTION:DISPLAY
+DESCRIPTION:Fuji-Check: Entscheidung umplanen ja/nein
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:rF3@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261219T080000Z
+DURATION:PT15M
+SUMMARY:⏰ Fuji morgen: früh zur Chureito-Pagode?
+DESCRIPTION:Neue Prognosen sind da (16 Uhr). Fuji-Ampel in Meridian und fuj
+ i-san.info prüfen — bei klarem Morgen am 21. das Hauptprogramm dorthin 
+ legen.
+BEGIN:VALARM
+TRIGGER:PT0M
+ACTION:DISPLAY
+DESCRIPTION:Fuji morgen: früh zur Chureito-Pagode?
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:rF4@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261220T090000Z
+DURATION:PT15M
+SUMMARY:⏰ Fuji-Sonnenaufgang morgen 6:45?
+DESCRIPTION:Fuji-Ampel für den Morgen des 21. prüfen und bei guter Aussic
+ ht den Wecker stellen.
+BEGIN:VALARM
+TRIGGER:PT0M
+ACTION:DISPLAY
+DESCRIPTION:Fuji-Sonnenaufgang morgen 6:45?
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:r02@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261213T170000Z
+DURATION:PT15M
+SUMMARY:⏰ Visit Japan Web ausfüllen
+DESCRIPTION:Einreise- und Zollformular für Japan online vorab\, QR-Code sp
+ eichern.
+BEGIN:VALARM
+TRIGGER:PT0M
+ACTION:DISPLAY
+DESCRIPTION:Visit Japan Web ausfüllen
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:r03@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261215T091000Z
+DURATION:PT15M
+SUMMARY:⏰ Online-Check-in Hainan: Wien → Shanghai
+URL:https://www.hainanairlines.com
+DESCRIPTION:HU790\, Abflug morgen 10:10 ab Wien Terminal 3 — gegen 7:10 a
+ m Schalter. Koffer bis Shanghai durchchecken lassen. Live-Status: flightra
+ dar24.com/data/flights/hu790\nhttps://www.hainanairlines.com
+BEGIN:VALARM
+TRIGGER:PT0M
+ACTION:DISPLAY
+DESCRIPTION:Online-Check-in Hainan: Wien → Shanghai
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:r04@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261217T010000Z
+DURATION:PT15M
+SUMMARY:⏰ Schlafwagen Z18 Harbin → Peking buchen
+DESCRIPTION:Verkaufsstart 15 Tage vorher — Soft Sleeper für Fr 1.1.\, 21
+ :19\, sofort über Trip.com oder 12306 buchen.
+BEGIN:VALARM
+TRIGGER:PT0M
+ACTION:DISPLAY
+DESCRIPTION:Schlafwagen Z18 Harbin → Peking buchen
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:r05@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261217T070000Z
+DURATION:PT15M
+SUMMARY:⏰ Check-in Spring Airlines: Shanghai → Tokio
+URL:https://en.ch.com
+DESCRIPTION:9C6217\, Abflug morgen 15:00 ab Pudong Terminal 2. Koffer 20 kg
+ \, Handgepäck max. 10 kg. Falls online nicht möglich: am Schalter\, mind
+ . 2 h vorher da sein. Live-Status: flightradar24.com/data/flights/9c6217\n
+ https://en.ch.com
+BEGIN:VALARM
+TRIGGER:PT0M
+ACTION:DISPLAY
+DESCRIPTION:Check-in Spring Airlines: Shanghai → Tokio
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:r06@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261226T120000Z
+DURATION:PT15M
+SUMMARY:⏰ Verbotene Stadt buchen (heute 20:00 Pekinger Zeit)
+DESCRIPTION:Tickets für Sa 2.1. werden genau 7 Tage vorher freigegeben —
+  mit Pass buchen.
+BEGIN:VALARM
+TRIGGER:PT0M
+ACTION:DISPLAY
+DESCRIPTION:Verbotene Stadt buchen (heute 20:00 Pekinger Zeit)
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:r07@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261227T070000Z
+DURATION:PT15M
+SUMMARY:⏰ Check-in Peach: Osaka → Seoul
+URL:https://www.flypeach.com/en
+DESCRIPTION:MM743\, Abflug morgen 16:00 ab Kansai. International meist am F
+ lughafen-Automaten. Live-Status: flightradar24.com/data/flights/mm743\nhtt
+ ps://www.flypeach.com/en
+BEGIN:VALARM
+TRIGGER:PT0M
+ACTION:DISPLAY
+DESCRIPTION:Check-in Peach: Osaka → Seoul
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:r08@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261229T032000Z
+DURATION:PT15M
+SUMMARY:⏰ Online-Check-in Korean Air: Seoul → Harbin
+URL:https://www.koreanair.com
+DESCRIPTION:Gebucht als Asiana OZ339 — wegen der Fusion fliegt Korean Air
+  unter KE-Nummer\, Check-in bei koreanair.com. Abflug morgen 12:20 ab Inch
+ eon Terminal 2 (nicht Gimpo!). Der AREX-Express fährt bis Terminal 2. Liv
+ e-Status: flightradar24.com/data/flights/oz339\nhttps://www.koreanair.com
+BEGIN:VALARM
+TRIGGER:PT0M
+ACTION:DISPLAY
+DESCRIPTION:Online-Check-in Korean Air: Seoul → Harbin
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:r09@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270103T010000Z
+DURATION:PT15M
+SUMMARY:⏰ eTravel Philippinen ausfüllen
+DESCRIPTION:Pflichtformular\, frühestens 3 Tage vor Einreise (Ankunft Cebu
+  Di 5.1.).
+BEGIN:VALARM
+TRIGGER:PT0M
+ACTION:DISPLAY
+DESCRIPTION:eTravel Philippinen ausfüllen
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:r10@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270104T020000Z
+DURATION:PT15M
+SUMMARY:⏰ Online-Check-in Cathay: Peking → Cebu
+URL:https://www.cathaypacific.com
+DESCRIPTION:CX347\, Abflug morgen 10:00 ab Peking-Capital Terminal 3\, weit
+ er mit CX915 nach Cebu. Koffer 23 kg ist inklusive. Live-Status: flightrad
+ ar24.com/data/flights/cx347\nhttps://www.cathaypacific.com
+BEGIN:VALARM
+TRIGGER:PT0M
+ACTION:DISPLAY
+DESCRIPTION:Online-Check-in Cathay: Peking → Cebu
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:r11@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270110T042500Z
+DURATION:PT15M
+SUMMARY:⏰ Online-Check-in Cathay: Cebu → Shanghai
+URL:https://www.cathaypacific.com
+DESCRIPTION:CX922\, Abflug morgen 12:25 ab Mactan-Cebu Terminal 2\, weiter 
+ mit CX364 nach Shanghai. Live-Status: flightradar24.com/data/flights/cx922
+ \nhttps://www.cathaypacific.com
+BEGIN:VALARM
+TRIGGER:PT0M
+ACTION:DISPLAY
+DESCRIPTION:Online-Check-in Cathay: Cebu → Shanghai
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:r12@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270111T031500Z
+DURATION:PT15M
+SUMMARY:⏰ Online-Check-in Hainan: Shanghai → Wien
+URL:https://www.hainanairlines.com
+DESCRIPTION:Abflug morgen 11:15 ab Pudong\, Weiterflug HU789 ab Shenzhen um
+  01:55. Koffer bis Wien\, beide Bordkarten geben lassen. Live-Status: flig
+ htradar24.com/data/flights/hu789\nhttps://www.hainanairlines.com
+BEGIN:VALARM
+TRIGGER:PT0M
+ACTION:DISPLAY
+DESCRIPTION:Online-Check-in Hainan: Shanghai → Wien
+END:VALARM
+END:VEVENT
+END:VCALENDAR

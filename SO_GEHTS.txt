@@ -1,0 +1,37 @@
+RHYME – INSTALLIEREN UND KÜNFTIG OHNE NETLIFY AKTUALISIEREN
+==========================================================
+
+A) EIN LETZTES MAL AUF NETLIFY
+1. Auf Netlify die BESTEHENDE Seite öffnen → „Deploys“.
+2. Diesen Ordner (index.html + sw.js) hineinziehen. Die Adresse bleibt gleich.
+3. Die App auf beiden Handys einmal öffnen, schließen und erneut öffnen
+   (dann ist der Updater aktiv).
+
+B) GITHUB EINRICHTEN (einmalig, kostenlos, keine Credits)
+1. Auf github.com ein kostenloses Konto anlegen.
+2. Oben rechts „+“ → „New repository“, Name z.B. rhyme, „Public“ wählen, „Create repository“.
+3. „uploading an existing file“ bzw. „Add file → Upload files“ → index.html hochladen → „Commit changes“.
+4. Euer Projekt: https://github.com/yuanchensbg/Travel_Planner
+   Die Update-Adresse ist in der App schon eingetragen:
+   https://raw.githubusercontent.com/yuanchensbg/Travel_Planner/main/index.html
+
+C) KÜNFTIGE UPDATES
+1. Die neue Datei von Claude (Meridian_Reiseapp.html) in index.html umbenennen.
+2. Auf GitHub im Projekt „Add file → Upload files“ → index.html hochladen
+   → als Beschreibung die Versionsnummer eintragen (z.B. „Version 2026.10.24-1118“)
+   → „Commit changes“. Geht auch am iPhone im Browser.
+   Die alte Version geht dabei NICHT verloren: GitHub speichert jede Version im Verlauf.
+3. Die App meldet das Update beim nächsten Öffnen (spätestens nach 6 Stunden),
+   oder unter Mehr → App aktualisieren → „Nach Update suchen“.
+4. „Jetzt aktualisieren“ tippen. Vorher wird automatisch gesichert.
+   Falls etwas nicht passt: „Zur Originalversion zurück“.
+
+Hinweis: Ein öffentliches GitHub-Projekt ist – wie die Netlify-Seite – für jeden mit der
+Adresse sichtbar. Es enthält euren Reiseplan, aber keine Schlüssel und keine eingetragenen
+Daten (Ausgaben, Buchungen usw. liegen nur auf euren Handys und in JSONBin).
+GitHub braucht nach dem Hochladen manchmal bis zu 5 Minuten, bis die neue Version sichtbar ist.
+
+D) FRÜHERE VERSIONEN
+In der App: Mehr → App aktualisieren → „Versionen von GitHub anzeigen“.
+Dort jede hochgeladene Version mit Datum und Beschreibung – jede lässt sich installieren.
+Die installierte Version steht unter Mehr → Notfall & Infos → App.

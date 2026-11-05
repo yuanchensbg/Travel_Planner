@@ -1,0 +1,2041 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Meridian//Ostasien//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Meridian · Ostasien – Programm
+X-APPLE-CALENDAR-COLOR:#22314F
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+X-PUBLISHED-TTL:PT6H
+BEGIN:VEVENT
+UID:a01-tag@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART;VALUE=DATE:20261216
+SUMMARY:Tag 1: Abflug Wien
+DESCRIPTION:Los geht die Winterreise: mit Hainan Airlines über Nacht nach 
+ Shenzhen\, morgen früh weiter nach Shanghai. Vier Länder\, Eis und Schne
+ e im Norden\, tropische Strände zum Schluss.
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:a01-0@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261216T071000
+DURATION:PT1H
+SUMMARY:Check-in Hainan\, Terminal 3 (Buchung (Code privat))
+LOCATION:Flughafen Wien\, Terminal 3
+DESCRIPTION:Hainan Airlines\, 1 Koffer + Handgepäck pro Person im Ticket. 
+ Fragen\, ob der Koffer bis Shanghai durchgecheckt wird.
+END:VEVENT
+BEGIN:VEVENT
+UID:a01-1@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261216T101000
+DURATION:PT1H
+SUMMARY:Abflug HU790 nach Shenzhen (ca. 11 h 20\, Boeing 787-9)
+LOCATION:Flughafen Wien\, Terminal 3
+DESCRIPTION:Nachtflug — Schlafmaske und Ohrstöpsel ins Handgepäck. Live
+ -Status: flightradar24.com/data/flights/hu790
+END:VEVENT
+BEGIN:VEVENT
+UID:a02-tag@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART;VALUE=DATE:20261217
+SUMMARY:Tag 2: Shenzhen → Shanghai
+DESCRIPTION:Nach der Landung in Shenzhen reist ihr in China ein und fliegt 
+ gleich weiter nach Shanghai. Ein lockerer erster Tag: Platanenalleen in de
+ r ehemaligen Französischen Konzession und abends der Bund.
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:a02-0@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261217T043000
+DURATION:PT1H
+SUMMARY:Landung HU790 in Shenzhen\, Einreise China (visumfrei)
+LOCATION:Shenzhen Bao’an International Airport\, Terminal 3
+DESCRIPTION:Erste Einreise: Pass\, Fingerabdrücke\, Zoll. Koffer ggf. hole
+ n und am Transferschalter wieder aufgeben.
+END:VEVENT
+BEGIN:VEVENT
+UID:a02-1@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261217T074500
+DURATION:PT1H
+SUMMARY:Weiterflug nach Shanghai Pudong (Flugnummer laut Buchungsbestätigu
+ ng)
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a02-2@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261217T100000
+DURATION:PT1H
+SUMMARY:Landung Shanghai\, Metro Linie 2 ins Zentrum (ca. 1 h)
+LOCATION:Shanghai Pudong International Airport
+DESCRIPTION:Metro statt Taxi — schnell und günstig.
+END:VEVENT
+BEGIN:VEVENT
+UID:a02-3@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261217T123000
+DURATION:PT1H
+SUMMARY:Check-in\, Mittag: Xiaolongbao (Suppenteigtaschen)
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a02-4@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261217T143000
+DURATION:PT1H
+SUMMARY:Spaziergang Wukang Road & ehemalige Französische Konzession
+LOCATION:Wukang Road\, Shanghai
+DESCRIPTION:Platanenalleen\, Art-déco-Villen und kleine Cafés — ruhiger
+  als die Innenstadt.
+END:VEVENT
+BEGIN:VEVENT
+UID:a02-5@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261217T180000
+DURATION:PT1H
+SUMMARY:Bund bei Nacht\, Blick auf die Skyline von Lujiazui
+LOCATION:The Bund\, Shanghai
+DESCRIPTION:Die beleuchtete Skyline gegenüber am Huangpu — kennt ihr sch
+ on\, ist aber jedes Mal schön.
+END:VEVENT
+BEGIN:VEVENT
+UID:a03-tag@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART;VALUE=DATE:20261218
+SUMMARY:Tag 3: Flug nach Tokio
+DESCRIPTION:Ein ruhiger Vormittag in Shanghai\, dann in knapp drei Stunden 
+ nach Japan. Abends Ankunft in Tokio — die erste Schüssel Ramen wartet.
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:a03-0@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261218T090000
+DURATION:PT1H
+SUMMARY:Frühstück\, Vormittag frei (Yu-Garten oder Café)
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a03-1@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261218T120000
+DURATION:PT1H
+SUMMARY:Metro zum Flughafen Pudong
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a03-2@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261218T150000
+DURATION:PT1H
+SUMMARY:Flug 9C6217 Shanghai → Tokio Narita (Spring Airlines\, Buchung (C
+ ode privat))
+LOCATION:Shanghai Pudong International Airport\, Terminal 2
+DESCRIPTION:Bestätigt. Koffer 20 kg\, Handgepäck 1 Stück 10 kg (40 × 20
+  × 55 cm) — Spring wiegt streng. Live-Status: flightradar24.com/data/fl
+ ights/9c6217
+END:VEVENT
+BEGIN:VEVENT
+UID:a03-3@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261218T184000
+DURATION:PT1H
+SUMMARY:Landung Narita Terminal 3\, Einreise Japan
+LOCATION:Narita International Airport\, Terminal 3
+DESCRIPTION:QR-Code von Visit Japan Web bereithalten. Zur Bahn ca. 10 Min z
+ u Fuß zum Bahnhof unter Terminal 2.
+END:VEVENT
+BEGIN:VEVENT
+UID:a03-4@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261218T193000
+DURATION:PT1H
+SUMMARY:Narita Express direkt nach Shinjuku (ca. 1 h 25)
+LOCATION:Narita Airport Terminal 2·3 Station
+DESCRIPTION:Ohne Umsteigen mit Gepäck bis Shinjuku — dort liegt euer Hot
+ el\, und am 20. fährt hier der Fernbus zum Fuji.
+END:VEVENT
+BEGIN:VEVENT
+UID:a03-5@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261218T211500
+DURATION:PT1H
+SUMMARY:Check-in in Shinjuku\, Ramen zum Ankommen
+LOCATION:Ichiran Shinjuku
+DESCRIPTION:Tonkotsu-Ramen\, rund um die Uhr geöffnet — oder Konbini-Abe
+ ndessen: Onigiri\, Oden\, Sandwiches.
+END:VEVENT
+BEGIN:VEVENT
+UID:a04-tag@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART;VALUE=DATE:20261219
+SUMMARY:Tag 4: Tokio
+DESCRIPTION:Ein voller Tag Tokio: der älteste Tempel der Stadt\, Märkte\,
+  Elektronik und Popkultur\, der Meiji-Schrein im Wald — und zum Sonnenun
+ tergang der Blick vom Dach in Shibuya\, vielleicht schon mit dem Fuji am H
+ orizont.
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:a04-0@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261219T080000
+DURATION:PT1H
+SUMMARY:Senso-ji & Nakamise-Gasse in Asakusa
+LOCATION:Senso-ji\, Asakusa
+DESCRIPTION:Ältester Tempel Tokios mit dem roten Kaminarimon-Tor — morge
+ ns noch ruhig.
+END:VEVENT
+BEGIN:VEVENT
+UID:a04-1@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261219T100000
+DURATION:PT1H
+SUMMARY:Ueno & Ameyoko-Markt
+LOCATION:Ameya-Yokocho\, Ueno
+DESCRIPTION:Lebhafter Straßenmarkt unter den Bahngleisen: Obst\, Fisch\, S
+ treetfood.
+END:VEVENT
+BEGIN:VEVENT
+UID:a04-2@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261219T120000
+DURATION:PT1H
+SUMMARY:Akihabara: Elektronik\, Anime\, Retro-Spiele
+LOCATION:Akihabara\, Tokio
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a04-3@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261219T140000
+DURATION:PT1H
+SUMMARY:Meiji-Schrein & Harajuku mit Takeshita-dōri
+LOCATION:Meiji Jingu
+DESCRIPTION:Shinto-Schrein im Wald mitten in der Stadt\, danach kurz durch 
+ die schrille Modegasse Takeshita-dōri.
+END:VEVENT
+BEGIN:VEVENT
+UID:a04-4@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261219T154500
+DURATION:PT1H
+SUMMARY:Shibuya Crossing & Shibuya Sky zum Sonnenuntergang
+LOCATION:Shibuya Sky
+DESCRIPTION:Offenes Dach in 230 m Höhe — bei klarer Sicht mit Fuji am Ho
+ rizont. Sonnenuntergang ca. 16:30.
+END:VEVENT
+BEGIN:VEVENT
+UID:a04-5@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261219T171500
+DURATION:PT1H
+SUMMARY:Lichterallee „Blaue Höhle" (Ao no Dokutsu)
+LOCATION:Ao no Dokutsu Shibuya
+DESCRIPTION:Allee in blauen LEDs zwischen Shibuya und Yoyogi-Park (11.–27
+ .12.) — direkt auf dem Weg nach Omotesando.
+END:VEVENT
+BEGIN:VEVENT
+UID:a04-6@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261219T180000
+DURATION:PT1H
+SUMMARY:Weihnachtslichter Omotesando
+LOCATION:Omotesando\, Tokio
+DESCRIPTION:Champagnergoldene Lichter in den Zelkova-Bäumen\, bis 22 Uhr.
+END:VEVENT
+BEGIN:VEVENT
+UID:a04-7@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261219T193000
+DURATION:PT1H
+SUMMARY:Abendessen in Omoide Yokocho\, danach Golden Gai
+LOCATION:Omoide Yokocho\, Shinjuku
+DESCRIPTION:Nachkriegsgasse mit winzigen Yakitori-Kneipen. Bestellt Momo\, 
+ Negima\, Tsukune\, Tebasaki oder Sasami — Reba\, Hatsu\, Sunagimo und Sh
+ iro sind Innereien. Danach die Mini-Bars von Golden Gai und die Neonlichte
+ r von Kabukichō.
+END:VEVENT
+BEGIN:VEVENT
+UID:a05-tag@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART;VALUE=DATE:20261220
+SUMMARY:Tag 5: Fuji — Kawaguchi-See
+DESCRIPTION:Knapp zwei Stunden mit dem Mietwagen\, und plötzlich steht er 
+ da: der Fuji\, im Winter mit dicker Schneekappe und in klarer Luft. Ihr st
+ eigt die Stufen zur Chureito-Pagode hinauf und spaziert am Seeufer — abe
+ nds wartet ein Onsen mit Bergblick.
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:a05-0@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261220T080000
+DURATION:PT1H
+SUMMARY:Mietwagen am Bahnhof Ueno übernehmen
+LOCATION:Nippon Rent-A-Car Ueno-ekimae\, 4-3-8 Higashi-Ueno\, Taito-ku\, To
+ kyo
+DESCRIPTION:Nippon Rent-A-Car „Ueno Station“ (512011)\, 4-3-8 Higashi-U
+ eno\, Taito-ku — 3 Gehminuten vom Asakusa-Ausgang des JR-Bahnhofs Ueno\,
+  öffnet um 8:00. Honda Fit oder ähnlich. Prüfen: Winterreifen (Studless
+ ) montiert\, ETC-Karte für die Maut eingesteckt\, Navi auf Englisch. Mitn
+ ehmen: Führerschein\, Internationaler Führerschein\, Pass\, Kreditkarte.
+END:VEVENT
+BEGIN:VEVENT
+UID:a05-1@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261220T083000
+DURATION:PT1H
+SUMMARY:Fahrt Tokio → Kawaguchiko (ca. 2 h\, Shuto- und Chūō-Expressway
+ )
+LOCATION:Kawaguchiko
+DESCRIPTION:Von Ueno quer durch die Stadt auf die Chūō-Autobahn — Sonnt
+ agmorgen meist frei.
+END:VEVENT
+BEGIN:VEVENT
+UID:a05-2@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261220T101500
+DURATION:PT1H
+SUMMARY:Auto am Ryokan parken\, Gepäck abgeben
+DESCRIPTION:Beim Buchen einen kostenlosen Parkplatz bestätigen lassen.
+END:VEVENT
+BEGIN:VEVENT
+UID:a05-3@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261220T110000
+DURATION:PT1H
+SUMMARY:Chureito-Pagode mit Fuji (ca. 400 Stufen)
+LOCATION:Chureito Pagoda\, Arakurayama Sengen Park
+DESCRIPTION:Das klassische Fuji-Motiv: fünfstöckige rote Pagode vor dem v
+ erschneiten Gipfel. Mit dem Auto ca. 15 Min vom See.
+END:VEVENT
+BEGIN:VEVENT
+UID:a05-4@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261220T133000
+DURATION:PT1H
+SUMMARY:Mittag: Hoto-Nudeleintopf
+DESCRIPTION:Breite Nudeln mit Kürbis in Miso-Brühe — die Spezialität d
+ er Region und ideal im Winter.
+END:VEVENT
+BEGIN:VEVENT
+UID:a05-5@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261220T141500
+DURATION:PT1H
+SUMMARY:Kachi-Kachi-Seilbahn: Panorama über See und Fuji
+LOCATION:Mt. Fuji Panoramic Ropeway\, Kawaguchiko
+DESCRIPTION:Drei Minuten auf den Tenjō-Berg\, oben Aussicht über den Kawa
+ guchi-See auf den Fuji.
+END:VEVENT
+BEGIN:VEVENT
+UID:a05-6@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261220T151000
+DURATION:PT1H
+SUMMARY:7-Eleven mit Fuji-Blick (Kawaguchi)
+LOCATION:2801-1 Kawaguchi\, Fujikawaguchiko\, Yamanashi
+DESCRIPTION:Konbini mit dem Fuji dahinter\, am Nordufer auf dem Weg zum Ois
+ hi-Park. Bitte Rücksicht nehmen: nicht auf der Fahrbahn stehen\, keinen P
+ rivatgrund betreten\, Ampeln beachten — an solchen Fotospots gab es viel
+  Ärger mit Touristen.
+END:VEVENT
+BEGIN:VEVENT
+UID:a05-7@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261220T153000
+DURATION:PT1H
+SUMMARY:Oishi-Park am Nordufer zum Sonnenuntergang
+LOCATION:Oishi Park\, Fujikawaguchiko
+DESCRIPTION:Uferpromenade mit dem schönsten Fuji-Blick über den See\, Son
+ nenuntergang ca. 16:30.
+END:VEVENT
+BEGIN:VEVENT
+UID:a05-8@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261220T170000
+DURATION:PT1H
+SUMMARY:Onsen im Ryokan mit Fuji-Blick
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a05-9@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261220T183000
+DURATION:PT1H
+SUMMARY:Kaiseki-Abendessen im Ryokan
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a06-tag@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART;VALUE=DATE:20261221
+SUMMARY:Tag 6: Matsumoto → Shibu Onsen
+DESCRIPTION:Ein letzter Blick auf den Fuji im Morgenlicht\, dann mit dem Au
+ to durch die Berge nach Matsumoto\, wo die schwarze „Krähenburg" vor de
+ n Alpen steht. Abends erreicht ihr Shibu Onsen — im Yukata und auf Holzs
+ andalen geht es von Badehaus zu Badehaus.
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:a06-0@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261221T064500
+DURATION:PT1H
+SUMMARY:Fuji bei Sonnenaufgang vom Seeufer
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a06-1@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261221T083000
+DURATION:PT1H
+SUMMARY:Mit dem Auto zur Chureito-Pagode (ca. 15 Min)
+LOCATION:Chureito Pagoda\, Arakurayama Sengen Park
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a06-2@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261221T085000
+DURATION:PT1H
+SUMMARY:Chureito-Pagode am Morgen — die zweite Fuji-Chance
+LOCATION:Chureito Pagoda\, Arakurayama Sengen Park
+DESCRIPTION:Morgens ist der Fuji am häufigsten frei. 398 Stufen über die 
+ Sakuya-hime-Treppe\, ca. 1 Stunde.
+END:VEVENT
+BEGIN:VEVENT
+UID:a06-3@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261221T100000
+DURATION:PT1H
+SUMMARY:Fahrt nach Matsumoto (ca. 2 h\, Chūō- und Nagano-Expressway)
+LOCATION:Matsumoto Castle
+DESCRIPTION:Durch die Berge an Kōfu vorbei\, bei klarer Sicht mit Blick au
+ f die Südalpen.
+END:VEVENT
+BEGIN:VEVENT
+UID:a06-4@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261221T121500
+DURATION:PT1H
+SUMMARY:Mittag in Matsumoto: Shinshu-Soba
+DESCRIPTION:Buchweizennudeln aus Nagano.
+END:VEVENT
+BEGIN:VEVENT
+UID:a06-5@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261221T131500
+DURATION:PT1H
+SUMMARY:Burg Matsumoto
+LOCATION:Matsumoto Castle
+DESCRIPTION:Eine der wenigen Original-Burgen Japans\, die „Krähenburg“
+ : schwarz vor weißen Alpengipfeln. Steile Innentreppen\, Schuhe aus — S
+ ocken ohne Löcher.
+END:VEVENT
+BEGIN:VEVENT
+UID:a06-6@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261221T150000
+DURATION:PT1H
+SUMMARY:Fahrt nach Shibu Onsen (ca. 1 h 30)
+LOCATION:Shibu Onsen\, Yamanouchi
+DESCRIPTION:Über den Nagano- und Jōshin’etsu-Expressway bis Shinshū-Na
+ kano.
+END:VEVENT
+BEGIN:VEVENT
+UID:a06-7@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261221T164500
+DURATION:PT1H
+SUMMARY:Check-in Ryokan in Shibu Onsen
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a06-8@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261221T190000
+DURATION:PT1H
+SUMMARY:Im Yukata durch die Gassen: die neun Badehäuser
+LOCATION:Shibu Onsen\, Yamanouchi
+DESCRIPTION:Mit dem Schlüssel eures Ryokans die neun alten Badehäuser bes
+ uchen und Stempel sammeln.
+END:VEVENT
+BEGIN:VEVENT
+UID:a07-tag@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART;VALUE=DATE:20261222
+SUMMARY:Tag 7: Schneeaffen → Okuhida
+DESCRIPTION:Früh am Morgen stapft ihr durch den Schnee zu den Schneeaffen\
+ , die dampfend im heißen Quellwasser sitzen. Danach geht es mit dem Auto 
+ quer durch die Nordalpen nach Okuhida — dort wartet ein Freiluftbad mitt
+ en im Schnee.
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:a07-0@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261222T081500
+DURATION:PT1H
+SUMMARY:Mit dem Auto zum Parkplatz Snow Monkey Park (ca. 15 Min)\, dann 30
+ –40 Min zu Fuß
+LOCATION:Snow Monkey Park Parking\, Yamanouchi
+DESCRIPTION:Der Weg durch den Wald ist im Winter vereist — Schuhe mit Pro
+ fil oder Spikes.
+END:VEVENT
+BEGIN:VEVENT
+UID:a07-1@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261222T090000
+DURATION:PT1H
+SUMMARY:Jigokudani: Schneeaffen im Onsen
+LOCATION:Jigokudani Yaen-koen (Snow Monkey Park)
+DESCRIPTION:Wilde Makaken baden im heißen Quellbecken — nur hier auf der
+  Welt.
+END:VEVENT
+BEGIN:VEVENT
+UID:a07-2@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261222T110000
+DURATION:PT1H
+SUMMARY:Fahrt nach Okuhida über Matsumoto und den Abō-Tunnel (ca. 3 h mit
+  Pause)
+LOCATION:Shinhotaka Onsen
+DESCRIPTION:Zurück über den Expressway bis Matsumoto\, dann auf der Bunde
+ sstraße 158 durch das Azusa-Tal und den Abō-Tunnel in die Nordalpen.
+END:VEVENT
+BEGIN:VEVENT
+UID:a07-3@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261222T123000
+DURATION:PT1H
+SUMMARY:Mittag unterwegs in Matsumoto oder an der Raststätte
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a07-4@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261222T144500
+DURATION:PT1H
+SUMMARY:Ankunft Shin-Hotaka\, Check-in Onsen-Ryokan
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a07-5@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261222T160000
+DURATION:PT1H
+SUMMARY:Freiluftbad im Schnee (Rotenburo)
+LOCATION:Okuhida Onsengo
+DESCRIPTION:Dampfende Felsenbecken unter freiem Himmel\, ringsum Schnee und
+  Berge.
+END:VEVENT
+BEGIN:VEVENT
+UID:a07-6@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261222T183000
+DURATION:PT1H
+SUMMARY:Abendessen im Ryokan mit Hida-Rind
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a08-tag@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART;VALUE=DATE:20261223
+SUMMARY:Tag 8: Seilbahn → Takayama
+DESCRIPTION:Morgens schwebt ihr mit der doppelstöckigen Gondel auf über 2
+ .000 Meter\, vor euch die verschneiten Gipfel der Nordalpen. Am Nachmittag
+  bummelt ihr durch Takayamas Altstadt mit ihren Holzhäusern und Sake-Brau
+ ereien.
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:a08-0@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261223T090000
+DURATION:PT1H
+SUMMARY:Shin-Hotaka-Seilbahn auf 2.156 m
+LOCATION:Shinhotaka Ropeway
+DESCRIPTION:Doppelstöckige Gondel\, oben Aussichtsterrasse über die versc
+ hneiten Nordalpen.
+END:VEVENT
+BEGIN:VEVENT
+UID:a08-1@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261223T113000
+DURATION:PT1H
+SUMMARY:Fahrt nach Takayama (ca. 1 h)
+LOCATION:Takayama
+DESCRIPTION:Über die Bergstraße 471/158 hinunter nach Takayama\, Auto am 
+ Hotel parken.
+END:VEVENT
+BEGIN:VEVENT
+UID:a08-2@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261223T130000
+DURATION:PT1H
+SUMMARY:Mittag: Hida-Rind-Sushi an einem Straßenstand
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a08-3@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261223T143000
+DURATION:PT1H
+SUMMARY:Altstadt Sanmachi: Sake-Brauereien\, Holzhäuser
+LOCATION:Sanmachi Suji\, Takayama
+DESCRIPTION:Gassen aus der Edo-Zeit\, Brauereien mit Zedernkugeln über der
+  Tür — viele bieten Sake-Proben.
+END:VEVENT
+BEGIN:VEVENT
+UID:a08-4@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261223T160000
+DURATION:PT1H
+SUMMARY:Takayama Jinya\, das alte Regierungshaus
+LOCATION:Takayama Jinya
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a08-5@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261223T183000
+DURATION:PT1H
+SUMMARY:Abendessen: Hida-Rind als Yakiniku
+DESCRIPTION:Am Tisch gegrilltes Hida-Rind\, die Wagyū-Marke der Region.
+END:VEVENT
+BEGIN:VEVENT
+UID:a09-tag@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART;VALUE=DATE:20261224
+SUMMARY:Tag 9: Shirakawa-go & Ainokura → Kanazawa · Heiligabend
+DESCRIPTION:Nach dem Morgenmarkt fahrt ihr nach Shirakawa-go\, wo die steil
+ en Strohdächer unter dickem Schnee liegen\, und danach ins stille Ainokur
+ a\, wo kaum Besucher hinkommen. In der Dämmerung erreicht ihr Kanazawa 
+ — Heiligabend feiert ihr mit Sushi und Nodoguro aus dem Japanmeer.
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:a09-0@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261224T073000
+DURATION:PT1H
+SUMMARY:Miyagawa-Morgenmarkt
+LOCATION:Miyagawa Morning Market
+DESCRIPTION:Stände am Fluss mit Gemüse\, Miso und Snacks.
+END:VEVENT
+BEGIN:VEVENT
+UID:a09-1@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261224T090000
+DURATION:PT1H
+SUMMARY:Fahrt nach Shirakawa-go (ca. 50 Min\, Tōkai-Hokuriku-Expressway)
+LOCATION:Shirakawa-go Ogimachi
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a09-2@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261224T100000
+DURATION:PT1H
+SUMMARY:Shirakawa-go: Strohdachdorf\, Wada-ke\, Aussichtspunkt Shiroyama
+LOCATION:Shirakawa-go Ogimachi
+DESCRIPTION:UNESCO-Dorf mit Gassho-Bauernhäusern unter dicken Schneedäche
+ rn. Wada-ke ist das größte Gassho-Haus und innen zu besichtigen.
+END:VEVENT
+BEGIN:VEVENT
+UID:a09-3@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261224T123000
+DURATION:PT1H
+SUMMARY:Mittag im Dorf: Hoba-miso
+DESCRIPTION:Miso mit Gemüse oder Hida-Rind\, auf einem getrockneten Magnol
+ ienblatt gegrillt.
+END:VEVENT
+BEGIN:VEVENT
+UID:a09-4@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261224T134500
+DURATION:PT1H
+SUMMARY:Fahrt nach Ainokura (ca. 40 Min)
+LOCATION:Ainokura\, Gokayama
+DESCRIPTION:Über die Bundesstraße 156 am Fluss Shō entlang nach Norden.
+END:VEVENT
+BEGIN:VEVENT
+UID:a09-5@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261224T143000
+DURATION:PT1H
+SUMMARY:Ainokura: stilles Strohdachdorf in Gokayama
+LOCATION:Ainokura\, Gokayama
+DESCRIPTION:Rund 20 Gassho-Häuser am Hang\, Welterbe wie Shirakawa-go — 
+ aber nur ein Bruchteil der Besucher. Die Dächer sind hier noch steiler\, 
+ weil mehr Schnee fällt. Vom oberen Weg Blick über das ganze Dorf.
+END:VEVENT
+BEGIN:VEVENT
+UID:a09-6@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261224T154500
+DURATION:PT1H
+SUMMARY:Fahrt nach Kanazawa (ca. 1 h)
+LOCATION:Kanazawa
+DESCRIPTION:Über den Tōkai-Hokuriku- und Hokuriku-Expressway.
+END:VEVENT
+BEGIN:VEVENT
+UID:a09-7@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261224T170000
+DURATION:PT1H
+SUMMARY:Geishaviertel Higashi Chaya in der Dämmerung
+LOCATION:Higashi Chaya District
+DESCRIPTION:Holzfassaden der alten Teehäuser mit Laternen — Goldblatt-Ei
+ s probieren.
+END:VEVENT
+BEGIN:VEVENT
+UID:a09-8@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261224T183000
+DURATION:PT1H
+SUMMARY:Heiligabend: Kanazawa-Sushi und Nodoguro
+DESCRIPTION:Kanazawa gilt als eine der besten Sushi-Städte Japans — Fisc
+ h direkt aus dem Japanmeer. Probiert Nodoguro\, den Rotbarsch\, der als 
+ „Toro der Weißfische“ gilt\, gegrillt oder als Nigiri. Alternativ ein
+  Kaga-Kaiseki mit Jibuni (Ente in angedickter Brühe).
+END:VEVENT
+BEGIN:VEVENT
+UID:a10-tag@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART;VALUE=DATE:20261225
+SUMMARY:Tag 10: Kanazawa → Kyoto
+DESCRIPTION:Morgens der Kenrokuen mit seinen Seilkegeln\, die die Bäume vo
+ r der Schneelast schützen. Dann mit dem Auto am Biwa-See entlang nach Kyo
+ to\, mit Halt am Torii im See — in der Dämmerung wandert ihr durch die 
+ tausenden roten Tore von Fushimi Inari\, abends durch Gion.
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:a10-0@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261225T080000
+DURATION:PT1H
+SUMMARY:Kenrokuen mit den Seilkegeln (Yukitsuri)
+LOCATION:Kenrokuen
+DESCRIPTION:Einer der drei schönsten Gärten Japans — Kiefern werden mit
+  Seilkegeln gegen die Schneelast gestützt.
+END:VEVENT
+BEGIN:VEVENT
+UID:a10-1@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261225T091500
+DURATION:PT1H
+SUMMARY:Burg-Park Kanazawa
+LOCATION:Kanazawa Castle Park
+DESCRIPTION:Direkt gegenüber vom Kenroku-en: Tore und Mauern der alten Bur
+ g.
+END:VEVENT
+BEGIN:VEVENT
+UID:a10-2@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261225T094500
+DURATION:PT1H
+SUMMARY:Omicho-Markt: Kaisendon zum Frühstück
+LOCATION:Omicho Market
+DESCRIPTION:Kanazawas Küche seit 300 Jahren — Reisschüssel mit rohem Fi
+ sch.
+END:VEVENT
+BEGIN:VEVENT
+UID:a10-3@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261225T104500
+DURATION:PT1H
+SUMMARY:Fahrt Richtung Kyoto am Westufer des Biwa-Sees (ca. 2 h 15 mit Mitt
+ agspause)
+LOCATION:Shirahige Shrine\, Takashima
+DESCRIPTION:Hokuriku-Expressway bis Tsuruga\, dann auf der Uferstraße 161 
+ am Biwa-See entlang. Mittagessen unterwegs\, z.B. an einer Michi-no-Eki-Ra
+ ststätte.
+END:VEVENT
+BEGIN:VEVENT
+UID:a10-4@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261225T130000
+DURATION:PT1H
+SUMMARY:Shirahige-Schrein: das Torii im Biwa-See
+LOCATION:Shirahige Shrine\, Takashima
+DESCRIPTION:Ein rotes Torii steht mitten im See vor dem Ufer — eines der 
+ schönsten Fotomotive Westjapans\, besonders im weichen Winterlicht.
+END:VEVENT
+BEGIN:VEVENT
+UID:a10-5@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261225T133000
+DURATION:PT1H
+SUMMARY:Weiter nach Kyoto (ca. 1 h 15)
+LOCATION:Kyoto Station
+DESCRIPTION:Über die Kosei-Straße am Westufer nach Kyoto.
+END:VEVENT
+BEGIN:VEVENT
+UID:a10-6@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261225T144500
+DURATION:PT1H
+SUMMARY:Mietwagen am Bahnhof Kyoto (Hachijo-Ausgang) zurückgeben\, Check-i
+ n
+LOCATION:Nippon Rent-A-Car\, 9 Nakatonoda-cho\, Higashikujo\, Minami-ku\, K
+ yoto
+DESCRIPTION:Rückgabe-Filiale: Nippon Rent-A-Car „Shinkansen Kyoto Statio
+ n Hachijo Exit“ (340016)\, 9 Nakatonoda-cho\, Higashikujo\, Minami-ku 
+ — ca. 7 Gehminuten vom Hachijo-Ausgang. Der Shuttle zum Bahnhof fährt n
+ ur bis 18:00. Vorher volltanken — „Mantan“ (voll) an der Tankstelle 
+ sagen. Rückgabe ist bis 19:00 möglich — das schafft Luft für die opti
+ onalen Halte unterwegs.
+END:VEVENT
+BEGIN:VEVENT
+UID:a10-7@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261225T154500
+DURATION:PT1H
+SUMMARY:Fushimi Inari: tausende rote Tore in der Dämmerung
+LOCATION:Fushimi Inari Taisha
+DESCRIPTION:Tunnel aus Torii-Toren den Berg hinauf — in der Dämmerung ge
+ hen die Laternen an.
+END:VEVENT
+BEGIN:VEVENT
+UID:a10-8@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261225T180000
+DURATION:PT1H
+SUMMARY:Gion: Hanamikōji und Shirakawa-Kanal am Abend
+LOCATION:Shirakawa\, Gion\, Kyoto
+DESCRIPTION:Teehaus-Gasse und der Kanal mit Weiden und Laternen\, mit Glüc
+ k eine Maiko auf dem Weg zur Arbeit — bitte nicht bedrängen\, in Privat
+ gassen nicht fotografieren.
+END:VEVENT
+BEGIN:VEVENT
+UID:a10-9@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261225T193000
+DURATION:PT1H
+SUMMARY:Abendessen in Pontochō: Weihnachtsmenü bei Pontochō Robin
+LOCATION:Pontocho Robin\, Kyoto
+DESCRIPTION:Kyoto-Küche in einem Machiya am Kamo-Fluss\, Weihnachtsmenü n
+ ur vom 23. bis 27.12.
+END:VEVENT
+BEGIN:VEVENT
+UID:a11-tag@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART;VALUE=DATE:20261226
+SUMMARY:Tag 11: Kyoto
+DESCRIPTION:Der klassische Kyoto-Tag: frühmorgens allein im Bambuswald\, d
+ ann der Goldene Pavillon am Teich und am Nachmittag die Holzterrasse von K
+ iyomizu-dera hoch über der Stadt.
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:a11-0@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261226T073000
+DURATION:PT1H
+SUMMARY:Bambuswald Arashiyama (früh\, vor den Massen)
+LOCATION:Arashiyama Bamboo Grove
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a11-1@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261226T090000
+DURATION:PT1H
+SUMMARY:Tenryu-ji-Garten
+LOCATION:Tenryu-ji
+DESCRIPTION:Zen-Garten mit Teich vor den Bergen.
+END:VEVENT
+BEGIN:VEVENT
+UID:a11-2@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261226T110000
+DURATION:PT1H
+SUMMARY:Goldener Pavillon
+LOCATION:Kinkaku-ji
+DESCRIPTION:Mit Blattgold überzogener Tempel am Spiegelteich.
+END:VEVENT
+BEGIN:VEVENT
+UID:a11-3@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261226T130000
+DURATION:PT1H
+SUMMARY:Mittag
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a11-4@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261226T143000
+DURATION:PT1H
+SUMMARY:Kiyomizu-dera & Altstadtgassen Sannenzaka
+LOCATION:Kiyomizu-dera
+DESCRIPTION:Holzterrasse über der Stadt\, darunter die steilen Gassen mit 
+ Teehäusern.
+END:VEVENT
+BEGIN:VEVENT
+UID:a11-5@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261226T161500
+DURATION:PT1H
+SUMMARY:Kōdai-ji\, Zen-Tempel am Weg
+LOCATION:Kodai-ji
+DESCRIPTION:Zen-Tempel mit Garten und Bambushain zwischen Kiyomizu und Yasa
+ ka-Schrein.
+END:VEVENT
+BEGIN:VEVENT
+UID:a11-6@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261226T171500
+DURATION:PT1H
+SUMMARY:Yasaka-Schrein und Gion bei Laternenlicht
+LOCATION:Yasaka Shrine
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a12-tag@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART;VALUE=DATE:20261227
+SUMMARY:Tag 12: Kyoto & Osaka
+DESCRIPTION:Ein entspannterer Tag: der Philosophenweg und der Silberne Pavi
+ llon\, mittags durch den Nishiki-Markt probieren\, und am Abend nach Osaka
+ \, wo am Dotonbori-Kanal Takoyaki und Okonomiyaki brutzeln.
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:a12-0@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261227T090000
+DURATION:PT1H
+SUMMARY:Philosophenweg & Silberner Pavillon
+LOCATION:Ginkaku-ji
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a12-1@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261227T104500
+DURATION:PT1H
+SUMMARY:Nanzen-ji mit dem Backstein-Aquädukt
+LOCATION:Nanzen-ji
+DESCRIPTION:Am Südende des Philosophenwegs: Zen-Tempel mit Aquädukt aus d
+ er Meiji-Zeit.
+END:VEVENT
+BEGIN:VEVENT
+UID:a12-2@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261227T123000
+DURATION:PT1H
+SUMMARY:Nishiki-Markt: Mittag zum Probieren
+LOCATION:Nishiki Market
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a12-3@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261227T150000
+DURATION:PT1H
+SUMMARY:Zug nach Osaka (ca. 30 Min)
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a12-4@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261227T160000
+DURATION:PT1H
+SUMMARY:Shinsekai und Tsutenkaku-Turm
+LOCATION:Shinsekai\, Osaka
+DESCRIPTION:Retro-Viertel mit Kushikatsu-Lokalen.
+END:VEVENT
+BEGIN:VEVENT
+UID:a12-5@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261227T180000
+DURATION:PT1H
+SUMMARY:Shinsaibashi → Dotonbori: Takoyaki\, Okonomiyaki\, Leuchtreklamen
+LOCATION:Dotonbori\, Osaka
+DESCRIPTION:Durch die überdachte Einkaufsstraße Shinsaibashi zur Essmeile
+  am Kanal mit der Glico-Reklame. Zwei Minuten daneben die stille Laterneng
+ asse Hōzenji Yokochō mit der moosbewachsenen Buddha-Statue.
+END:VEVENT
+BEGIN:VEVENT
+UID:a12-6@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261227T213000
+DURATION:PT1H
+SUMMARY:Zug zurück nach Kyoto
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a13-tag@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART;VALUE=DATE:20261228
+SUMMARY:Tag 13: Nara → Flug nach Seoul
+DESCRIPTION:Morgens in Nara\, wo zahme Hirsche durch den Park streifen und 
+ im Todai-ji ein riesiger Bronze-Buddha sitzt. Mittags zum Flughafen Kansai
+ \, am Abend landet ihr in Seoul — und steht gleich im Streetfood-Gewimme
+ l von Myeongdong.
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:a13-0@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261228T080000
+DURATION:PT1H
+SUMMARY:Kintetsu-Bahn nach Nara (Express ca. 45 Min)
+LOCATION:Kintetsu-Nara Station
+DESCRIPTION:Der Kintetsu-Bahnhof liegt direkt am Park.
+END:VEVENT
+BEGIN:VEVENT
+UID:a13-1@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261228T090000
+DURATION:PT1H
+SUMMARY:Nara-Park: Kōfuku-ji\, Todai-ji mit dem Riesen-Buddha\, Nigatsu-d
+ ō
+LOCATION:Todai-ji\, Nara
+DESCRIPTION:Am Weg vom Bahnhof die Pagode des Kōfuku-ji (zurzeit eingerüs
+ tet)\, dann eine der größten Bronzestatuen Buddhas in einer riesigen Hol
+ zhalle. Gleich daneben die Halle Nigatsu-dō am Hang mit freier Aussicht. 
+ Überall freilaufende Hirsche.
+END:VEVENT
+BEGIN:VEVENT
+UID:a13-2@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261228T111500
+DURATION:PT1H
+SUMMARY:Kakinoha-zushi als Mittagessen für unterwegs
+DESCRIPTION:In Kakiblätter gewickeltes Sushi\, die Spezialität Naras.
+END:VEVENT
+BEGIN:VEVENT
+UID:a13-3@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261228T113000
+DURATION:PT1H
+SUMMARY:Zug zum Flughafen Kansai (ca. 1\,5 h)
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a13-4@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261228T160000
+DURATION:PT1H
+SUMMARY:Flug MM743 Osaka → Seoul Gimpo (Peach\, an 18:00\, Buchung (Code 
+ privat))
+LOCATION:Kansai International Airport
+DESCRIPTION:Tarif Standard\, 2 Sitzplätze reserviert. Gepäck laut Tarif p
+ rüfen. Live-Status: flightradar24.com/data/flights/mm743
+END:VEVENT
+BEGIN:VEVENT
+UID:a13-5@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261228T190000
+DURATION:PT1H
+SUMMARY:U-Bahn ins Zentrum\, Streetfood in Myeongdong
+LOCATION:Myeongdong\, Seoul
+DESCRIPTION:Straßenstände mit Tteokbokki\, Hotteok und Spießen.
+END:VEVENT
+BEGIN:VEVENT
+UID:a14-tag@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART;VALUE=DATE:20261229
+SUMMARY:Tag 14: Seoul
+DESCRIPTION:Ein Tag in Seoul: Im geliehenen Hanbok durch den Palast Gyeongb
+ okgung\, durch die Hanok-Gassen von Bukchon\, mittags Pfannkuchen auf dem 
+ Gwangjang-Markt — und zum Sonnenuntergang auf den Namsan.
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:a14-0@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261229T090000
+DURATION:PT1H
+SUMMARY:Hanbok leihen\, Gyeongbokgung-Palast
+LOCATION:Gyeongbokgung Palace
+DESCRIPTION:Größter Palast der Joseon-Dynastie\; im Hanbok ist der Eintri
+ tt frei.
+END:VEVENT
+BEGIN:VEVENT
+UID:a14-1@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261229T113000
+DURATION:PT1H
+SUMMARY:Bukchon-Hanok-Dorf
+LOCATION:Bukchon Hanok Village
+DESCRIPTION:Traditionelle Häuser mit geschwungenen Dächern am Hang.
+END:VEVENT
+BEGIN:VEVENT
+UID:a14-2@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261229T130000
+DURATION:PT1H
+SUMMARY:Gwangjang-Markt: Bindaetteok & Mayak-Gimbap
+LOCATION:Gwangjang Market
+DESCRIPTION:Ältester Markt Seouls mit Garküchen.
+END:VEVENT
+BEGIN:VEVENT
+UID:a14-3@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261229T150000
+DURATION:PT1H
+SUMMARY:Insadong & Ikseondong
+LOCATION:Ikseon-dong Hanok Street
+DESCRIPTION:Teehäuser und Cafés in alten Hanoks.
+END:VEVENT
+BEGIN:VEVENT
+UID:a14-4@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261229T173000
+DURATION:PT1H
+SUMMARY:N Seoul Tower zum Sonnenuntergang
+LOCATION:N Seoul Tower
+DESCRIPTION:Seilbahn auf den Namsan\, Blick über die ganze Stadt.
+END:VEVENT
+BEGIN:VEVENT
+UID:a14-5@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261229T200000
+DURATION:PT1H
+SUMMARY:Koreanisches BBQ
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a15-tag@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART;VALUE=DATE:20261230
+SUMMARY:Tag 15: Flug nach Harbin
+DESCRIPTION:Von Seoul geht es in gut zwei Stunden nach Harbin\, wo im Winte
+ r −25 °C herrschen. Am Abend schlendert ihr über die Zentralstraße mi
+ t ihren russischen Fassaden und Eisskulpturen\, bis zur beleuchteten Sophi
+ enkathedrale.
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:a15-0@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261230T084500
+DURATION:PT1H
+SUMMARY:AREX-Express zum Flughafen Incheon Terminal 2 (ca. 50 Min)
+LOCATION:Seoul Station
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a15-1@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261230T122000
+DURATION:PT1H
+SUMMARY:Flug Seoul → Harbin mit Korean Air (gebucht als Asiana OZ339\, an
+  13:35)
+LOCATION:Incheon International Airport\, Terminal 2
+DESCRIPTION:Wegen der Fusion fliegt ab 17.12. Korean Air unter einer KE-Flu
+ gnummer\, Check-in bei koreanair.com. Bestätigt\, 2 Sitzplätze reservier
+ t. Gepäck laut Bestätigung prüfen. Live-Status: flightradar24.com/data/
+ flights/oz339
+END:VEVENT
+BEGIN:VEVENT
+UID:a15-2@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261230T143000
+DURATION:PT1H
+SUMMARY:Einreise China (visumfrei)\, Flughafenbus/DiDi in die Stadt
+LOCATION:Harbin Taiping International Airport
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a15-3@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261230T160000
+DURATION:PT1H
+SUMMARY:Polarkleidung kaufen oder leihen\, falls nötig
+DESCRIPTION:Daunenjacke\, Thermounterwäsche\, gefütterte Stiefel\, Wärme
+ pads — in Harbin günstig.
+END:VEVENT
+BEGIN:VEVENT
+UID:a15-4@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261230T170000
+DURATION:PT1H
+SUMMARY:Zentralstraße mit Eislaternen
+LOCATION:中央大街 (Zhōngyāng Dàjiē)
+DESCRIPTION:Kopfsteinpflaster und russische Fassaden\, abends mit Eisskulpt
+ uren beleuchtet.
+END:VEVENT
+BEGIN:VEVENT
+UID:a15-5@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261230T183000
+DURATION:PT1H
+SUMMARY:Sophienkathedrale beleuchtet
+LOCATION:圣索菲亚教堂 (Shèng Suǒfēiyà Jiàotáng)
+DESCRIPTION:Russisch-orthodoxe Kathedrale mit grüner Kuppel.
+END:VEVENT
+BEGIN:VEVENT
+UID:a15-6@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261230T193000
+DURATION:PT1H
+SUMMARY:Abendessen: Guobaorou
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a16-tag@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART;VALUE=DATE:20261231
+SUMMARY:Tag 16: Silvester in Harbin
+DESCRIPTION:Silvester im Eis: vormittags die Amurtiger\, nachmittags die ri
+ esigen Schneeskulpturen auf der Sonneninsel und dann die Eiswelt — Palä
+ ste aus Eisblöcken\, die sich bei Einbruch der Dunkelheit in allen Farben
+  beleuchten. Um Mitternacht Feuerwerk über den Eistürmen.
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:a16-0@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261231T093000
+DURATION:PT1H
+SUMMARY:Sibirischer Tigerpark
+LOCATION:东北虎林园 (Dōngběihǔ Línyuán)
+DESCRIPTION:Fahrt im Gitterbus durch die Gehege von Amurtigern.
+END:VEVENT
+BEGIN:VEVENT
+UID:a16-1@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261231T120000
+DURATION:PT1H
+SUMMARY:Mittag
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a16-2@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261231T133000
+DURATION:PT1H
+SUMMARY:Schneeskulpturen auf der Sonneninsel
+LOCATION:太阳岛雪博会 (Tàiyáng Dǎo)
+DESCRIPTION:Riesige Skulpturen aus Schnee\, bis zu 30 m hoch.
+END:VEVENT
+BEGIN:VEVENT
+UID:a16-3@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261231T153000
+DURATION:PT1H
+SUMMARY:Eiswelt bei Tageslicht\, dann beleuchtet
+LOCATION:冰雪大世界 (Bīngxuě Dàshìjiè)
+DESCRIPTION:Paläste und Türme aus Eisblöcken\, abends in allen Farben be
+ leuchtet.
+END:VEVENT
+BEGIN:VEVENT
+UID:a16-4@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20261231T000000
+DURATION:PT1H
+SUMMARY:Silvesterfeuerwerk und Drohnenshow\, Jahrhundertglocke
+LOCATION:冰雪大世界 (Bīngxuě Dàshìjiè)
+DESCRIPTION:Letztes Jahr feierten über 100.000 Menschen mit Feuerwerk und 
+ Drohnenshow im Park.
+END:VEVENT
+BEGIN:VEVENT
+UID:a17-tag@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART;VALUE=DATE:20270101
+SUMMARY:Tag 17: Neujahr in Harbin → Schlafwagen
+DESCRIPTION:Neujahr langsam angehen: ausschlafen\, dann auf den gefrorenen 
+ Songhua-Fluss mit Schlitten und Eisrutschen. Abends steigt ihr in den Schl
+ afwagen — und wacht morgen in Peking auf.
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:a17-0@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270101T100000
+DURATION:PT1H
+SUMMARY:Ausschlafen\, Frühstück
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a17-1@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270101T113000
+DURATION:PT1H
+SUMMARY:Eis-Karneval auf dem Songhua-Fluss
+LOCATION:松花江冰雪嘉年华 (Sōnghuā Jiāng Bīngxuě Jiāniánhuá
+ )
+DESCRIPTION:Schlitten\, Eisrutschen und Hundeschlitten auf dem gefrorenen F
+ luss.
+END:VEVENT
+BEGIN:VEVENT
+UID:a17-2@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270101T150000
+DURATION:PT1H
+SUMMARY:Café\, russische Bäckerei\, Markt
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a17-3@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270101T180000
+DURATION:PT1H
+SUMMARY:Abendessen
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a17-4@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270101T203000
+DURATION:PT1H
+SUMMARY:Zum Bahnhof Harbin
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a17-5@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270101T211900
+DURATION:PT1H
+SUMMARY:Schlafwagen Z18 nach Peking (Soft Sleeper)
+LOCATION:Bahnhof Harbin
+DESCRIPTION:4-Bett-Abteil mit Tür\, an 7:50.
+END:VEVENT
+BEGIN:VEVENT
+UID:a18-tag@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART;VALUE=DATE:20270102
+SUMMARY:Tag 18: Peking: Himmelstempel\, Verbotene Stadt\, Sommerpalast
+DESCRIPTION:Direkt aus dem Schlafwagen in die Kaiserstadt: morgens der Himm
+ elstempel mit Tai-Chi im Park\, dann die Verbotene Stadt und der Blick vom
+  Kohlehügel über die goldenen Dächer. Zum Sonnenuntergang lauft ihr auf
+  dem gefrorenen See im Sommerpalast Schlittschuh.
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:a18-0@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270102T075000
+DURATION:PT1H
+SUMMARY:Ankunft Peking\, Koffer ins Hotel
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a18-1@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270102T083000
+DURATION:PT1H
+SUMMARY:Himmelstempel
+LOCATION:天坛 (Tiāntán)
+DESCRIPTION:Runde Halle der Erntegebete\, morgens Tai-Chi und Tanz im Park.
+END:VEVENT
+BEGIN:VEVENT
+UID:a18-2@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270102T103000
+DURATION:PT1H
+SUMMARY:Verbotene Stadt
+LOCATION:故宫 (Gùgōng)
+DESCRIPTION:Der Kaiserpalast mit fast 1.000 Gebäuden.
+END:VEVENT
+BEGIN:VEVENT
+UID:a18-3@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270102T133000
+DURATION:PT1H
+SUMMARY:Kohlehügel mit Blick über die Palastdächer
+LOCATION:景山 (Jǐngshān)
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a18-4@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270102T150000
+DURATION:PT1H
+SUMMARY:DiDi zum Sommerpalast (ca. 30 Min)
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a18-5@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270102T153000
+DURATION:PT1H
+SUMMARY:Sommerpalast: gefrorener See\, Eislaufen
+LOCATION:颐和园 (Yíhéyuán)
+DESCRIPTION:Kaiserlicher Garten am Kunming-See — im Winter zugefroren\, m
+ it Eislaufbahn und Siebzehn-Bogen-Brücke.
+END:VEVENT
+BEGIN:VEVENT
+UID:a18-6@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270102T190000
+DURATION:PT1H
+SUMMARY:Abendessen
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a19-tag@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART;VALUE=DATE:20270103
+SUMMARY:Tag 19: Große Mauer Jinshanling
+DESCRIPTION:Früh am Morgen fahrt ihr zur schönsten Mauer-Etappe: In Jinsh
+ anling zieht sich die Mauer mit Dutzenden Wachtürmen über die kahlen Ber
+ gkämme — und im Winter habt ihr sie fast für euch allein. Abends Pekin
+ gente.
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:a19-0@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270103T063000
+DURATION:PT1H
+SUMMARY:Abfahrt mit Fahrer (ca. 2\,5 h)
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a19-1@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270103T090000
+DURATION:PT1H
+SUMMARY:Wanderung auf der Mauer (ca. 5 km)
+LOCATION:金山岭长城 (Jīnshānlǐng Chángchéng)
+DESCRIPTION:Halb restaurierte Mauer mit dicht stehenden Wachtürmen — das
+  klassische Postkartenbild.
+END:VEVENT
+BEGIN:VEVENT
+UID:a19-2@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270103T130000
+DURATION:PT1H
+SUMMARY:Mittag im Dorf am Fuß der Mauer
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a19-3@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270103T140000
+DURATION:PT1H
+SUMMARY:Rückfahrt nach Peking
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a19-4@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270103T170000
+DURATION:PT1H
+SUMMARY:Hutongs um Nanluoguxiang
+LOCATION:南锣鼓巷 (Nánluógǔxiàng)
+DESCRIPTION:Alte Gassen mit Hofhäusern.
+END:VEVENT
+BEGIN:VEVENT
+UID:a19-5@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270103T190000
+DURATION:PT1H
+SUMMARY:Pekingente
+DESCRIPTION:Knusprige Ente mit Pfannkuchen — Restaurant vorab reservieren
+ .
+END:VEVENT
+BEGIN:VEVENT
+UID:a20-tag@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART;VALUE=DATE:20270104
+SUMMARY:Tag 20: Tagesausflug Datong
+DESCRIPTION:Ein langer\, aber lohnender Ausflug: Mit dem Schnellzug nach Da
+ tong\, dann zum Hängenden Kloster\, das seit 1.500 Jahren an einer Felswa
+ nd klebt. Am Nachmittag die Yungang-Grotten mit über 50.000 in den Fels g
+ ehauenen Buddhas.
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:a20-0@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270104T064500
+DURATION:PT1H
+SUMMARY:Schnellzug Peking → Datong-Süd (ca. 2 h)
+LOCATION:Beijing North / Qinghe
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a20-1@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270104T090000
+DURATION:PT1H
+SUMMARY:Fahrer am Bahnhof
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a20-2@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270104T101500
+DURATION:PT1H
+SUMMARY:Hängendes Kloster mit Aufstieg
+LOCATION:悬空寺 (Xuánkōng Sì)
+DESCRIPTION:Ein 1.500 Jahre altes Holzkloster\, das an einer senkrechten Fe
+ lswand hängt.
+END:VEVENT
+BEGIN:VEVENT
+UID:a20-3@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270104T113000
+DURATION:PT1H
+SUMMARY:Fahrt zu den Grotten\, Mittag: Daoxiao-Nudeln
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a20-4@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270104T133000
+DURATION:PT1H
+SUMMARY:Yungang-Grotten
+LOCATION:云冈石窟 (Yúngāng Shíkū)
+DESCRIPTION:Über 50.000 Buddha-Figuren im Sandstein\, die größte 17 m ho
+ ch.
+END:VEVENT
+BEGIN:VEVENT
+UID:a20-5@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270104T163000
+DURATION:PT1H
+SUMMARY:Schnellzug zurück (an ca. 19:00)
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a21-tag@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART;VALUE=DATE:20270105
+SUMMARY:Tag 21: Flug nach Cebu
+DESCRIPTION:Abschied vom Winter: Über Hongkong fliegt ihr nach Cebu und la
+ ndet abends in den Tropen bei 30 Grad.
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:a21-0@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270105T070000
+DURATION:PT1H
+SUMMARY:Flughafenexpress nach Peking-Capital
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a21-1@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270105T100000
+DURATION:PT1H
+SUMMARY:Flug CX347 Peking → Hongkong\, weiter CX915 → Cebu (an 18:20)
+LOCATION:Beijing Capital International Airport\, Terminal 3
+DESCRIPTION:Buchung (Code privat). Ab Terminal 3\, Umstieg Hongkong T1 (1 h
+  45)\, Ankunft Cebu Terminal 2. Je 1 Koffer 23 kg + 7 kg Handgepäck. Live
+ -Status: flightradar24.com/data/flights/cx347
+END:VEVENT
+BEGIN:VEVENT
+UID:a21-2@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270105T182000
+DURATION:PT1H
+SUMMARY:Landung Mactan-Cebu\, Einreise
+LOCATION:Mactan-Cebu International Airport
+DESCRIPTION:eTravel-Formular vorab ausfüllen.
+END:VEVENT
+BEGIN:VEVENT
+UID:a21-3@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270105T200000
+DURATION:PT1H
+SUMMARY:Taxi nach Cebu City\, Check-in nahe Pier 1\, Abendessen
+LOCATION:Cebu City\, Pier 1
+DESCRIPTION:Vom Flughafen ca. 45–60 Min. Das Hotel bewusst nahe am Hafen 
+ wählen — morgen früh geht die Fähre.
+END:VEVENT
+BEGIN:VEVENT
+UID:a22-tag@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART;VALUE=DATE:20270106
+SUMMARY:Tag 22: Bohol
+DESCRIPTION:Mit der Schnellfähre nach Bohol: Zuerst besucht ihr die winzig
+ en Koboldmakis im Schutzgebiet\, fahrt durch den schattigen Mahagoni-Wald 
+ macht einen kurzen Halt am Loboc-Fluss und steht dann über den Chocolate 
+ Hills\, mehr als tausend gleichmäßigen Hügeln. Abends Sonnenuntergang a
+ m ruhigen Doljo Beach.
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:a22-0@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270106T060000
+DURATION:PT1H
+SUMMARY:Schnellfähre Cebu → Tagbilaran (ca. 2 h)
+LOCATION:Cebu Pier 1
+DESCRIPTION:Fähren fahren fast stündlich — wer ausschlafen will\, nimmt
+  die nächste.
+END:VEVENT
+BEGIN:VEVENT
+UID:a22-1@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270106T083000
+DURATION:PT1H
+SUMMARY:Mit Fahrer los\, zuerst zu den Koboldmakis
+LOCATION:Philippine Tarsier Sanctuary\, Corella
+DESCRIPTION:Die winzigen Primaten im Schutzgebiet der Tarsier Foundation 
+ — leise sein\, kein Blitz.
+END:VEVENT
+BEGIN:VEVENT
+UID:a22-2@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270106T094000
+DURATION:PT1H
+SUMMARY:Kurzer Halt in Loboc: Brücke\, Fluss und Kirche
+LOCATION:Loboc Church\, Loboc
+DESCRIPTION:Zu Fuß über die Brücke mit Blick auf den grünen Fluss\, daz
+ u die Kirche San Pedro — eine der ältesten Bohols.
+END:VEVENT
+BEGIN:VEVENT
+UID:a22-3@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270106T102000
+DURATION:PT1H
+SUMMARY:Mahagoni-Wald von Bilar
+LOCATION:Bilar Man-Made Forest
+DESCRIPTION:Dichte\, schattige Allee aus Mahagonibäumen — kurzer Fotohal
+ t.
+END:VEVENT
+BEGIN:VEVENT
+UID:a22-4@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270106T110000
+DURATION:PT1H
+SUMMARY:Chocolate Hills
+LOCATION:Chocolate Hills Complex\, Carmen
+DESCRIPTION:Über 1.200 kegelförmige Hügel\, vom Aussichtspunkt nach rund
+  200 Stufen.
+END:VEVENT
+BEGIN:VEVENT
+UID:a22-5@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270106T124500
+DURATION:PT1H
+SUMMARY:Mittagessen in einem einfachen Lokal unterwegs
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a22-6@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270106T144500
+DURATION:PT1H
+SUMMARY:Ankunft in Panglao\, Check-in
+LOCATION:Panglao
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a22-7@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270106T173000
+DURATION:PT1H
+SUMMARY:Sonnenuntergang am Doljo Beach
+LOCATION:Doljo Beach\, Panglao
+DESCRIPTION:Ruhiger Strand mit Blick nach Westen — viel weniger los als a
+ m Alona Beach.
+END:VEVENT
+BEGIN:VEVENT
+UID:a23-tag@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART;VALUE=DATE:20270107
+SUMMARY:Tag 23: Inselhüpfen & Strand
+DESCRIPTION:Früh am Morgen aufs Boot: Delfine vor der Küste\, Schnorcheln
+  mit Meeresschildkröten bei Balicasag und die Sandbank Virgin Island. Der
+  Nachmittag gehört der Hängematte am Dumaluan Beach.
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:a23-0@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270107T060000
+DURATION:PT1H
+SUMMARY:Bootstour: Delfine\, Balicasag\, Virgin Island
+LOCATION:Balicasag Island
+DESCRIPTION:Schnorcheln mit Meeresschildkröten am Riff\, danach die Sandba
+ nk Virgin Island.
+END:VEVENT
+BEGIN:VEVENT
+UID:a23-1@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270107T113000
+DURATION:PT1H
+SUMMARY:Zurück\, Mittag
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a23-2@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270107T130000
+DURATION:PT1H
+SUMMARY:Strand chillen: Dumaluan Beach
+LOCATION:Dumaluan Beach\, Panglao
+DESCRIPTION:Ruhiger\, breiter Strand im Osten von Panglao.
+END:VEVENT
+BEGIN:VEVENT
+UID:a23-3@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270107T173000
+DURATION:PT1H
+SUMMARY:Sonnenuntergang\, Abendessen am Strand
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a24-tag@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART;VALUE=DATE:20270108
+SUMMARY:Tag 24: Siquijor
+DESCRIPTION:Mit der Fähre nach Siquijor\, der „mystischen" Insel. Mit de
+ m Roller geht es zu den türkisen Cambugahay-Wasserfällen\, zum uralten B
+ alete-Baum und an die Klippen von Salagdoong — der Tag endet mit Sonnenu
+ ntergang am Paliton Beach.
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:a24-0@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270108T061500
+DURATION:PT1H
+SUMMARY:Abfahrt in Panglao zum Hafen Tagbilaran (ca. 30–40 Min)
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a24-1@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270108T073000
+DURATION:PT1H
+SUMMARY:OceanJet Tagbilaran → Siquijor (ca. 2 h)
+LOCATION:Tagbilaran Port
+DESCRIPTION:Fährt auch um 15:20\, falls ihr die frühe verpasst.
+END:VEVENT
+BEGIN:VEVENT
+UID:a24-2@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270108T094500
+DURATION:PT1H
+SUMMARY:Roller mieten
+LOCATION:Siquijor Port
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a24-3@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270108T103000
+DURATION:PT1H
+SUMMARY:Salagdoong Beach mit Klippensprüngen
+LOCATION:Salagdoong Beach\, Maria
+DESCRIPTION:Weißer Strand an der Ostküste\, Sprungplattformen für Mutige
+ .
+END:VEVENT
+BEGIN:VEVENT
+UID:a24-4@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270108T130000
+DURATION:PT1H
+SUMMARY:Mittag am Meer
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a24-5@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270108T141500
+DURATION:PT1H
+SUMMARY:Uralter Balete-Baum und Kirche von Lazi
+LOCATION:Century-Old Balete Tree\, Lazi
+DESCRIPTION:Über 400 Jahre alter Würgefeigenbaum\, im Becken davor knabbe
+ rn Fische an den Füßen.
+END:VEVENT
+BEGIN:VEVENT
+UID:a24-6@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270108T153000
+DURATION:PT1H
+SUMMARY:Cambugahay-Wasserfälle mit Seilschaukel
+LOCATION:Cambugahay Falls\, Lazi
+DESCRIPTION:Türkise Becken übereinander — am Nachmittag sind die Tagesg
+ ruppen weg.
+END:VEVENT
+BEGIN:VEVENT
+UID:a24-7@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270108T173000
+DURATION:PT1H
+SUMMARY:Sonnenuntergang am Paliton Beach
+LOCATION:Paliton Beach\, San Juan
+DESCRIPTION:Ca. 35 Min Fahrt von Lazi.
+END:VEVENT
+BEGIN:VEVENT
+UID:a25-tag@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART;VALUE=DATE:20270109
+SUMMARY:Tag 25: Siquijor → Moalboal
+DESCRIPTION:Ein letzter Morgen auf Siquijor\, dann geht es mit Schnellfähr
+ e\, kurzer Überfahrt und Bus an die Westküste von Cebu. Am Abend erreich
+ t ihr Moalboal — direkt vor dem Strand ziehen Millionen Sardinen.
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:a25-0@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270109T070000
+DURATION:PT1H
+SUMMARY:Sonnenaufgang\, Morgenbad\, Frühstück
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a25-1@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270109T100000
+DURATION:PT1H
+SUMMARY:OceanJet Siquijor → Dumaguete (ca. 1 h)
+LOCATION:Siquijor Port
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a25-2@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270109T111500
+DURATION:PT1H
+SUMMARY:Tricycle zum Hafen Sibulan (ca. 20 Min)
+LOCATION:Sibulan Port
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a25-3@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270109T120000
+DURATION:PT1H
+SUMMARY:Fähre Sibulan → Liloan an Cebus Südspitze (ca. 20 Min)
+LOCATION:Liloan Port\, Santander
+DESCRIPTION:Fähren etwa stündlich von 4:30 bis 20:00.
+END:VEVENT
+BEGIN:VEVENT
+UID:a25-4@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270109T124500
+DURATION:PT1H
+SUMMARY:Tricycle zum Busbahnhof Bato\, Ceres-Bus nach Moalboal (ca. 2\,5 h)
+LOCATION:Samboan-Bato Bus Terminal
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a25-5@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270109T153000
+DURATION:PT1H
+SUMMARY:Check-in Moalboal\, Panagsama Beach
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a25-6@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270109T173000
+DURATION:PT1H
+SUMMARY:Sonnenuntergang am Meer\, Abendessen
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a26-tag@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART;VALUE=DATE:20270110
+SUMMARY:Tag 26: Sardinen in Moalboal → Cebu
+DESCRIPTION:Der letzte Morgen auf den Philippinen gehört dem Meer: Ihr sch
+ norchelt mitten in einen riesigen Sardinenschwarm\, oft mit Schildkröten.
+  Wer mag\, springt danach in die türkisen Becken der Kawasan-Wasserfälle
+ . Am Nachmittag geht es zurück nach Cebu.
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:a26-0@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270110T070000
+DURATION:PT1H
+SUMMARY:Sardinenschwarm und Schildkröten direkt vom Strand
+LOCATION:Panagsama Beach\, Moalboal
+DESCRIPTION:Millionen Sardinen ziehen wenige Meter vor dem Ufer\, an der Ri
+ ffkante oft Meeresschildkröten.
+END:VEVENT
+BEGIN:VEVENT
+UID:a26-1@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270110T100000
+DURATION:PT1H
+SUMMARY:Optional: Kawasan-Wasserfälle (Canyoning oder nur Baden)
+LOCATION:Kawasan Falls\, Badian
+DESCRIPTION:Türkise Becken\; beim Canyoning springt und rutscht man durch 
+ die Schlucht.
+END:VEVENT
+BEGIN:VEVENT
+UID:a26-2@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270110T140000
+DURATION:PT1H
+SUMMARY:Transfer nach Cebu / Mactan (ca. 3 h)
+DESCRIPTION:Privater Van über das Hotel.
+END:VEVENT
+BEGIN:VEVENT
+UID:a26-3@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270110T173000
+DURATION:PT1H
+SUMMARY:Check-in nahe Flughafen\, Abschiedsessen
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a27-tag@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART;VALUE=DATE:20270111
+SUMMARY:Tag 27: Flug nach Shanghai
+DESCRIPTION:Abschied von den Tropen: Über Hongkong fliegt ihr nach Shangha
+ i und schlaft direkt am Flughafen.
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:a27-0@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270111T100000
+DURATION:PT1H
+SUMMARY:Zum Flughafen Mactan
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a27-1@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270111T122500
+DURATION:PT1H
+SUMMARY:Flug CX922 Cebu → Hongkong\, weiter CX364 → Shanghai (an 20:20)
+LOCATION:Mactan-Cebu International Airport\, Terminal 2
+DESCRIPTION:Buchung (Code privat). Umstieg Hongkong T1 (2 h 15)\, Ankunft P
+ udong Terminal 2. Live-Status: flightradar24.com/data/flights/cx922
+END:VEVENT
+BEGIN:VEVENT
+UID:a27-2@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270111T210000
+DURATION:PT1H
+SUMMARY:Einreise China (240-h-Transit)\, Hotel am Flughafen Pudong
+LOCATION:Shanghai Pudong International Airport
+DESCRIPTION:Weiterflug nach Wien vorzeigen — Transit-Einreise.
+END:VEVENT
+BEGIN:VEVENT
+UID:a28-tag@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART;VALUE=DATE:20270112
+SUMMARY:Tag 28: Shenzhen bei Tag und Nacht
+DESCRIPTION:Der letzte Tag gehört Shenzhen: Elektronik in Huaqiangbei\, de
+ r Blick vom 116. Stock zum Sonnenuntergang\, ein Rindfleisch-Feuertopf und
+  ein Spaziergang an der Bucht\, gegenüber die Lichter von Hongkong. Dann 
+ geht der Nachtflug nach Hause.
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:a28-0@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270112T091500
+DURATION:PT1H
+SUMMARY:Check-in Pudong\, Koffer bis Wien durchchecken
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a28-1@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270112T111500
+DURATION:PT1H
+SUMMARY:Flug nach Shenzhen (an ca. 13:45)
+LOCATION:Shanghai Pudong International Airport
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a28-2@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270112T143000
+DURATION:PT1H
+SUMMARY:Metro ins Zentrum
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a28-3@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270112T150000
+DURATION:PT1H
+SUMMARY:Huaqiangbei\, der größte Elektronikmarkt der Welt
+LOCATION:华强北 (Huáqiángběi)
+DESCRIPTION:Stockwerke voller Elektronik\, Bauteile und Gadgets.
+END:VEVENT
+BEGIN:VEVENT
+UID:a28-4@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270112T163000
+DURATION:PT1H
+SUMMARY:Lianhuashan-Park mit Blick über Futian
+LOCATION:莲花山公园 (Liánhuāshān Gōngyuán)
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a28-5@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270112T171500
+DURATION:PT1H
+SUMMARY:Ping-An-Aussichtsdeck im 116. Stock
+LOCATION:平安金融中心 (Píng’ān Jīnróng Zhōngxīn)
+DESCRIPTION:Sonnenuntergang und die Stadt bei Nacht von oben.
+END:VEVENT
+BEGIN:VEVENT
+UID:a28-6@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270112T184500
+DURATION:PT1H
+SUMMARY:Abendessen: Chaoshan-Rindfleisch-Feuertopf
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a28-7@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270112T200000
+DURATION:PT1H
+SUMMARY:Shenzhen-Bucht bei Nacht
+LOCATION:后海 (Hòuhǎi)
+DESCRIPTION:Beleuchtete Skyline\, gegenüber die Lichter von Hongkong.
+END:VEVENT
+BEGIN:VEVENT
+UID:a28-8@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270112T231500
+DURATION:PT1H
+SUMMARY:Flughafen Shenzhen T3\, Ausreise · Nachtflug HU789 um 01:55
+LOCATION:Shenzhen Bao’an International Airport\, Terminal 3
+DESCRIPTION:Boeing 787-9\, Ankunft Wien Terminal 3 um 07:00.
+END:VEVENT
+BEGIN:VEVENT
+UID:a29-tag@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART;VALUE=DATE:20270113
+SUMMARY:Tag 29: Ankunft Wien
+DESCRIPTION:Willkommen zurück: 29 Tage\, vier Länder\, vom Eis in Harbin 
+ bis zu den Stränden der Philippinen.
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:a29-0@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270113T015500
+DURATION:PT1H
+SUMMARY:Nachtflug HU789 Shenzhen → Wien (ca. 12 h\, Boeing 787-9)
+LOCATION:Shenzhen Bao’an International Airport\, Terminal 3
+DESCRIPTION:
+END:VEVENT
+BEGIN:VEVENT
+UID:a29-1@meridian-asien
+DTSTAMP:20261104T211944Z
+DTSTART:20270113T070000
+DURATION:PT1H
+SUMMARY:Landung in Wien\, Terminal 3
+LOCATION:Flughafen Wien\, Terminal 3
+DESCRIPTION:
+END:VEVENT
+END:VCALENDAR
