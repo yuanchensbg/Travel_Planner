@@ -332,6 +332,7 @@ html.desk .instcard:not(.dk){display:none}
 .cxlbox{border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin:0 0 12px;background:var(--surface)}.cxlrow{display:grid;grid-template-columns:96px 1fr auto;gap:8px;font-size:14px;padding:4px 0;border-top:1px solid var(--line)}.cxlrow:first-of-type{border-top:0}.cxlrow.soon span:first-child{color:#d9534f;font-weight:700}.cxlrow.over{opacity:.55}
 .rtbox{margin:12px 0 0;border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--surface)}.rtbox>summary{cursor:pointer;list-style:none}.rtbox>summary::-webkit-details-marker{display:none}.rtbox>summary::after{content:' ›';color:var(--muted)}.rtbox[open]>summary::after{content:' ⌄'}.rtck{border:0;padding:6px 0;align-items:center}.rtck .w small{display:block;font-weight:400;font-size:12px;line-height:1.35;margin-top:2px}.rtck .w{font-size:14px;line-height:1.35}.rtck a.btn{text-decoration:none}
 .staybox{margin:14px 0 4px;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}.staygrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}.staygrid>div{display:flex;flex-direction:column;gap:2px}.staygrid b{font-size:1.25rem}
+.areac{margin-top:8px}.areac.area-alt{border-left:3px solid var(--cenote)}.areac.area-avoid{border-left:3px solid #d9534f}
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.45;-webkit-text-size-adjust:100%}
 button,input,select,textarea{font:inherit;color:inherit}
@@ -551,7 +552,7 @@ input,select,textarea{font-size:16px!important}
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
 <script>
-const APP_VERSION = '2026.11.05-1515';
+const APP_VERSION = '2026.11.05-1734';
 if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) navigator.serviceWorker.register('sw.js').catch(() => {});
 document.addEventListener('gesturestart', (e) => e.preventDefault());
 document.addEventListener('touchmove', (e) => { if (e.touches && e.touches.length > 1) e.preventDefault(); }, { passive: false });
@@ -1314,6 +1315,14 @@ const STAY_TIPS = {
 };
 const isoOf = (d) => { const [dd, mm, yy] = d.date.split('.'); return `${yy}-${mm}-${dd}`; };
 function stayOf(d) { const l = days(); let i = idx(d.id), j = i; while (i > 0 && l[i - 1].night === d.night) i--; while (j < l.length - 1 && l[j + 1].night === d.night) j++; return { start: l[i], last: l[j], next: l[j + 1] || l[j], nights: j - i + 1 }; }
+/* „Name — Begründung“ aufteilen; Kartenlinks nur für echte Ortsnamen (Eigennamen) */
+const ZH_PLACE = { Dongsi: '东四', Qianmen: '前门', Nanluoguxiang: '南锣鼓巷', Gulou: '鼓楼', Shichahai: '什刹海', Beijing: '北京', Harbin: '哈尔滨', Shanghai: '上海', Daoli: '道里区', Daowai: '道外区' };
+function areaSplit(t) { const i = String(t).indexOf(' — '), name = (i > 0 ? t.slice(0, i) : t).trim(), why = i > 0 ? t.slice(i + 3).trim() : '';
+  const clean = name.replace(/\s*\([^)]*\)/g, '').replace(/[.,;]+$/, '').trim();
+  const proper = (x) => x && x.length <= 30 && x.split(/\s+/).every((w) => /^[A-ZÄÖÜ0-9]/.test(w));
+  const places = clean.split(/\s+und\s+|\s*\/\s*/).map((x) => x.trim().replace(/-(Stadt|Ort|Zentrum)$/, '')).filter(proper).slice(0, 2);
+  return { name, why: why ? why.charAt(0).toUpperCase() + why.slice(1) : '', places }; }
+const cityOf = (q) => { const t = String(q || '').trim(); return t.includes(',') ? t.split(',').pop().trim() : t.split(/\s+/).pop(); };
 function stayMapLinks(q, qa, land) {
   const g = `<a href="https://www.google.com/maps/search/?api=1&query=${enc(q)}" target="_blank" rel="noopener">Google Maps ↗</a>`;
   if (land === 'CN') return `<a href="https://uri.amap.com/search?keyword=${enc(qa || q)}&callnative=1" target="_blank" rel="noopener">Amap ↗</a>${g}`;
@@ -1330,8 +1339,9 @@ function stayTipBlock(d) { if (T.id !== 'asien-winter' || VIEWER) return ''; con
   const areaMap = tip.land === 'CN' ? `<a href="${gm(tip.ll)}" target="_blank" rel="noopener">Amap ↗</a><a href="https://www.google.com/maps/search/?api=1&query=${tip.ll}" target="_blank" rel="noopener">Google Maps ↗</a>` : tip.land === 'KR' ? `<a href="${gm(tip.ll)}" target="_blank" rel="noopener">KakaoMap ↗</a><a href="https://www.google.com/maps/search/?api=1&query=${tip.ll}" target="_blank" rel="noopener">Google Maps ↗</a>` : `<a href="https://www.google.com/maps/search/?api=1&query=${tip.ll}" target="_blank" rel="noopener">Google Maps ↗</a>`;
   return `<details class="block staytip${booked ? ' done' : ''}"${booked ? '' : ' open'}><summary>${booked ? `<span>🏨 Unterkunft gebucht ✓</span> <small class="meta">Empfehlungen ansehen ›</small>` : `<b>🏨 Empfehlung: Wo übernachten in ${esc(d.night.replace(/\s*\(.*\)/, ''))}</b> <small class="meta">${s.nights} ${s.nights === 1 ? 'Nacht' : 'Nächte'} · ${esc(s.start.date.slice(0, 6))}–${esc(s.next.date.slice(0, 6))}</small>`}</summary>
     <div class="altx"><div class="altt"><b>📍 ${esc(tip.area)}</b></div><div class="small" style="margin:4px 0">${esc(tip.why)}</div>
-      ${tip.alt ? `<div class="small" style="margin:4px 0"><b>Alternative:</b> ${esc(tip.alt)}</div>` : ''}${tip.avoid ? `<div class="small" style="margin:4px 0"><b>Meiden:</b> ${esc(tip.avoid)}</div>` : ''}
       ${tip.note ? `<div class="meta small" style="margin:4px 0">💡 ${esc(tip.note)}</div>` : ''}<div class="altm">${areaMap}</div></div>
+    ${[['alt', '↔ Alternative'], ['avoid', '⚠️ Meiden']].filter(([k]) => tip[k]).map(([k, lbl]) => { const p = areaSplit(tip[k]), city = cityOf(tip.q) || baseOf(d);
+      return `<div class="altx areac area-${k}"><div class="altt"><b>${lbl}: ${esc(p.name)}</b></div>${p.why ? `<div class="small" style="margin:4px 0">${esc(p.why)}</div>` : ''}${p.places.map((pl) => `<div class="altm">${p.places.length > 1 ? `<span>${esc(pl)}</span>` : ''}${stayMapLinks(pl + ', ' + city, tip.land === 'CN' && ZH_PLACE[pl] ? (ZH_PLACE[city] || '') + ZH_PLACE[pl] : null, tip.land)}</div>`).join('')}</div>`; }).join('')}
     <p class="hsec" style="margin-top:10px">Hotelvorschläge</p>
     ${tip.hotels.map((h) => `<div class="altx"><div class="altt"><b>${esc(h.n)}</b></div><div class="small" style="margin:3px 0">${esc(h.why)}</div>${h.tags.length ? `<div class="altm">${h.tags.map((t) => `<span>${esc(t)}</span>`).join('')}</div>` : ''}<div class="altm">${stayMapLinks(h.q, h.qa, tip.land)}<a href="https://www.booking.com/searchresults.de.html?ss=${enc(h.q)}&checkin=${ci}&checkout=${co}&group_adults=2&no_rooms=1&group_children=0" target="_blank" rel="noopener">Preis auf Booking ↗</a></div></div>`).join('')}
     <p class="hsec" style="margin-top:10px">Live-Preise für eure Daten</p><p class="meta small" style="margin:0 0 6px">2 Personen, ${esc(s.start.date.slice(0, 6))} bis ${esc(s.next.date.slice(0, 6))} · Booking ist nach Preis sortiert und zeigt nur Bewertungen ab 8.</p>
@@ -2091,16 +2101,20 @@ async function contactSheet() {
 /* ================= Tagesansicht ================= */
 function progRows(d) {
   const own = live(S.items).filter((x) => x.day === d.id).map((o) => Object.assign({ own: true }, o));
-  const k = (z) => z === 'nachts' ? '23:59' : (z || '99');
-  return [...d.prog, ...own].sort((a, b) => k(a.time).localeCompare(k(b.time)));
+  const late = lateSet(d), k = (it) => it.time === 'nachts' ? '23:59' : it.late ? tKey(it.time) : (it.time || '99');
+  return [...d.prog, ...own].map((it) => late.has(it) ? Object.assign({}, it, { late: true }) : it).sort((a, b) => k(a).localeCompare(k(b)));
 }
 /* ================= Tagesroute: Checkliste → Route ab aktuellem Standort ================= */
+/* Punkte nach Mitternacht (0–5 Uhr), die im Plan nach einem Nachmittags-/Abendpunkt stehen, gehören ans Tagesende */
+function lateSet(d) { const L = new Set(); let pm = false; (d.prog || []).forEach((it) => { const h = parseInt(it.time, 10); if (isNaN(h)) return; if (h >= 12) pm = true; else if (h < 5 && pm) L.add(it); }); return L; }
+const tKey = (t) => String(24 + parseInt(t, 10)).padStart(2, '0') + String(t).slice(2);
 function routeStops(d) { const L = [], seen = new Set();
   (d.prog || []).forEach((it) => { const pl = String(it.place || '').trim(); if (!pl) return; const k = 'p:' + pl, off = /^(Fahrt|Flug|Zug|Bus|Fähre|Transfer|Abfahrt)\b/.test(it.text || '');
     if (seen.has(k)) { const ex = L.find((x) => x.k === k); if (ex && ex.off && !off) Object.assign(ex, { t: it.time || ex.t, n: it.text, off: false }); return; }
     seen.add(k); L.push({ k, t: it.time || '', n: it.text, place: pl, opt: false, off }); });
   (d.opt || []).forEach((o) => { if (!o.place || (d.prog || []).some((it) => it.optOf === o.n)) return; const k = 'o:' + o.place; if (seen.has(k)) return; seen.add(k); L.push({ k, t: o.time || '', n: o.n, place: o.place, opt: true, off: true }); });
-  return L.sort((a, b) => (a.t || '99:99').localeCompare(b.t || '99:99')); }
+  const late = new Set([...lateSet(d)].map((it) => 'p:' + String(it.place || '').trim()));
+  return L.sort((a, b) => (late.has(a.k) ? tKey(a.t) : (a.t || '99:99')).localeCompare(late.has(b.k) ? tKey(b.t) : (b.t || '99:99'))); }
 function isCarDay(d) { const i = idx(d.id), inR = (a, b) => a && idx(a) <= i && i <= idx(b || a);
   if (live(S.bk2 || []).some((b) => b.kind === 'Mietwagen' && inR(b.fromDay, b.toDay))) return true; return T.id === 'asien-winter' && inR('a05', 'a10'); }
 function routeSel(d) { S.routeSel = S.routeSel || {}; const r = S.routeSel[d.id] || {}; return { on: r.on || [], off: r.off || [], hotel: r.hotel !== false, mode: r.mode || (isCarDay(d) ? 'driving' : 'walking') }; }
@@ -3271,7 +3285,7 @@ function icsExport(alarm, mode) {
   const esc2 = (t) => String(t || '').replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\n/g, '\\n');
   const ev = []; l.forEach((d) => progRows(d).forEach((p) => { const m = /^(\d\d):(\d\d)$/.exec(p.time || ''); if (!m) return; const y = d.dt.getFullYear(), mo = pad(d.dt.getMonth() + 1), da = pad(d.dt.getDate());
     const dur = /(\d+)\s*h/.exec(p.dur || '') ? +/(\d+)\s*h/.exec(p.dur)[1] * 60 : 0, mins = dur + (/(\d+)\s*Min/.exec(p.dur || '') ? +/(\d+)\s*Min/.exec(p.dur)[1] : 0) || 60;
-    const st = new Date(y, d.dt.getMonth(), d.dt.getDate(), +m[1], +m[2]), en = new Date(st.getTime() + mins * 6e4), f = (x) => `${x.getFullYear()}${pad(x.getMonth() + 1)}${pad(x.getDate())}T${pad(x.getHours())}${pad(x.getMinutes())}00`;
+    const st = new Date(y, d.dt.getMonth(), d.dt.getDate() + (p.late ? 1 : 0), +m[1], +m[2]), en = new Date(st.getTime() + mins * 6e4), f = (x) => `${x.getFullYear()}${pad(x.getMonth() + 1)}${pad(x.getDate())}T${pad(x.getHours())}${pad(x.getMinutes())}00`;
     ev.push(['BEGIN:VEVENT', `UID:${p.id}@rhyme`, `DTSTAMP:${stamp}`, `DTSTART:${f(st)}`, `DTEND:${f(en)}`, `SUMMARY:${esc2(p.text)}`, p.place ? `LOCATION:${esc2(p.place)}` : '', `DESCRIPTION:${esc2([`Tag ${d.t}: ${d.title}`, p.desc, p.cost && 'Kosten: ' + p.cost, p.tip && 'Tipp: ' + p.tip].filter(Boolean).join('\n'))}`,
       alarm ? 'BEGIN:VALARM\r\nTRIGGER:-PT30M\r\nACTION:DISPLAY\r\nDESCRIPTION:Erinnerung\r\nEND:VALARM' : '', 'END:VEVENT'].filter(Boolean).join('\r\n')); }));
   live(S.bk2).forEach((b) => { const a = dayById(b.fromDay), z = dayById(b.toDay || b.fromDay); if (!a) return; const f = (x) => `${x.getFullYear()}${pad(x.getMonth() + 1)}${pad(x.getDate())}`; const zz = new Date(z.dt.getTime() + 864e5);
