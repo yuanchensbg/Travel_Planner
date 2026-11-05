@@ -331,6 +331,7 @@ html.desk .instcard:not(.dk){display:none}
 .cxl{display:inline-block;margin:3px 0 0;padding:1px 8px;border-radius:999px;font-size:12px;border:1px solid var(--line);color:var(--muted);font-weight:600}.cxl.week{border-color:#d4a017;color:#b8860b}.cxl.soon{border-color:#d9534f;color:#d9534f;background:rgba(217,83,79,.08)}.cxl.over{opacity:.7}.hl .cxl{display:block;width:max-content;max-width:100%}
 .cxlbox{border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin:0 0 12px;background:var(--surface)}.cxlrow{display:grid;grid-template-columns:96px 1fr auto;gap:8px;font-size:14px;padding:4px 0;border-top:1px solid var(--line)}.cxlrow:first-of-type{border-top:0}.cxlrow.soon span:first-child{color:#d9534f;font-weight:700}.cxlrow.over{opacity:.55}
 .rtbox{margin:12px 0 0;border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--surface)}.rtbox>summary{cursor:pointer;list-style:none}.rtbox>summary::-webkit-details-marker{display:none}.rtbox>summary::after{content:' ›';color:var(--muted)}.rtbox[open]>summary::after{content:' ⌄'}.rtck{border:0;padding:6px 0;align-items:center}.rtck .w small{display:block;font-weight:400;font-size:12px;line-height:1.35;margin-top:2px}.rtck .w{font-size:14px;line-height:1.35}.rtck a.btn{text-decoration:none}
+.staybox{margin:14px 0 4px;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}.staygrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}.staygrid>div{display:flex;flex-direction:column;gap:2px}.staygrid b{font-size:1.25rem}
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.45;-webkit-text-size-adjust:100%}
 button,input,select,textarea{font:inherit;color:inherit}
@@ -550,7 +551,7 @@ input,select,textarea{font-size:16px!important}
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
 <script>
-const APP_VERSION = '2026.11.05-1506';
+const APP_VERSION = '2026.11.05-1515';
 if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) navigator.serviceWorker.register('sw.js').catch(() => {});
 document.addEventListener('gesturestart', (e) => e.preventDefault());
 document.addEventListener('touchmove', (e) => { if (e.touches && e.touches.length > 1) e.preventDefault(); }, { passive: false });
@@ -1438,7 +1439,7 @@ function suggestCk(d) { if (!d || !d.fromDay || d.checkId) return d; const n = n
   if (n) d.checkId = n.ck.id; return d; }
 function openBkEd(rec, hint) { const ov = document.createElement('div'); ov.id = 'bked'; document.body.appendChild(ov); const r = Object.assign({ kind: 'Unterkunft', title: '', code: '', fromDay: '', toDay: '', time: '', provider: '', place: '', price: null, cur: 'EUR', link: '', note: '', paid: false, checkId: null }, rec);
   const opts = (sel) => days().map((d) => `<option value="${d.id}" ${d.id === sel ? 'selected' : ''}>Tag ${d.t} · ${esc(d.ds || d.date)} · ${esc(d.night.replace(/\s*\(.*\)/, ''))}</option>`).join('');
-  const cks = (T.bookings || []).filter((b) => !/Gebucht/.test(b.prio || ''));
+  const cks = (T.bookings || []).filter((b) => b.id === r.checkId || !ckDone(b));
   ov.innerHTML = `<div class="swin"><div class="swh"><b>${r.id ? 'Buchung bearbeiten' : 'Neue Buchung'}</b><button class="phx" data-bx="x">×</button></div>${hint ? `<p class="meta small" style="margin:4px 0 8px">${hint}</p>` : ''}
     <div class="row2"><div class="row"><label>Art</label><select id="be-kind">${BKIND.map((k) => `<option ${k === r.kind ? 'selected' : ''}>${k}</option>`).join('')}</select></div><div class="row"><label>Buchungsnummer</label><input id="be-code" value="${esc(r.code || '')}"></div></div>
     <div class="row"><label>Bezeichnung</label><input id="be-title" value="${esc(r.title || '')}"></div>
@@ -2629,6 +2630,22 @@ function repayPicker(debtor, creditor, bal, openSum) {
     const items = mode() === 'sel' ? sel().map((c) => c.dataset.rqi) : [], names = items.map((id) => (S.expenses.find((x) => x.id === id) || {}).note).filter(Boolean);
     const note = [ov.querySelector('#rq-note').value.trim(), names.length ? 'für: ' + names.slice(0, 4).join(', ') + (names.length > 4 ? ` +${names.length - 4}` : '') : ''].filter(Boolean).join(' · ');
     await upsert('repay', { id: uid(), from: debtor, to: creditor, eur: a, items, done: false, note, createdAt: now() }); ov.remove(); toast('Rückzahlung angelegt — abhaken, sobald das Geld zurück ist'); moneyView(); }); }
+/* Unterkunft pro Nacht: bezahlte + gratis Nächte */
+const FREE_NIGHTS = T.id === 'asien-winter' ? { a02: 'gratis bei Verwandten in Shanghai' } : {};
+const NO_HOTEL = /^(Flugzeug|Heimflug|Schlafwagen|Nachtzug|Nachtbus|Fähre)/;
+function stayStats() { const D = days(), hotelN = D.filter((d) => d.night && !NO_HOTEL.test(d.night)), per = {};
+  for (const b of live(S.bk2 || [])) { if (b.kind !== 'Unterkunft' || !(b.price > 0) || !b.fromDay) continue; const a = idx(b.fromDay), z = b.toDay ? idx(b.toDay) : a + 1, n = Math.max(1, z - a), eur = b.price / rate(b.cur || 'EUR');
+    for (let k = a; k < a + n && k < D.length; k++) per[D[k].id] = (per[D[k].id] || 0) + eur / n; }
+  for (const x of live(S.expenses || [])) { if (x.cat !== 'Unterkunft' || x.bk || !x.day) continue; per[x.day] = (per[x.day] || 0) + eurOf(x); }
+  const paidIds = hotelN.filter((d) => per[d.id] > 0).map((d) => d.id), freeIds = hotelN.filter((d) => FREE_NIGHTS[d.id] && !(per[d.id] > 0)).map((d) => d.id);
+  const sum = paidIds.reduce((a, id) => a + per[id], 0), known = paidIds.length + freeIds.length;
+  return { total: hotelN.length, paid: paidIds.length, free: freeIds.length, freeTxt: freeIds.map((id) => FREE_NIGHTS[id]), sum, known, open: hotelN.length - known, avg: known ? sum / known : 0, avgPaid: paidIds.length ? sum / paidIds.length : 0 }; }
+function stayBox() { const s = stayStats(); if (!s.paid && !s.free) return '';
+  return `<div class="staybox"><p style="margin:0 0 6px;font-weight:700">🏨 Unterkunft pro Nacht</p>
+    <div class="staygrid"><div><b>${fmtE(s.avg)}</b><span class="meta small">Ø pro Nacht für euch beide${s.free ? ' — inkl. gratis Nacht' : ''}</span></div>
+      <div><b>${fmtE(s.avg / 2)}</b><span class="meta small">Ø pro Person und Nacht</span></div>
+      ${s.free ? `<div><b>${fmtE(s.avgPaid)}</b><span class="meta small">Ø nur bezahlte Nächte</span></div>` : ''}</div>
+    <p class="meta small" style="margin:8px 0 0">Aus ${s.known} von ${s.total} Hotelnächten: ${s.paid} bezahlt (${fmtE(s.sum)})${s.free ? `, ${s.free} ${esc(s.freeTxt.join(', '))}` : ''}.${s.open > 0 ? ` Noch ${s.open} ${s.open === 1 ? 'Nacht' : 'Nächte'} offen — hochgerechnet ca. <b>${fmtE(s.sum + s.avgPaid * s.open)}</b> für alle Nächte.` : ''} Flüge und Schlafwagen zählen nicht als Hotelnacht; gerechnet wird mit dem vollen Buchungspreis.</p></div>`; }
 function moneyView() {
   const [A, B] = S.settings.names, ex = live(S.expenses).sort((a, b) => idx(b.day) - idx(a.day) || b.updatedAt - a.updatedAt);
   const tot = ex.reduce((a, x) => a + eurOf(x), 0), bal = balance(), open = live(S.repay).filter((r) => !r.done), done = live(S.repay).filter((r) => r.done);
@@ -2650,6 +2667,7 @@ function moneyView() {
         <p class="meta small" style="margin:0 0 12px">${d < 0.5 ? 'Ihr habt bisher gleich viel ausgegeben.' : `${pn(more)} hat bisher ${fmtE(d)} mehr ausgegeben.`}</p>`; })()}
     ${bycat.length ? `<div class="bars">${bycat.map(([c, v]) => `<div><span>${catIcon(c)} ${c}</span><i style="width:${Math.max(4, v / mx * 100)}%"></i><span>${fmtE(v)}</span></div>`).join('')}</div>` : ''}
     ${byEs.length ? `<p class="meta" style="margin:14px 0 4px;font-weight:600">Nach Etappe</p><div class="bars">${byEs.map(([L, v]) => `<div><span>${esc(etLbl(L))}</span><i style="width:${Math.max(4, v / mxE * 100)}%;background:${etCol(L)}"></i><span>${fmtE(v)}</span></div>`).join('')}</div>` : ''}
+    ${stayBox()}
     ${preSum ? `<p class="meta small" style="margin:8px 0 0">Davon vor der Reise bezahlt: ${fmtE(preSum)}</p>` : ''}
     ${(() => { const op = live(S.bk2 || []).filter((b) => b.price > 0 && payOf(b) !== 'full').map((b) => ({ b, rest: payOf(b) === 'part' ? Math.max(0, b.price - (+b.paidAmt || 0)) : +b.price })).filter((o) => o.rest > 0.005);
       if (!op.length) return ''; const sum = op.reduce((a, o) => a + o.rest / rate(o.b.cur || 'EUR'), 0);
