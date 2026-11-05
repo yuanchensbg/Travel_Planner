@@ -549,7 +549,7 @@ input,select,textarea{font-size:16px!important}
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
 <script>
-const APP_VERSION = '2026.11.05-1323';
+const APP_VERSION = '2026.11.05-1338';
 if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) navigator.serviceWorker.register('sw.js').catch(() => {});
 document.addEventListener('gesturestart', (e) => e.preventDefault());
 document.addEventListener('touchmove', (e) => { if (e.touches && e.touches.length > 1) e.preventDefault(); }, { passive: false });
@@ -1643,6 +1643,14 @@ async function syncBkExp(b, quiet) { if (VIEWER || !b || !S.expenses) return; co
   if (!quiet) toast(isNew ? `Auch in die Ausgaben übernommen (${CAT_ICON[rec.cat] || ''} ${rec.cat})` : 'Verknüpfte Ausgabe aktualisiert'); }
 function removeRec(name, id) { if (VIEWER) return Promise.resolve(); const r = S[name].find((x) => x.id === id); if (r) { r.deleted = true; r.updatedAt = now(); } const pr = persist(); return name === 'bk2' && r ? pr.then(() => syncBkExp(r)) : pr; }
 function setMap(name, key, val) { if (VIEWER) return Promise.resolve(); S[name][key] = Object.assign({}, val, { updatedAt: now() }); if (name === 'photoOv') setTimeout(() => swConfig(), 0); return persist(); }
+/* Hat dieses Gerät etwas, das im Speicher fehlt oder älter ist? Dann muss hochgeladen werden. */
+function localAhead(inc, c) { const skip = (c && c.parts) || {};
+  for (const name of ['spots', 'items', 'expenses', 'repay', 'docs', 'bk2', 'check', 'packing', 'cars', 'checkins', 'photos']) { if (skip[name] && inc[name] === undefined) continue;
+    const m = new Map((inc[name] || []).map((x) => [x.id, x.updatedAt || 0])); for (const r of S[name] || []) { if (!m.has(r.id) || (r.updatedAt || 0) > m.get(r.id)) return name; } }
+  for (const name of ['bookings', 'hotels', 'notes', 'photoOv', 'kmLog', 'favs', 'borderCk']) { const o = inc[name] || {}; for (const [k, r] of Object.entries(S[name] || {})) { if (!o[k] || ((r && r.updatedAt) || 0) > ((o[k] && o[k].updatedAt) || 0)) return name; } }
+  if (S.plan && (S.plan.updatedAt || 0) > ((inc.plan && inc.plan.updatedAt) || 0)) return 'plan';
+  if ((S.settings.updatedAt || 0) > ((inc.settings && inc.settings.updatedAt) || 0)) return 'settings';
+  return null; }
 function mergeState(inc) {
   let n = 0;
   for (const name of ['spots', 'items', 'expenses', 'repay', 'docs', 'bk2', 'check', 'packing', 'cars', 'checkins', 'photos']) { if (!S[name]) S[name] = [];
@@ -2835,6 +2843,11 @@ function moreView(open, presetDay) {
   ${sec('cloud', 'Automatisch abgleichen', '<span id="cl-status">' + cloudStatus() + '</span>', `<p style="margin:0 0 10px">Mit einem kostenlosen Konto bei JSONBin gleichen sich eure Handys selbst ab: beim Öffnen der App, kurz nach jeder Änderung und alle 5 Minuten, solange sie offen ist.</p>
     ${S.cloud.on ? `<div class="actions"><button class="btn primary" id="jb-now">Jetzt abgleichen</button><button class="btn" id="jb-code">Verbindungscode kopieren</button><button class="btn" id="jb-off">Trennen</button></div>
       <p class="meta small" style="margin:10px 0 0">Speicher-ID: ${esc(S.cloud.bin)} · Größe ca. ${cloudKB()} KB${S.cloud.parts && Object.keys(S.cloud.parts).length ? ' · ausgelagert: ' + Object.keys(S.cloud.parts).map((k) => PART_LBL[k] || k).join(', ') : ''}</p>
+      ${S.cloud.ro ? '' : `<details style="margin-top:8px"><summary style="cursor:pointer;font-weight:600;color:var(--cenote)">Speicher-ID ändern</summary>
+        <div class="row" style="margin-top:8px"><label for="jb-newbin">Neue Speicher-ID</label><input id="jb-newbin" autocomplete="off" spellcheck="false" placeholder="24 Zeichen, z.B. 6aec4b97ac6210605a6e8277" value="${esc(JB_BIN_DEFAULT && JB_BIN_DEFAULT !== S.cloud.bin ? JB_BIN_DEFAULT : '')}"></div>
+        <label class="ck" style="border:0;padding:4px 0"><input type="checkbox" id="jb-fwd" checked><span class="w">Alten Speicher weiterleiten — andere Geräte und Zuschauer folgen automatisch</span><span></span></label>
+        <div class="actions"><button class="btn primary" id="jb-switch">Wechseln</button></div>
+        <p class="meta small" style="margin:6px 0 0">Die Daten dieses Geräts werden mit dem neuen Speicher zusammengeführt, vorher wird automatisch gesichert.${(S.cloud.prevBins || []).length ? ' Vorherige IDs: ' + S.cloud.prevBins.slice(-3).map(esc).join(', ') : ''}</p></details>`}
       ${S.cloud.ro ? '' : `<div style="margin-top:14px;padding:10px 12px;border:1px solid var(--line);border-radius:12px"><p style="margin:0 0 6px;font-weight:600">👀 Mit anderen teilen — nur ansehen</p>
       <p class="meta small" style="margin:0 0 8px">Auf jsonbin.io unter <b>API Keys → Access Keys</b> einen neuen Key anlegen und bei „Bins“ <b>nur „Read“</b> anhaken. Diesen Lese-Key hier einfügen — damit kann niemand etwas ändern.</p>
       <div class="row"><label for="sh-key">Lese-Key (Access Key, nur Read)</label><input id="sh-key" autocomplete="off" placeholder="$2a$10$…" value="${esc(S.cloud.shareKey || '')}"></div>
@@ -3013,6 +3026,7 @@ function moreView(open, presetDay) {
   const jbj = $('#jb-join'); if (jbj) jbj.onclick = () => cloudConnect($('#jb-paste').value);
   const jbm = $('#jb-manual'); if (jbm) jbm.onclick = () => cloudConnect(null);
   const jbn = $('#jb-now'); if (jbn) jbn.onclick = () => syncNow(true);
+  const jbs = $('#jb-switch'); if (jbs) jbs.onclick = async () => { const v = ($('#jb-newbin') || {}).value; jbs.disabled = true; jbs.textContent = 'Wechsle …'; const ok = await cloudSwitch(v, { pointer: ($('#jb-fwd') || {}).checked !== false }); if (ok) toast('Speicher gewechselt — Daten zusammengeführt' + (($('#jb-fwd') || {}).checked !== false ? ', andere Geräte folgen automatisch' : '')); moreView('cloud'); };
   const jbo = $('#jb-off'); if (jbo) jbo.onclick = async () => { if (!confirm('Automatischen Abgleich auf diesem Handy trennen? Die Daten bleiben erhalten.')) return; S.cloud = { on: false, bin: '', key: '', kind: 'master', last: null, err: null }; await store.set(S); moreView('cloud'); };
   const jcode = $('#jb-code'); if (jcode) jcode.onclick = async () => { const code = btoa(JSON.stringify({ b: S.cloud.bin, k: S.cloud.key, t: S.cloud.kind }));
     try { await navigator.clipboard.writeText(code); toast('Verbindungscode kopiert — nur an Yara schicken, er enthält den Schlüssel'); } catch (e) { prompt('Verbindungscode kopieren:', code); } };
@@ -3456,7 +3470,8 @@ function captionText(lg) { lg = lg || resLang(); const st = tripStats(), ti = to
     `\n\n#mundomaya #roadtrip #mexico #yucatan #belize #guatemala #elsalvador #honduras #mayaruins #cenote #reisen #travelcouple`; }
 /* ================= Automatischer Abgleich über JSONBin ================= */
 const JB = 'https://api.jsonbin.io/v3/b';
-const JB_BIN_DEFAULT = T.id === 'mundo-maya' ? '6adc8ffeffd5d16053881138' : T.id === 'asien-winter' ? '6ade6e9aac6210605a51936c' : '';
+const JB_BIN_DEFAULT = T.id === 'mundo-maya' ? '6adc8ffeffd5d16053881138' : T.id === 'asien-winter' ? '6aec4b97ac6210605a6e8277' : '';
+const JB_OLD_BINS = T.id === 'asien-winter' ? ['6ade6e9aac6210605a51936c', '6aec4884ac6210605a6e7a03'] : [];
 /* Ein Speicher für mehrere Reisen: { app, v: 2, trips: { [id]: state } } + Altformat (trip/state) für ältere App-Versionen */
 let JB_OTHERS = {};
 /* Abgleich: schlank halten — Bestätigungstexte bleiben auf dem Gerät, keine doppelte Kopie mehr */
@@ -3500,6 +3515,21 @@ let SYNCING = false;
 /* Sicherheitsnetz: voller Speicher → automatischer Umzug; alle anderen folgen der Umzugsnotiz */
 const jbPrev = (c, b) => { c.prevBins = [...new Set([...(c.prevBins || []), b])].slice(-12); };
 async function jbGet(bin) { const r = await fetch(`${JB}/${bin}/latest`, { headers: jbHead({ 'X-Bin-Meta': 'false' }) }); if (!r.ok) return null; try { return await r.json(); } catch (e) { return null; } }
+/* Speicher-ID wechseln: Daten zusammenführen, alte Speicher auslesen und weiterleiten */
+let JB_CARRY = {};
+async function cloudSwitch(nb, opts) { opts = opts || {}; const c = S.cloud; nb = String(nb || '').trim();
+  if (!/^[a-f0-9]{24}$/i.test(nb)) { if (!opts.quiet) toast('Die Speicher-ID sieht nicht richtig aus (24 Zeichen, nur 0–9 und a–f)'); return false; }
+  if (nb !== c.bin) { const t = await fetch(`${JB}/${nb}/latest`, { headers: jbHead({ 'X-Bin-Meta': 'false' }) });
+    if (!t.ok) { if (!opts.quiet) toast(`Speicher ${nb} ist mit eurem Schlüssel nicht erreichbar (${t.status})`); return false; } }
+  const old = c.bin, olds = [...new Set([old, ...(opts.alsoOld || [])])].filter((b) => b && b !== nb);
+  try { const list = await bkList(); list.unshift({ t: now(), reason: 'vor Speicher-Wechsel', dev: S.settings.device || 'dieses Handy', state: JSON.parse(JSON.stringify(payload().state)) }); await bkSave(list); } catch (e) {}
+  let others = {}; for (const ob of olds) { const o = await jbGet(ob); if (!o || o.moved || !o.trips) continue;
+    for (const [k, v] of Object.entries(o.trips)) { if (k === T.id) { try { migrate(v); if (mergeState(v)) await persist(); } catch (e) {} } else if (!others[k]) others[k] = v; } }
+  if (nb !== c.bin) { if (old) jbPrev(c, old); c.bin = nb; c.parts = {}; c.partSig = {}; c.partSeen = {}; c.err = null; }
+  await store.set(S); DIRTY = true; await syncNow(false);
+  const miss = Object.keys(others).filter((k) => !JB_OTHERS[k]); if (!c.err && miss.length) { JB_CARRY = Object.fromEntries(miss.map((k) => [k, others[k]])); DIRTY = true; await syncNow(false); }
+  if (!c.ro && !c.err && opts.pointer !== false) for (const ob of olds) { try { await fetch(`${JB}/${ob}`, { method: 'PUT', headers: jbHead({ 'Content-Type': 'application/json' }), body: JSON.stringify({ app: 'rhyme', v: 3, moved: nb, movedAt: now(), by: S.settings.device || 'Handy', trips: {} }) }); } catch (e) {} }
+  return !c.err; }
 async function syncNow(manual) {
   const c = S.cloud; if (!c || !c.on || !c.bin || !c.key) return; if (SYNCING) return; if (!navigator.onLine) { if (manual) toast('Kein Netz — Abgleich folgt später'); return; }
   SYNCING = true; let n = 0;
@@ -3518,13 +3548,15 @@ async function syncNow(manual) {
     JB_PARTS = isR && o.parts ? Object.fromEntries(Object.entries(o.parts).filter(([k]) => k !== T.id)) : {}; JB_PSIG = isR && o.psig ? Object.fromEntries(Object.entries(o.psig).filter(([k]) => k !== T.id)) : {};
     if (isR) await partsRead(o, mine, c);
     JB_OTHERS = isR ? (o.trips ? Object.fromEntries(Object.entries(o.trips).filter(([k]) => k !== T.id)) : (o.trip && o.trip !== T.id && o.state ? { [o.trip]: o.state } : {})) : {};
+    for (const [k, v] of Object.entries(JB_CARRY)) if (!JB_OTHERS[k] && k !== T.id) JB_OTHERS[k] = v;
     const phBefore = new Set(live(S.photos || []).map((p) => p.id)), posBefore = (lastPos() || {}).id;
     if (mine) { migrate(mine); const before = JSON.stringify(payload().state); n = mergeState(mine); if (n) { const cur = payload; await (async () => { const list = await bkList(); list.unshift({ t: now(), reason: 'vor automatischem Abgleich', dev: S.settings.device || 'dieses Handy', state: JSON.parse(before) }); await bkSave(list); })(); } }
-    if (!c.ro && (n || DIRTY || !mine)) {
+    const ahead = mine ? (localAhead(mine, c) || (Object.keys(JB_CARRY).length ? 'andere Reise' : null)) : 'neu'; c.remoteBk = mine ? live(mine.bk2 || []).length : 0;
+    if (!c.ro && (n || DIRTY || !mine || ahead)) {
       for (let tries = 0; ; tries++) {
         await partsWrite(c);
         const w = await fetch(`${JB}/${c.bin}`, { method: 'PUT', headers: jbHead({ 'Content-Type': 'application/json' }), body: JSON.stringify(cloudBody()) });
-        if (w.ok) break;
+        if (w.ok) { JB_CARRY = {}; break; }
         let why = ''; try { const j = await w.json(); why = (j && j.message) || ''; } catch (e) {} const kb = cloudKB();
         const big = w.status === 413 || (w.status === 403 && (/size|large|\bkb\b|\bmb\b|exceed/i.test(why) || !/request|quota|key|permission|access|auth|unauthori/i.test(why)));
         if (!big) throw new Error(w.status === 403 ? `Hochladen abgelehnt (403${why ? ': ' + why : ''}) — Schlüssel ohne Schreibrecht oder JSONBin-Limit · ${kb} KB` : 'Hochladen fehlgeschlagen (' + w.status + (why ? ': ' + why : '') + ')');
@@ -3532,7 +3564,7 @@ async function syncNow(manual) {
         await store.set(S); toast(`📦 Speicher war voll — „${PART_LBL[nm] || nm}“ automatisch in einen Zusatzspeicher ausgelagert. Das andere Handy und Zuschauer folgen von selbst.`);
       }
     }
-    DIRTY = false; c.last = now(); c.err = null; await store.set(S);
+    DIRTY = false; c.last = now(); c.err = null; if (!c.ro) c.remoteBk = live(S.bk2 || []).length; await store.set(S);
     if (n) { const typing = document.activeElement && /INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName);
       SET_SIG = setSig();
       if (!typing) { head(); const v = (document.querySelector('.view.on') || {}).id; if (v === 'v-plan') plan(); if (v === 'v-money') moneyView(); if (v === 'v-map') mapView(); if (v === 'v-saved') savedView();
@@ -3545,7 +3577,8 @@ async function syncNow(manual) {
   finally { SYNCING = false; const st = $('#cl-status'); if (st) st.innerHTML = cloudStatus(); }
 }
 function cloudStatus() { const c = S.cloud; if (!c.on) return 'Nicht eingerichtet';
-  return c.err ? `<span style="color:var(--flamingo)">Problem: ${esc(c.err)}</span>` : c.last ? `Verbunden, zuletzt ${new Date(c.last).toLocaleString('de-AT', { dateStyle: 'short', timeStyle: 'short' })}` : 'Verbunden, noch nicht abgeglichen'; }
+  const cnt = c.last ? ` · Buchungen: hier ${live(S.bk2 || []).length}, im Speicher ${c.remoteBk != null ? c.remoteBk : '?'}` : '';
+  return c.err ? `<span style="color:var(--flamingo)">Problem: ${esc(c.err)}</span>` : c.last ? `Verbunden, zuletzt ${new Date(c.last).toLocaleString('de-AT', { dateStyle: 'short', timeStyle: 'short' })}${cnt}` : 'Verbunden, noch nicht abgeglichen'; }
 async function cloudCreate() {
   const key = $('#jb-key').value.trim(), kind = $('[name=jbk]:checked').value; if (!key) return toast('Bitte zuerst den Schlüssel von JSONBin eintragen');
   S.cloud = Object.assign({}, S.cloud, { key, kind });
@@ -3633,7 +3666,7 @@ $$('.tab').forEach((b) => b.onclick = () => { if (b.dataset.v === 'plan') RET = 
   if (S.settings.rateMode !== 'eigen' && (!S.settings.ratesAt || now() - S.settings.ratesAt > 12 * 36e5)) fetchRates(false);
   if (S.settings.mtBigLoading || S.settings.mtBigBusy) { S.settings.mtBig = false; delete S.settings.mtBigLoading; delete S.settings.mtBigBusy; await persist(true); setTimeout(() => toast('Das große Übersetzungsmodell war zu viel für dieses Handy — die App nutzt wieder das Standardmodell'), 800); }
   { const vm = /[#&]view=([^&]+)/.exec(location.hash);
-    if (vm) { try { const o = JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(vm[1]))))); if (o.b && o.k) { const same = S.cloud && S.cloud.ro && S.cloud.key === o.k && (S.cloud.bin === o.b || S.cloud.viewSrc === o.b), fresh = !same; S.cloud = Object.assign({}, S.cloud, { bin: same && S.cloud.viewSrc === o.b && S.cloud.bin ? S.cloud.bin : o.b, viewSrc: o.b, key: o.k, kind: 'access', on: true, ro: true, hideMoney: !!o.h, err: null, viewHash: '#trip=' + T.id + '&view=' + vm[1] }); if (fresh && (o.l === 'zh' || o.l === 'de') && !S.settings.lang) await setLang(o.l); if (fresh && o.n && !S.settings.viewerName) S.settings.viewerName = String(o.n).slice(0, 30); await store.set(S); if (fresh && S.settings.photoSeen == null) S.settings.photoSeen = now(); if (fresh) setTimeout(() => toast('Willkommen! Hier reist du mit ' + (S.settings.names || ['Yuan', 'Yara']).join(' & ') + ' mit 🌏'), 3200); } }
+    if (vm) { try { const o = JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(vm[1]))))); if (o.b && o.k) { const same = S.cloud && S.cloud.ro && S.cloud.key === o.k && (S.cloud.bin === o.b || S.cloud.viewSrc === o.b), fresh = !same; S.cloud = Object.assign({}, S.cloud, { bin: same && S.cloud.viewSrc === o.b && S.cloud.bin ? S.cloud.bin : (JB_OLD_BINS.includes(o.b) && JB_BIN_DEFAULT ? JB_BIN_DEFAULT : o.b), viewSrc: o.b, key: o.k, kind: 'access', on: true, ro: true, hideMoney: !!o.h, err: null, viewHash: '#trip=' + T.id + '&view=' + vm[1] }); if (fresh && (o.l === 'zh' || o.l === 'de') && !S.settings.lang) await setLang(o.l); if (fresh && o.n && !S.settings.viewerName) S.settings.viewerName = String(o.n).slice(0, 30); await store.set(S); if (fresh && S.settings.photoSeen == null) S.settings.photoSeen = now(); if (fresh) setTimeout(() => toast('Willkommen! Hier reist du mit ' + (S.settings.names || ['Yuan', 'Yara']).join(' & ') + ' mit 🌏'), 3200); } }
       catch (e) { setTimeout(() => toast('Der Teilen-Link ist ungültig'), 1600); }
     } }
   await updGate();
@@ -3653,6 +3686,7 @@ $$('.tab').forEach((b) => b.onclick = () => { if (b.dataset.v === 'plan') RET = 
     $('#mf').href = (!VIEWER && /^https?:$/.test(location.protocol) && T.id === 'asien-winter') ? 'manifest.webmanifest' : 'data:application/manifest+json,' + encodeURIComponent(JSON.stringify(mf));
     if (VIEWER && S.cloud.viewHash && !/[#&]view=/.test(location.hash)) history.replaceState(null, '', base + S.cloud.viewHash); }
   if (!VIEWER && S.bk2 && S.expenses) { for (const b of live(S.bk2)) if (b.price > 0) await syncBkExp(b, true); }
+  if (!VIEWER && S.cloud && S.cloud.on && !S.cloud.ro && S.cloud.key && JB_BIN_DEFAULT && S.cloud.fixedTo !== JB_BIN_DEFAULT) setTimeout(async () => { const was = S.cloud.bin; const ok = await cloudSwitch(JB_BIN_DEFAULT, { quiet: true, alsoOld: JB_OLD_BINS }); if (ok) { S.cloud.fixedTo = JB_BIN_DEFAULT; await store.set(S); if (was !== JB_BIN_DEFAULT) toast('🔗 Mit dem gemeinsamen Speicher verbunden — alle Geräte nutzen jetzt dieselbe Speicher-ID'); } }, 1800);
   if (!VIEWER) setTimeout(() => { try { const so = cxlList().filter((o) => cxlState(o.b) === 'soon'); const k = 'meridian:cxlNote', today = new Date().toDateString(); if (so.length && localStorage.getItem(k) !== today) { localStorage.setItem(k, today); toast(`⏳ Stornofrist bald: ${so[0].b.title || so[0].b.kind} bis ${cxlTxt(so[0].b)}`); } } catch (e) {} }, 2500);
   if (!VIEWER && (T.prepaid || []).length) { let n = 0;
     for (const x of S.expenses) if (x.pre && !x.deleted && x.cat === 'Transport' && /Flug/.test(x.note || '')) { await upsert('expenses', Object.assign({}, x, { cat: 'Flüge' })); }
