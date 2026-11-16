@@ -552,7 +552,7 @@ input,select,textarea{font-size:16px!important}
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
 <script>
-const APP_VERSION = '2026.11.14-2328';
+const APP_VERSION = '2026.11.16-1145';
 if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) navigator.serviceWorker.register('sw.js').catch(() => {});
 document.addEventListener('gesturestart', (e) => e.preventDefault());
 document.addEventListener('touchmove', (e) => { if (e.touches && e.touches.length > 1) e.preventDefault(); }, { passive: false });
@@ -2686,6 +2686,151 @@ function stayBox() { const s = stayStats(); if (!s.paid && !s.free) return '';
       <div><b>${fmtE(s.avg / 2)}</b><span class="meta small">Ø pro Person und Nacht</span></div>
       ${s.free ? `<div><b>${fmtE(s.avgPaid)}</b><span class="meta small">Ø nur bezahlte Nächte</span></div>` : ''}</div>
     <p class="meta small" style="margin:8px 0 0">Aus ${s.known} von ${s.total} Hotelnächten: ${s.paid} bezahlt (${fmtE(s.sum)})${s.free ? `, ${s.free} ${esc(s.freeTxt.join(', '))}` : ''}.${s.open > 0 ? ` Noch ${s.open} ${s.open === 1 ? 'Nacht' : 'Nächte'} offen — hochgerechnet ca. <b>${fmtE(s.sum + s.avgPaid * s.open)}</b> für alle Nächte.` : ''} Flüge und Schlafwagen zählen nicht als Hotelnacht; gerechnet wird mit dem vollen Buchungspreis.</p></div>`; }
+/* ================= Kontoauszug als PDF ================= */
+/* Kleiner PDF-Erzeuger (ohne Bibliothek, offline): A4, mm, Helvetica, WinAnsi */
+const HW = {"r":[278,278,355,556,556,889,667,191,333,333,389,584,278,333,278,278,556,556,556,556,556,556,556,556,556,556,278,278,584,584,584,556,1015,667,667,722,722,667,611,778,722,278,500,667,556,833,722,778,667,778,722,667,611,722,667,944,667,667,611,278,278,278,469,556,333,556,556,500,556,556,278,556,556,222,222,500,222,833,556,556,556,556,333,500,278,556,500,722,500,500,500,334,260,334,584,278,556,0,222,556,333,1000,556,556,333,1000,667,333,1000,0,611,0,0,222,222,333,333,350,556,1000,333,1000,500,333,944,0,500,667,278,333,556,556,556,556,260,556,333,737,370,556,584,333,737,333,400,584,278,278,333,556,537,278,333,278,365,556,834,834,834,611,667,667,667,667,667,667,1000,722,667,667,667,667,278,278,278,278,722,722,778,778,778,778,778,584,778,722,722,722,722,667,667,611,556,556,556,556,556,556,889,500,556,556,556,556,278,278,278,278,556,556,556,556,556,556,556,584,611,556,556,556,556,500,556,500],"b":[278,333,474,556,556,889,722,238,333,333,389,584,278,333,278,278,556,556,556,556,556,556,556,556,556,556,333,333,584,584,584,611,975,722,722,722,722,667,611,778,722,278,556,722,611,833,722,778,667,778,722,667,611,722,667,944,667,667,611,333,278,333,584,556,333,556,611,556,611,556,333,611,611,278,278,556,278,889,611,611,611,611,389,556,333,611,556,778,556,556,500,389,280,389,584,278,556,0,278,556,500,1000,556,556,333,1000,667,333,1000,0,611,0,0,278,278,500,500,350,556,1000,333,1000,556,333,944,0,500,667,278,333,556,556,556,556,280,556,333,737,370,556,584,333,737,333,400,584,278,278,333,611,556,278,333,278,365,556,834,834,834,611,722,722,722,722,722,722,1000,722,667,667,667,667,278,278,278,278,722,722,778,778,778,778,778,584,778,722,722,722,722,667,667,611,556,556,556,556,556,556,889,556,556,556,556,556,278,278,278,278,611,611,611,611,611,611,611,584,611,611,611,611,611,556,611,556],"i":[278,278,355,556,556,889,667,191,333,333,389,584,278,333,278,278,556,556,556,556,556,556,556,556,556,556,278,278,584,584,584,556,1015,667,667,722,722,667,611,778,722,278,500,667,556,833,722,778,667,778,722,667,611,722,667,944,667,667,611,278,278,278,469,556,333,556,556,500,556,556,278,556,556,222,222,500,222,833,556,556,556,556,333,500,278,556,500,722,500,500,500,334,260,334,584,278,278,0,222,556,333,1000,556,556,333,1000,667,333,1000,0,611,0,0,222,222,333,333,350,556,1000,333,1000,500,333,944,0,500,667,278,333,556,556,556,556,260,556,333,737,370,556,584,333,737,333,400,584,278,278,333,556,537,278,333,278,365,556,834,834,834,611,667,667,667,667,667,667,1000,722,667,667,667,667,278,278,278,278,722,722,778,778,778,778,778,584,778,722,722,722,722,667,667,611,556,556,556,556,556,556,889,500,556,556,556,556,278,278,278,278,556,556,556,556,556,556,556,584,611,556,556,556,556,500,556,500]};
+const W1252 = { 0x20AC: 0x80, 0x201A: 0x82, 0x201E: 0x84, 0x2026: 0x85, 0x2018: 0x91, 0x2019: 0x92, 0x201C: 0x93, 0x201D: 0x94, 0x2022: 0x95, 0x2013: 0x96, 0x2014: 0x97 };
+const cp1252 = (ch) => { const u = ch.codePointAt(0); if (u >= 32 && u < 127) return u; if (u >= 160 && u <= 255) return u; return W1252[u] || 63; };
+class MiniPdf {
+  constructor() { this.k = 72 / 25.4; this.H = 297; this.pages = []; this.cur = -1; this.fs = 10; this.fk = 'r'; this.tc = '0 0 0'; this.fc = '0 0 0'; this.dc = '0 0 0'; this.lw = 0.2; this.addPage(); }
+  addPage() { this.pages.push([]); this.cur = this.pages.length - 1; return this; }
+  getNumberOfPages() { return this.pages.length; }
+  setPage(n) { this.cur = n - 1; return this; }
+  _o(s) { this.pages[this.cur].push(s); }
+  _c(r, g, b) { return [r, g, b].map((v) => (v / 255).toFixed(3)).join(' '); }
+  setFont(_n, st) { this.fk = st === 'bold' ? 'b' : st === 'italic' ? 'i' : 'r'; return this; }
+  setFontSize(s) { this.fs = s; return this; }
+  setTextColor(r, g, b) { this.tc = this._c(r, g, b); return this; }
+  setFillColor(r, g, b) { this.fc = this._c(r, g, b); return this; }
+  setDrawColor(r, g, b) { this.dc = this._c(r, g, b); return this; }
+  setLineWidth(w) { this.lw = w; return this; }
+  getTextWidth(t) { let w = 0; for (const ch of String(t)) { const c = cp1252(ch); w += HW[this.fk][c - 32] || 0; } return w / 1000 * this.fs / this.k; }
+  splitTextToSize(t, max) { const out = []; String(t).split('\n').forEach((para) => { let line = '';
+      para.split(' ').forEach((wd) => { const cand = line ? line + ' ' + wd : wd;
+        if (this.getTextWidth(cand) <= max) { line = cand; return; }
+        if (line) out.push(line);
+        let w = wd; while (this.getTextWidth(w) > max && w.length > 1) { let i = w.length; while (i > 1 && this.getTextWidth(w.slice(0, i)) > max) i--; out.push(w.slice(0, i)); w = w.slice(i); }
+        line = w; });
+      out.push(line); }); return out; }
+  _paint(st) { return st === 'F' ? 'f' : (st === 'FD' || st === 'DF') ? 'B' : 'S'; }
+  _pre(st) { this._o(`${this.fc} rg ${this.dc} RG ${(this.lw * this.k).toFixed(2)} w`); }
+  rect(x, y, w, h, st) { const k = this.k; this._pre(st); this._o(`${(x * k).toFixed(2)} ${((this.H - y - h) * k).toFixed(2)} ${(w * k).toFixed(2)} ${(h * k).toFixed(2)} re ${this._paint(st)}`); return this; }
+  roundedRect(x, y, w, h, rx, ry, st) { const k = this.k, K = 0.5523, X = (v) => (v * k).toFixed(2), Y = (v) => ((this.H - v) * k).toFixed(2), r = Math.min(rx, w / 2, h / 2);
+    this._pre(st);
+    this._o(`${X(x + r)} ${Y(y)} m ${X(x + w - r)} ${Y(y)} l ${X(x + w - r + r * K)} ${Y(y)} ${X(x + w)} ${Y(y + r - r * K)} ${X(x + w)} ${Y(y + r)} c ` +
+      `${X(x + w)} ${Y(y + h - r)} l ${X(x + w)} ${Y(y + h - r + r * K)} ${X(x + w - r + r * K)} ${Y(y + h)} ${X(x + w - r)} ${Y(y + h)} c ` +
+      `${X(x + r)} ${Y(y + h)} l ${X(x + r - r * K)} ${Y(y + h)} ${X(x)} ${Y(y + h - r + r * K)} ${X(x)} ${Y(y + h - r)} c ` +
+      `${X(x)} ${Y(y + r)} l ${X(x)} ${Y(y + r - r * K)} ${X(x + r - r * K)} ${Y(y)} ${X(x + r)} ${Y(y)} c h ${this._paint(st)}`); return this; }
+  line(x1, y1, x2, y2) { const k = this.k; this._o(`${this.dc} RG ${(this.lw * k).toFixed(2)} w ${(x1 * k).toFixed(2)} ${((this.H - y1) * k).toFixed(2)} m ${(x2 * k).toFixed(2)} ${((this.H - y2) * k).toFixed(2)} l S`); return this; }
+  text(t, x, y, opt) { const lines = Array.isArray(t) ? t : [t], lh = this.fs * 1.15 / this.k, al = (opt && opt.align) || 'left', F = { r: 'F1', b: 'F2', i: 'F3' }[this.fk];
+    lines.forEach((ln, i) => { const s = String(ln), w = this.getTextWidth(s), xx = al === 'right' ? x - w : al === 'center' ? x - w / 2 : x;
+      let enc = ''; for (const ch of s) { const c = cp1252(ch); enc += (c === 40 || c === 41 || c === 92) ? '\\' + String.fromCharCode(c) : String.fromCharCode(c); }
+      this._o(`BT /${F} ${this.fs} Tf ${this.tc} rg ${(xx * this.k).toFixed(2)} ${((this.H - y - i * lh) * this.k).toFixed(2)} Td (${enc}) Tj ET`); }); return this; }
+  output() { const objs = [], add = (s) => { objs.push(s); return objs.length; };
+    const cat = add(null), pg = add(null);
+    const f1 = add('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>'), f2 = add('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>'), f3 = add('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Oblique /Encoding /WinAnsiEncoding >>');
+    const kids = this.pages.map((ops) => { const st = ops.join('\n'), c = add(`<< /Length ${st.length} >>\nstream\n${st}\nendstream`);
+      return add(`<< /Type /Page /Parent ${pg} 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 ${f1} 0 R /F2 ${f2} 0 R /F3 ${f3} 0 R >> >> /Contents ${c} 0 R >>`); });
+    objs[cat - 1] = `<< /Type /Catalog /Pages ${pg} 0 R >>`; objs[pg - 1] = `<< /Type /Pages /Kids [${kids.map((k) => k + ' 0 R').join(' ')}] /Count ${kids.length} >>`;
+    let out = '%PDF-1.4\n%\u00e2\u00e3\u00cf\u00d3\n'; const off = [];
+    objs.forEach((o, i) => { off.push(out.length); out += `${i + 1} 0 obj\n${o}\nendobj\n`; });
+    const x = out.length; out += `xref\n0 ${objs.length + 1}\n0000000000 65535 f \n` + off.map((o) => String(o).padStart(10, '0') + ' 00000 n \n').join('') + `trailer\n<< /Size ${objs.length + 1} /Root ${cat} 0 R /Info << /Producer (Meridian) /Title (Kontoauszug) >> >>\nstartxref\n${x}\n%%EOF`;
+    const b = new Uint8Array(out.length); for (let i = 0; i < out.length; i++) b[i] = out.charCodeAt(i) & 255; return new Blob([b], { type: 'application/pdf' }); }
+}
+const pdfTxt = (t) => [...String(t == null ? '' : t).normalize('NFC').replace(/[→⇒➜➔]/g, '>').replace(/[⇄↔]/g, '<>').replace(/[−‒]/g, '-').replace(/[\u2009\u202F]/g, ' ')]
+  .map((ch) => { const u = ch.codePointAt(0); if ((u >= 32 && u < 127) || (u >= 160 && u <= 255) || W1252[u]) return ch;
+    const base = ch.normalize('NFD').replace(/[\u0300-\u036f]/g, ''); return /^[\x20-\x7E]$/.test(base) ? base : ''; }).join('').replace(/\s{2,}/g, ' ').trim();
+const pdfE = (v) => '€ ' + (Math.round(v * 100) / 100).toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const pdfS = (v) => (v > 0.005 ? '+' : v < -0.005 ? '-' : '') + pdfE(Math.abs(v)).replace('€ ', '€ ');
+const pdfDate = (t) => { const d = new Date(t); return d.getTime() ? d.toLocaleDateString('de-AT', { day: '2-digit', month: '2-digit', year: 'numeric' }) : '—'; };
+async function statementPdf() {
+  const JP = MiniPdf;
+  const [A, B] = S.settings.names.map(pdfTxt), ex = live(S.expenses), rps = live(S.repay), done = rps.filter((r) => r.done), open = rps.filter((r) => !r.done);
+  const keyX = (x) => { const d = x.day && dayById(x.day); if (!d) return x.createdAt || x.updatedAt || 0; const m = new Date(d.dt); m.setHours(12, 0, 0, 0); return m.getTime(); };
+  const rows = [...ex.map((x) => ({ k: keyX(x), u: x.updatedAt || 0, x })), ...done.map((r) => ({ k: repTime(r), u: r.updatedAt || 0, r }))].sort((a, b) => a.k - b.k || a.u - b.u);
+  const tot = ex.reduce((a, x) => a + eurOf(x), 0), paid = [0, 0], sh = [0, 0], back = [0, 0];
+  ex.forEach((x) => { const v = eurOf(x), s = shares(x); paid[x.payer] += v; sh[0] += s[0]; sh[1] += s[1]; });
+  done.forEach((r) => { back[r.from] += r.eur; });
+  const bal = balance();
+  const doc = new JP({ unit: 'mm', format: 'a4' }), W = 210, M = 16, R = W - M;
+  const NAVY = [34, 49, 79], RED = [184, 58, 46], TEAL = [31, 122, 122], GREY = [112, 110, 104], LINE = [226, 222, 214], PAPER = [248, 246, 241], REP = [229, 242, 239];
+  const col = (c) => doc.setTextColor(c[0], c[1], c[2]), fill = (c) => doc.setFillColor(c[0], c[1], c[2]), draw = (c) => doc.setDrawColor(c[0], c[1], c[2]);
+  const font = (st, sz) => { doc.setFont('helvetica', st); doc.setFontSize(sz); };
+  // ---------- Kopf
+  fill(NAVY); doc.rect(0, 0, W, 38, 'F'); fill(RED); doc.rect(0, 38, W, 1.2, 'F');
+  col([255, 255, 255]); font('bold', 7.5); doc.text('M E R I D I A N', M, 12);
+  font('bold', 20); doc.text('Kontoauszug', M, 23); font('normal', 9.5); col([201, 211, 227]); doc.text('Gemeinsame Reisekasse ' + A + ' & ' + B, M, 30);
+  font('bold', 10); col([255, 255, 255]); doc.text(pdfTxt(T.name), R, 14, { align: 'right' });
+  font('normal', 8.5); col([201, 211, 227]); doc.text('Reisezeitraum ' + pdfDate(T.start) + ' – ' + pdfDate(T.end), R, 20, { align: 'right' });
+  doc.text('Erstellt am ' + pdfDate(Date.now()) + ' um ' + new Date().toLocaleTimeString('de-AT', { hour: '2-digit', minute: '2-digit' }) + ' Uhr', R, 25, { align: 'right' });
+  doc.text('Alle Beträge in Euro', R, 30, { align: 'right' });
+  // ---------- Kontostand
+  let y = 48; const quitt = Math.abs(bal) < 0.5, deb = bal > 0 ? B : A, cre = bal > 0 ? A : B;
+  fill(quitt ? REP : [250, 236, 233]); draw(quitt ? TEAL : RED); doc.setLineWidth(0.4); doc.roundedRect(M, y, R - M, 22, 2.5, 2.5, 'FD');
+  col(GREY); font('bold', 7.5); doc.text('AKTUELLER KONTOSTAND', M + 6, y + 7);
+  col(quitt ? TEAL : RED); font('bold', 15); doc.text(quitt ? 'Ausgeglichen — ihr seid quitt' : deb + ' schuldet ' + cre, M + 6, y + 15.5);
+  if (!quitt) { font('bold', 20); doc.text(pdfE(Math.abs(bal)), R - 6, y + 15.5, { align: 'right' }); }
+  col(GREY); font('normal', 7.5); doc.text('inklusive aller erledigten Rückzahlungen' + (open.length ? ' · ' + open.length + ' weitere vorgemerkt' : ''), M + 6, y + 19.5);
+  // ---------- Übersicht (4 Kacheln)
+  y += 28; const cw = (R - M - 9) / 4;
+  [['Gesamtausgaben', pdfE(tot), ex.length + ' Posten'], ['Bezahlt von ' + A + ' / ' + B, pdfE(paid[0]), pdfE(paid[1])], ['Anteil ' + A + ' / ' + B, pdfE(sh[0]), pdfE(sh[1])], ['Rückzahlungen', String(done.length) + ' erledigt', (back[0] > 0.005 ? A + ' > ' + B + ' ' + pdfE(back[0]) : '') + (back[0] > 0.005 && back[1] > 0.005 ? '\n' : '') + (back[1] > 0.005 ? B + ' > ' + A + ' ' + pdfE(back[1]) : '') || '—']].forEach(([h, a, b], i) => {
+    const x = M + i * (cw + 3); fill(PAPER); draw(LINE); doc.setLineWidth(0.2); doc.roundedRect(x, y, cw, 21, 2, 2, 'FD');
+    col(GREY); font('bold', 6.5); doc.text(doc.splitTextToSize(h.toUpperCase(), cw - 6)[0], x + 3, y + 5.5);
+    col(NAVY); font('bold', 11); doc.text(a, x + 3, y + 11.5); col(GREY); font('normal', 6.8); doc.text(doc.splitTextToSize(b, cw - 6).slice(0, 2), x + 3, y + 15.8);
+  });
+  // ---------- Buchungen
+  y += 29; col(NAVY); font('bold', 11); doc.text('Buchungen', M, y); col(GREY); font('normal', 7.5);
+  doc.text('Saldo: + heißt ' + B + ' schuldet ' + A + ', - heißt ' + A + ' schuldet ' + B, R, y, { align: 'right' }); y += 3;
+  const C = { d: M, t: M + 19, p: 104, v: 132, a: 152, b: 172, s: R };
+  const head = () => { fill(NAVY); doc.rect(M, y, R - M, 7, 'F'); col([255, 255, 255]); font('bold', 7);
+    doc.text('Datum', C.d + 1.5, y + 4.7); doc.text('Beschreibung', C.t, y + 4.7); doc.text('Bezahlt von', C.p, y + 4.7);
+    doc.text('Betrag', C.v, y + 4.7, { align: 'right' }); doc.text('Anteil ' + A, C.a, y + 4.7, { align: 'right' }); doc.text('Anteil ' + B, C.b, y + 4.7, { align: 'right' }); doc.text('Saldo', C.s - 1.5, y + 4.7, { align: 'right' }); y += 7; };
+  const newPage = () => { doc.addPage(); y = 16; head(); };
+  head();
+  let run = 0, zebra = false;
+  rows.forEach(({ x, r }) => {
+    let title, meta, payer, amt, a0, b0, delta, isRep = !!r;
+    if (r) { title = 'Rückzahlung ' + A0(r.from) + ' > ' + A0(r.to); meta = 'erledigt am ' + pdfDate(repTime(r)); payer = A0(r.from); amt = r.eur; a0 = null; b0 = null; delta = r.from === 0 ? r.eur : -r.eur; }
+    else { const v = eurOf(x), s = shares(x), d = x.day && dayById(x.day);
+      title = pdfTxt(x.note) || pdfTxt(x.cat); const orig = x.cur !== 'EUR' ? x.amount.toLocaleString('de-DE') + ' ' + x.cur + ' · ' : '';
+      meta = [d ? 'Tag ' + d.t : '', pdfTxt(x.cat), orig.replace(/ · $/, ''), pdfTxt(splitText(x).replace(/^🔒\s*/, ''))].filter(Boolean).join(' · ');
+      payer = A0(x.payer); amt = v; a0 = s[0]; b0 = s[1]; delta = (x.payer === 0 ? v : 0) - s[0]; }
+    run += delta;
+    font('bold', 8); const tl = doc.splitTextToSize(title, C.p - C.t - 3).slice(0, 2); font('normal', 6.8); const ml = doc.splitTextToSize(meta, C.p - C.t - 3).slice(0, 2);
+    const h = Math.max(9, 3 + tl.length * 3.6 + ml.length * 3);
+    if (y + h > 282) newPage();
+    if (isRep) { fill(REP); doc.rect(M, y, R - M, h, 'F'); fill(TEAL); doc.rect(M, y, 1, h, 'F'); } else if (zebra) { fill(PAPER); doc.rect(M, y, R - M, h, 'F'); }
+    zebra = !zebra;
+    const by = y + 4.6; col(GREY); font('normal', 7.5); doc.text(pdfDate(r ? repTime(r) : keyX(x)), C.d + 1.5, by);
+    col(isRep ? TEAL : NAVY); font('bold', 8); doc.text(tl, C.t, by); col(GREY); font('normal', 6.8); doc.text(ml, C.t, by + tl.length * 3.6 - 0.6);
+    col(NAVY); font('normal', 7.8); doc.text(payer, C.p, by);
+    font('bold', 7.8); doc.text(pdfE(amt), C.v, by, { align: 'right' }); font('normal', 7.8);
+    doc.text(a0 == null ? '—' : pdfE(a0), C.a, by, { align: 'right' }); doc.text(b0 == null ? '—' : pdfE(b0), C.b, by, { align: 'right' });
+    col(Math.abs(run) < 0.005 ? GREY : run > 0 ? NAVY : RED); font('bold', 7.8); doc.text(pdfS(run), C.s - 1.5, by, { align: 'right' });
+    draw(LINE); doc.setLineWidth(0.15); doc.line(M, y + h, R, y + h); y += h;
+  });
+  if (!rows.length) { col(GREY); font('italic', 9); doc.text('Noch keine Ausgaben erfasst.', M + 2, y + 7); y += 10; }
+  // Summenzeile
+  if (y + 10 > 282) newPage();
+  fill(NAVY); doc.rect(M, y, R - M, 8, 'F'); col([255, 255, 255]); font('bold', 8);
+  doc.text('Summe', C.t, y + 5.3); doc.text(pdfE(tot), C.v, y + 5.3, { align: 'right' }); doc.text(pdfE(sh[0]), C.a, y + 5.3, { align: 'right' }); doc.text(pdfE(sh[1]), C.b, y + 5.3, { align: 'right' }); doc.text(pdfS(bal), C.s - 1.5, y + 5.3, { align: 'right' }); y += 14;
+  // Offene Rückzahlungen
+  if (open.length) { if (y + 12 + open.length * 6 > 282) newPage();
+    col(NAVY); font('bold', 10); doc.text('Vorgemerkte Rückzahlungen (noch offen)', M, y); y += 2;
+    open.sort((a, b) => repTime(a) - repTime(b)).forEach((r) => { y += 6; col(GREY); font('normal', 7.8); doc.text(pdfDate(repTime(r)), M + 1.5, y);
+      col(NAVY); doc.text(A0(r.from) + ' > ' + A0(r.to), C.t, y); font('bold', 7.8); doc.text(pdfE(r.eur), C.v, y, { align: 'right' }); col(GREY); font('normal', 7); doc.text('ändert den Saldo erst nach dem Abhaken', C.v + 4, y); });
+    y += 8; }
+  // Fußzeilen
+  const n = doc.getNumberOfPages();
+  for (let p = 1; p <= n; p++) { doc.setPage(p); draw(LINE); doc.setLineWidth(0.2); doc.line(M, 288, R, 288); col(GREY); font('normal', 7);
+    doc.text('Meridian · Kontoauszug ' + pdfTxt(T.name) + ' · ' + A + ' & ' + B, M, 292); doc.text('Seite ' + p + ' von ' + n, R, 292, { align: 'right' }); }
+  const name = 'Meridian_Kontoauszug_' + pdfTxt(T.name).replace(/[^A-Za-z0-9ÄÖÜäöüß]+/g, '_') + '_' + new Date().toISOString().slice(0, 10) + '.pdf';
+  const blob = doc.output();
+  try { const f = new File([blob], name, { type: 'application/pdf' }); if (navigator.canShare && navigator.canShare({ files: [f] })) { await navigator.share({ files: [f], title: 'Kontoauszug' }); return; } } catch (e) { if (e.name === 'AbortError') return; }
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); a.remove(); toast('Kontoauszug gespeichert');
+  function A0(i) { return pdfTxt(S.settings.names[i]); }
+}
+
 function moneyView() {
   const [A, B] = S.settings.names, ex = live(S.expenses).sort((a, b) => idx(b.day) - idx(a.day) || b.updatedAt - a.updatedAt);
   const tot = ex.reduce((a, x) => a + eurOf(x), 0), bal = balance(), open = live(S.repay).filter((r) => !r.done), done = live(S.repay).filter((r) => r.done);
@@ -2714,7 +2859,7 @@ function moneyView() {
       return `<details class="rp-more" style="margin:8px 0 0"><summary class="meta small">Noch zu zahlen aus Buchungen: <b>${fmtE(sum)}</b> (${op.length}) — zählt erst, wenn bezahlt</summary>${op.map((o) => `<p class="meta small" style="margin:4px 0">${esc(o.b.title || o.b.kind)}: ${esc(fmtAmt(+o.rest.toFixed(2), o.b.cur))}${payOf(o.b) === 'part' ? ' (Rest vor Ort)' : ''}</p>`).join('')}</details>`; })()}
     <p style="margin:12px 0 0"><b>Ausgleich:</b> ${Math.abs(bal) < 0.5 ? 'Ihr seid quitt.' : `${pn(debtor)} schuldet ${pn(creditor)} ${fmtE(Math.abs(bal))}.`}</p>
     ${open.length ? `<p class="meta" style="margin:4px 0 0">Davon als Rückzahlung vorgemerkt: ${fmtE(openSum)}</p>` : ''}
-    ${Math.abs(bal) >= 0.5 ? `<div class="rowbtns"><button class="btn" id="rp-new">Rückzahlung anlegen …</button></div>` : ''}</div>
+    <div class="rowbtns">${Math.abs(bal) >= 0.5 ? `<button class="btn" id="rp-new">Rückzahlung anlegen …</button>` : ''}${ex.length || done.length ? `<button class="btn" id="pdf-stmt">📄 Kontoauszug als PDF</button>` : ''}</div></div>
   ${open.length || done.length ? (() => { const dn = done.slice().sort((a, b) => repTime(b) - repTime(a)), op = open.slice().sort((a, b) => repTime(b) - repTime(a));
     const dir = [0, 1].map((f) => [f, dn.filter((r) => r.from === f).reduce((a, r) => a + r.eur, 0)]).filter(([, v]) => v > 0.005);
     return `<div class="block"><h3>Rückzahlungen</h3>
@@ -2768,6 +2913,7 @@ function moneyView() {
   ['mf-range', 'mf-from', 'mf-to', 'mf-payer', 'mf-who', 'mf-cat'].forEach((k) => { $('#' + k).onchange = mfSet; }); $('#mf-q').oninput = mfSet;
   renderFiltered();
   const rn = $('#rp-new'); if (rn) rn.onclick = () => repayPicker(debtor, creditor, Math.abs(bal), openSum);
+  const ps = $('#pdf-stmt'); if (ps) ps.onclick = statementPdf;
   $$('[data-rp]').forEach((c) => c.onchange = async () => { const r = S.repay.find((x) => x.id === c.dataset.rp); r.done = c.checked; r.doneAt = c.checked ? now() : null; r.doneBy = c.checked ? (S.settings.device || 'diesem Handy') : null;
     await upsert('repay', r); toast(c.checked ? 'Als zurückgegeben markiert — nach dem Abgleich sieht es die andere Person' : 'Wieder offen'); moneyView(); });
   $$('[data-rp-del]').forEach((b) => b.onclick = async (ev) => { ev.preventDefault(); await removeRec('repay', b.dataset.rpDel); moneyView(); });
